@@ -6,6 +6,8 @@
 #define ERRO_FORA_MUNDO 11
 #define ERRO_COLISAO 12
 #define RETANGULO_NAO_ENCONTRADO 21
+#define PINTADO 'x'
+#define VAZIO ' '
 
 typedef struct
 {
@@ -22,13 +24,13 @@ void desenhaRetangulo(char mundo[26][81], Retangulo retangulo)
 {
     for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
     {
-        mundo[retangulo.y][xx] = 'x';
-        mundo[retangulo.y + retangulo.h - 1][xx] = 'x';
+        mundo[retangulo.y][xx] = PINTADO;
+        mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO;
     }
     for (int yy = retangulo.y + 1; yy < retangulo.y + retangulo.h - 1; yy++)
     {
-        mundo[yy][retangulo.x] = 'x';
-        mundo[yy][retangulo.x + retangulo.l - 1] = 'x';
+        mundo[yy][retangulo.x] = PINTADO;
+        mundo[yy][retangulo.x + retangulo.l - 1] = PINTADO;
     }
 }
 
@@ -39,7 +41,7 @@ void trataImprimirMundo(Retangulos *retangulos)
     for (int y = 1; y <= 25; y++)
     {
         for (int x = 1; x <= 80; x++)
-            mundo[y][x] = '`';
+            mundo[y][x] = VAZIO;
     }
     // desenhar retangulos
     for (int r = 0; r < retangulos->total; r++)
@@ -63,7 +65,8 @@ void printRetanguloCoords(Retangulo retangulo)
     printf("Coordenadas do Retângulo: x=%d, y=%d, comprimento=%d, altura=%d\n", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
 }
 
-bool detetaColisao(Retangulo a, Retangulo b) {
+bool detetaColisao(Retangulo a, Retangulo b)
+{
     bool colisaoX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
     bool colisaoY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
     return colisaoX && colisaoY;
@@ -162,7 +165,7 @@ int main()
 
     while (true)
     {
-        printf("📖 📖 📖 O que fazer? 📖 📖 📖 \n");
+        printf("\n📖 📖 📖 O que fazer? 📖 📖 📖 \n");
         printf(" ⦿ create x,y+l,h\n");
         printf(" ⦿ moveright x,y+p\n");
         printf(" ⦿ moveleft x,y+p\n");
@@ -184,7 +187,9 @@ int main()
                 trataImprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "print") == 0)
+        {
             trataImprimirMundo(&retangulos);
+        }
         else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
         {
             scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
@@ -200,10 +205,12 @@ int main()
                 trataImprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "exit") == 0)
+        {
+            free(retangulos.lista);
             exit(0);
+        }
         else
             printf("❌ comando inválido: %s\n", comando);
-        printf("\n");
     }
 
     return 0;
