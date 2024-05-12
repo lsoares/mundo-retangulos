@@ -5,6 +5,7 @@
 
 #define ERRO_FORA_MUNDO 11
 #define ERRO_COLISAO 12
+#define RETANGULO_NAO_ENCONTRADO 21
 
 typedef struct
 {
@@ -77,13 +78,44 @@ int trataCriarRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     Retangulo novoRetangulo = (Retangulo){x, y, l, h};
     if (!verificaDentroMundo(novoRetangulo))
         return ERRO_FORA_MUNDO;
-    if (detetaColisoes(retangulos, novoRetangulo)) {
+    if (detetaColisoes(retangulos, novoRetangulo))
         return ERRO_COLISAO;
-    }
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
     retangulos->lista[retangulos->total] = novoRetangulo;
     retangulos->total++;
     trataImprimirMundo(retangulos);
+    return 0;
+}
+
+Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
+{
+    for (int i = 0; i < retangulos->total; i++)
+    {
+        Retangulo *ret = &(retangulos->lista[i]);
+        if (x >= ret->x && x <= ret->x + ret->l && y >= ret->y && y <= ret->y + ret->h)
+            return ret;
+    }
+    return NULL;
+}
+
+int trataMoverRetangulo(Retangulos *retangulos, int x, int y, int p)
+{
+    Retangulo *ret = procuraRetangulo(retangulos, x, y);
+    if (!ret)
+        return RETANGULO_NAO_ENCONTRADO;
+
+    Retangulo retanguloPossivel = *ret;
+    retanguloPossivel.x += p;
+
+    if (!verificaDentroMundo(retanguloPossivel))
+        return ERRO_FORA_MUNDO;
+    int xBackup = ret->x;
+    ret->x = 80 + 1; // esconder temporariamente para que nao seja detetado
+    if (detetaColisoes(retangulos, retanguloPossivel)) {
+        ret->x = xBackup; // re-colocar onde estava
+        return ERRO_COLISAO;
+    }
+    ret->x = retanguloPossivel.x; // move porque não houve colisões
     return 0;
 }
 
@@ -95,8 +127,10 @@ int main()
 
     while (true)
     {
-        printf("\n📖 📖 📖 O que fazer? 📖 📖 📖 \n");
+        printf("📖 📖 📖 O que fazer? 📖 📖 📖 \n");
         printf(" ⦿ create x,y+l,h\n");
+        printf(" ⦿ moveright x,y+p\n");
+        printf(" ⦿ moveleft x,y+p\n");
         printf(" ⦿ print\n");
         printf(" ⦿ exit\n");
         printf("\n");
@@ -109,21 +143,39 @@ int main()
             int resultado = trataCriarRetangulo(&retangulos, args[0], args[1], args[2], args[3]);
             if (resultado == ERRO_FORA_MUNDO)
                 printf("❌ retângulo fora do mundo.\n");
-            if (resultado == ERRO_COLISAO)
+            else if (resultado == ERRO_COLISAO)
                 printf("❌ retângulo colide com outro.\n");
-            continue;
+            else
+                trataImprimirMundo(&retangulos);
         }
-        if (strcmp(comando, "print") == 0)
-        {
+        else if (strcmp(comando, "print") == 0)
             trataImprimirMundo(&retangulos);
-            continue;
+        else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
+        {
+            scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
+            int mult = strcmp(comando, "moveleft") == 0 ? -1 : 1;
+            int resultado = trataMoverRetangulo(&retangulos, args[0], args[1], mult * args[2]);
+            if (resultado == ERRO_FORA_MUNDO)
+                printf("❌ retângulo fora do mundo.\n");
+            else if (resultado == ERRO_COLISAO)
+                printf("❌ retângulo colide com outro.\n");
+            else if (resultado == RETANGULO_NAO_ENCONTRADO)
+                printf("❌ retângulo não encontrado.\n");
+            else
+                trataImprimirMundo(&retangulos);
         }
-
-        if (strcmp(comando, "exit") == 0)
+        else if (strcmp(comando, "exit") == 0)
             exit(0);
-
-        printf("❌ comando inválido: %s\n", comando);
+        else
+            printf("❌ comando inválido: %s\n", comando);
+        printf("\n");
     }
 
     return 0;
 }
+
+/*
+create 1,3+4,5
+moveright 1,3+7
+moveleft 8,3+1
+*/
