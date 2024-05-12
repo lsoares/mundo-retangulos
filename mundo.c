@@ -58,19 +58,52 @@ bool verificaDentroMundo(Retangulo retangulo)
     return retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= 80 && retangulo.y + retangulo.h <= 25;
 }
 
-bool detetaColisao(Retangulo a, Retangulo b)
+void printRetanguloCoords(Retangulo retangulo)
 {
-    return a.y + a.h >= b.y && a.y <= b.y + b.h && a.x + a.l >= b.x && a.x <= b.x + b.l;
+    printf("Coordenadas do Retângulo: x=%d, y=%d, comprimento=%d, altura=%d\n", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
+}
+
+bool detetaColisao(Retangulo a, Retangulo b) {
+    bool colisaoX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
+    bool colisaoY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
+    return colisaoX && colisaoY;
 }
 
 bool detetaColisoes(Retangulos *retangulos, Retangulo retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
-    {
         if (detetaColisao(retangulos->lista[r], retangulo))
             return true;
-    }
     return false;
+}
+
+void ordenaRetangulosPorY(Retangulos *retangulos)
+{
+    for (int i = 0; i < retangulos->total - 1; i++)
+        for (int j = 0; j < retangulos->total - i - 1; j++)
+            if (retangulos->lista[j].y > retangulos->lista[j + 1].y)
+            {
+                Retangulo temp = retangulos->lista[j];
+                retangulos->lista[j] = retangulos->lista[j + 1];
+                retangulos->lista[j + 1] = temp;
+            }
+}
+
+void aplicaGravidade(Retangulos *retangulos)
+{
+    ordenaRetangulosPorY(retangulos);
+    for (int i = 0; i < retangulos->total; i++)
+    {
+        Retangulo *ret = &(retangulos->lista[i]);
+        Retangulo retanguloPossivel = *ret;
+        retanguloPossivel.y++;
+        ret->y = 25 + 1; // esconder temporariamente para que nao seja detetado
+        do
+        {
+            retanguloPossivel.y--;
+        } while (!detetaColisoes(retangulos, retanguloPossivel) && verificaDentroMundo(retanguloPossivel));
+        ret->y = retanguloPossivel.y + 1;
+    }
 }
 
 int trataCriarRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
@@ -83,7 +116,7 @@ int trataCriarRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
     retangulos->lista[retangulos->total] = novoRetangulo;
     retangulos->total++;
-    trataImprimirMundo(retangulos);
+    aplicaGravidade(retangulos);
     return 0;
 }
 
@@ -111,11 +144,13 @@ int trataMoverRetangulo(Retangulos *retangulos, int x, int y, int p)
         return ERRO_FORA_MUNDO;
     int xBackup = ret->x;
     ret->x = 80 + 1; // esconder temporariamente para que nao seja detetado
-    if (detetaColisoes(retangulos, retanguloPossivel)) {
-        ret->x = xBackup; // re-colocar onde estava
+    if (detetaColisoes(retangulos, retanguloPossivel))
+    {
+        ret->x = xBackup; // colocar onde estava
         return ERRO_COLISAO;
     }
     ret->x = retanguloPossivel.x; // move porque não houve colisões
+    aplicaGravidade(retangulos);
     return 0;
 }
 
@@ -175,7 +210,8 @@ int main()
 }
 
 /*
-create 1,3+4,5
-moveright 1,3+7
-moveleft 8,3+1
+create 1,3+12,5
+create 9,6+11,3
+create 18,10+6,3
+moveleft 12,7+3
 */
