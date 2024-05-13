@@ -5,19 +5,22 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+
 int main()
 {
     Retangulos retangulos = {};
     while (true)
     {
-        printf("\n📖 📖 📖 O que fazer? 📖 📖 📖 \n");
-        printf(" ⦿ create x,y+l,h\n");
-        printf(" ⦿ moveright x,y+p\n");
-        printf(" ⦿ moveleft x,y+p\n");
-        printf(" ⦿ print\n");
-        printf(" ⦿ list\n");
-        printf(" ⦿ exit\n");
-        printf("\n");
+        printf(GREEN "╔═══════════════════╗\n");
+        printf("║ ⦿ create x,y+l,h  ║\n");
+        printf("║ ⦿ moveright x,y+p ║\n");
+        printf("║ ⦿ moveleft x,y+p  ║\n");
+        printf("║ ⦿ print           ║\n");
+        printf("║ ⦿ list            ║\n");
+        printf("║ ⦿ exit            ║\n");
+        printf("╚═══════════════════╝\n" RESET);
 
         char comando[20];
         scanf("%s", comando);
@@ -63,7 +66,7 @@ int main()
             exit(0);
         }
         else
-            printf("❌ comando inválido: %s\n", comando);
+            printf("❌ comando inválido\n");
     }
 
     return 0;
