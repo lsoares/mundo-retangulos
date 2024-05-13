@@ -3,46 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "retangulos.h"
-
-#define PINTADO 'x'
-#define VAZIO ' '
-// um extra em x,y para obrigar a começar em 1,1
-typedef char Mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
-
-void desenhaRetangulo(Mundo mundo, Retangulo retangulo)
-{
-    // pinta arestas horizontais
-    for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
-    {
-        mundo[retangulo.y][xx] = PINTADO;
-        mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO;
-    }
-    // pinta arestas verticais
-    for (int yy = retangulo.y + 1; yy < retangulo.y + retangulo.h - 1; yy++)
-    {
-        mundo[yy][retangulo.x] = PINTADO;
-        mundo[yy][retangulo.x + retangulo.l - 1] = PINTADO;
-    }
-}
-
-void trataImprimirMundo(Retangulos *retangulos)
-{
-    Mundo mundo;
-    // limpa
-    for (int y = 1; y <= ALTURA_MUNDO; y++)
-        for (int x = 1; x <= LARGURA_MUNDO; x++)
-            mundo[y][x] = VAZIO;
-    // desenha retangulos
-    for (int r = 0; r < retangulos->total; r++)
-        desenhaRetangulo(mundo, retangulos->lista[r]);
-    // imprime
-    for (int y = ALTURA_MUNDO; y >= 1; y--)
-    {
-        for (int x = 1; x <= LARGURA_MUNDO; x++)
-            printf("%c", mundo[y][x]);
-        printf("\n");
-    }
-}
+#include "ver_mundo.h"
 
 void trataImprimirRetangulos(Retangulos *retangulos)
 {
@@ -76,11 +37,11 @@ int main()
             else if (resultado == ERRO_COLISAO)
                 printf("❌ retângulo colide com outro.\n");
             else
-                trataImprimirMundo(&retangulos);
+                imprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "print") == 0)
         {
-            trataImprimirMundo(&retangulos);
+            imprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "list") == 0)
         {
@@ -99,7 +60,7 @@ int main()
             else if (resultado == ERRO_RET_NAO_ENCONTRADO)
                 printf("❌ retângulo não encontrado\n");
             else
-                trataImprimirMundo(&retangulos);
+                imprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "exit") == 0)
         {
