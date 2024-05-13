@@ -5,12 +5,6 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-void trataImprimirRetangulos(Retangulos *retangulos)
-{
-    for (int r = 0; r < retangulos->total; r++)
-        printf("   ▬ %2d,%2d + %2d,%2d\n", retangulos->lista[r].x, retangulos->lista[r].y, retangulos->lista[r].l, retangulos->lista[r].h);
-}
-
 int main()
 {
     Retangulos retangulos = {};
@@ -45,7 +39,8 @@ int main()
         }
         else if (strcmp(comando, "list") == 0)
         {
-            trataImprimirRetangulos(&retangulos);
+            for (int r = 0; r < retangulos.total; r++)
+                printf("   ▬ %2d,%2d + %2d,%2d\n", retangulos.lista[r].x, retangulos.lista[r].y, retangulos.lista[r].l, retangulos.lista[r].h);
         }
         else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
         {
@@ -73,13 +68,3 @@ int main()
 
     return 0;
 }
-
-/*
-create 1,3+12,5
-create 9,6+11,3
-create 18,10+6,3
-moveleft 12,7+3
-list
-exit
-
-*/
