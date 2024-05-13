@@ -7,7 +7,7 @@
 
 bool verificaDentroMundo(Retangulo retangulo)
 {
-    return retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= 80 && retangulo.y + retangulo.h <= 25;
+    return retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO && retangulo.y + retangulo.h <= ALTURA_MUNDO;
 }
 
 bool detetaColisao(Retangulo a, Retangulo b)
@@ -45,7 +45,7 @@ void aplicaGravidade(Retangulos *retangulos)
         Retangulo *ret = &(retangulos->lista[i]);
         Retangulo retanguloPossivel = *ret;
         retanguloPossivel.y++;
-        ret->y = 25 + 1; // esconder temporariamente para que nao seja detetado
+        ret->y = ALTURA_MUNDO + 1; // esconder temporariamente para que nao seja detetado
         do
         {
             retanguloPossivel.y--;
@@ -67,6 +67,7 @@ int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     retangulos->total++;
 
     aplicaGravidade(retangulos);
+    return 0;
 }
 
 Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
@@ -84,7 +85,7 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (!ret)
-        return RETANGULO_NAO_ENCONTRADO;
+        return ERRO_RET_NAO_ENCONTRADO;
 
     Retangulo retanguloPossivel = *ret;
     retanguloPossivel.x += p;
@@ -92,7 +93,7 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     if (!verificaDentroMundo(retanguloPossivel))
         return ERRO_FORA_MUNDO;
     int xBackup = ret->x;
-    ret->x = 80 + 1; // esconder temporariamente para que nao seja detetado
+    ret->x = LARGURA_MUNDO + 1; // esconder temporariamente para que nao seja detetado
     if (detetaColisoes(retangulos, retanguloPossivel))
     {
         ret->x = xBackup; // colocar onde estava
@@ -101,4 +102,9 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     ret->x = retanguloPossivel.x; // move porque não houve colisões
     aplicaGravidade(retangulos);
     return 0;
+}
+
+void limpaRetangulos(Retangulos *retangulos)
+{
+    free(retangulos->lista);
 }

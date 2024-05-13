@@ -9,11 +9,13 @@
 
 void desenhaRetangulo(char mundo[LARGURA_MUNDO + 1][ALTURA_MUNDO + 1], Retangulo retangulo)
 {
+    // pinta arestas horizontais
     for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
     {
         mundo[retangulo.y][xx] = PINTADO;
         mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO;
     }
+    // pinta arestas verticais
     for (int yy = retangulo.y + 1; yy < retangulo.y + retangulo.h - 1; yy++)
     {
         mundo[yy][retangulo.x] = PINTADO;
@@ -81,17 +83,17 @@ int main()
             int mult = strcmp(comando, "moveleft") == 0 ? -1 : 1;
             int resultado = moveRetangulo(&retangulos, args[0], args[1], mult * args[2]);
             if (resultado == ERRO_FORA_MUNDO)
-                printf("❌ retângulo fora do mundo.\n");
+                printf("❌ retângulo fora do mundo\n");
             else if (resultado == ERRO_COLISAO)
-                printf("❌ retângulo colide com outro.\n");
-            else if (resultado == RETANGULO_NAO_ENCONTRADO)
-                printf("❌ retângulo não encontrado.\n");
+                printf("❌ retângulo colide com outro\n");
+            else if (resultado == ERRO_RET_NAO_ENCONTRADO)
+                printf("❌ retângulo não encontrado\n");
             else
                 trataImprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "exit") == 0)
         {
-            free(retangulos.lista);
+            limpaRetangulos(&retangulos);
             exit(0);
         }
         else
