@@ -17,11 +17,15 @@ bool detetaColisao(Retangulo a, Retangulo b)
     return colisaoX && colisaoY;
 }
 
-bool detetaColisoes(Retangulos *retangulos, Retangulo retangulo)
+bool detetaColisoes(Retangulos *retangulos, Retangulo *retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
-        if (detetaColisao(retangulos->lista[r], retangulo))
+    {
+        if (&retangulos->lista[r] == retangulo) // ignora se ele próprio
+            continue;
+        if (detetaColisao(retangulos->lista[r], *retangulo))
             return true;
+    }
     return false;
 }
 
@@ -43,14 +47,9 @@ void aplicaGravidade(Retangulos *retangulos)
     for (int i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &(retangulos->lista[i]);
-        Retangulo retanguloPossivel = *ret;
-        retanguloPossivel.y++;
-        ret->y = ALTURA_MUNDO + 1; // esconder temporariamente para que nao seja detetado
-        do
-        {
-            retanguloPossivel.y--;
-        } while (!detetaColisoes(retangulos, retanguloPossivel) && verificaDentroMundo(retanguloPossivel));
-        ret->y = retanguloPossivel.y + 1;
+        while (!detetaColisoes(retangulos, ret) && verificaDentroMundo(*ret))
+            ret->y--; // avança até haver colisão
+        ret->y++;     // anula movimente quando há colisão
     }
 }
 
@@ -59,7 +58,7 @@ int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     Retangulo novoRetangulo = (Retangulo){x, y, l, h};
     if (!verificaDentroMundo(novoRetangulo))
         return ERRO_FORA_MUNDO;
-    if (detetaColisoes(retangulos, novoRetangulo))
+    if (detetaColisoes(retangulos, &novoRetangulo))
         return ERRO_COLISAO;
 
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
@@ -87,19 +86,18 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     if (!ret)
         return ERRO_RET_NAO_ENCONTRADO;
 
-    Retangulo retanguloPossivel = *ret;
-    retanguloPossivel.x += p;
-
-    if (!verificaDentroMundo(retanguloPossivel))
-        return ERRO_FORA_MUNDO;
-    int xBackup = ret->x;
-    ret->x = LARGURA_MUNDO + 1; // esconder temporariamente para que nao seja detetado
-    if (detetaColisoes(retangulos, retanguloPossivel))
+    int antigoX = ret->x;
+    ret->x += p;
+    if (!verificaDentroMundo(*ret))
     {
-        ret->x = xBackup; // colocar onde estava
+        ret->x = antigoX;
+        return ERRO_FORA_MUNDO;
+    }
+    if (detetaColisoes(retangulos, ret))
+    {
+        ret->x = antigoX; // colocar onde estava pois houve colisão
         return ERRO_COLISAO;
     }
-    ret->x = retanguloPossivel.x; // move porque não houve colisões
     aplicaGravidade(retangulos);
     return 0;
 }

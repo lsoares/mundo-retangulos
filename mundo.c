@@ -5,9 +5,9 @@
 #include "retangulos.h"
 
 #define PINTADO 'x'
-#define VAZIO ' '
+#define VAZIO '-'
 
-void desenhaRetangulo(char mundo[LARGURA_MUNDO + 1][ALTURA_MUNDO + 1], Retangulo retangulo)
+void desenhaRetangulo(char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1], Retangulo retangulo)
 {
     // pinta arestas horizontais
     for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
@@ -25,20 +25,18 @@ void desenhaRetangulo(char mundo[LARGURA_MUNDO + 1][ALTURA_MUNDO + 1], Retangulo
 
 void trataImprimirMundo(Retangulos *retangulos)
 {
-    char mundo[LARGURA_MUNDO + 1][ALTURA_MUNDO + 1];
-    // limpar
-    for (int y = 1; y <= LARGURA_MUNDO; y++)
-    {
-        for (int x = 1; x <= ALTURA_MUNDO; x++)
+    char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
+    // limpa
+    for (int y = 1; y <= ALTURA_MUNDO; y++)
+        for (int x = 1; x <= LARGURA_MUNDO; x++)
             mundo[y][x] = VAZIO;
-    }
-    // desenhar retangulos
-    for (int r = 0; r < retangulos->total; r++)
+    // desenha retangulos
+    for (int r = 0; r < retangulos->total; r++) 
         desenhaRetangulo(mundo, retangulos->lista[r]);
-    // imprimir
-    for (int y = LARGURA_MUNDO; y >= 1; y--)
+    // imprime
+    for (int y = ALTURA_MUNDO; y >= 1; y--)
     {
-        for (int x = 1; x <= ALTURA_MUNDO; x++)
+        for (int x = 1; x <= LARGURA_MUNDO; x++)
             printf("%c", mundo[y][x]);
         printf("\n");
     }
@@ -46,10 +44,7 @@ void trataImprimirMundo(Retangulos *retangulos)
 
 int main()
 {
-    char comando[20];
-    int args[4];
     Retangulos retangulos = {};
-
     while (true)
     {
         printf("\n📖 📖 📖 O que fazer? 📖 📖 📖 \n");
@@ -60,10 +55,11 @@ int main()
         printf(" ⦿ exit\n");
         printf("\n");
 
+        char comando[20];
         scanf("%s", comando);
-
         if (strcmp(comando, "create") == 0)
         {
+            int args[4];
             scanf("%d,%d+%d,%d", &args[0], &args[1], &args[2], &args[3]);
             int resultado = criaRetangulo(&retangulos, args[0], args[1], args[2], args[3]);
             if (resultado == ERRO_FORA_MUNDO)
@@ -79,6 +75,7 @@ int main()
         }
         else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
         {
+            int args[3];
             scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
             int mult = strcmp(comando, "moveleft") == 0 ? -1 : 1;
             int resultado = moveRetangulo(&retangulos, args[0], args[1], mult * args[2]);
