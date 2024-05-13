@@ -47,9 +47,11 @@ void aplicaGravidade(Retangulos *retangulos)
     for (int i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &(retangulos->lista[i]);
-        while (!detetaColisoes(retangulos, ret) && verificaDentroMundo(*ret))
+        do {
             ret->y--; // avança até haver colisão
-        ret->y++;     // anula movimente quando há colisão
+        }
+        while (!detetaColisoes(retangulos, ret) && verificaDentroMundo(*ret));
+        ret->y++;     // anula último movimento quando há colisão
     }
 }
 

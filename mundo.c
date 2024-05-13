@@ -6,8 +6,11 @@
 
 #define PINTADO 'x'
 #define VAZIO '-'
+// um extra em x,y para obrigar a começar em 1,1
+// um extra em x para facilitar impressão
+typedef char Mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 2];
 
-void desenhaRetangulo(char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1], Retangulo retangulo)
+void desenhaRetangulo(Mundo mundo, Retangulo retangulo)
 {
     // pinta arestas horizontais
     for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
@@ -25,20 +28,24 @@ void desenhaRetangulo(char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1], Retangulo
 
 void trataImprimirMundo(Retangulos *retangulos)
 {
-    char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
+    Mundo mundo;
     // limpa
     for (int y = 1; y <= ALTURA_MUNDO; y++)
+    {
+        mundo[y][LARGURA_MUNDO + 1] = '\0'; // para imprimir cada linha diretamente
         for (int x = 1; x <= LARGURA_MUNDO; x++)
             mundo[y][x] = VAZIO;
+    }
     // desenha retangulos
-    for (int r = 0; r < retangulos->total; r++) 
+    for (int r = 0; r < retangulos->total; r++)
         desenhaRetangulo(mundo, retangulos->lista[r]);
     // imprime
     for (int y = ALTURA_MUNDO; y >= 1; y--)
     {
-        for (int x = 1; x <= LARGURA_MUNDO; x++)
-            printf("%c", mundo[y][x]);
-        printf("\n");
+        // printf("%s\n", mundo[y]);
+       for (int x = 1; x <= LARGURA_MUNDO; x++)
+           printf("%c", mundo[y][x]);
+       printf("\n");
     }
 }
 
