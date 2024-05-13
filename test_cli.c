@@ -23,10 +23,14 @@ void executarCli(char *outputPrograma, ...)
     assert(pipe);
     // coleta output do programa (com um pipe de leitura)
     outputPrograma[0] = '\0';
-    char path[1000];
-    while (fgets(path, sizeof(path), pipe))
-        strcat(outputPrograma, path);
+    char linha[1000];
+    while (fgets(linha, sizeof(linha), pipe))
+    {
+        strcat(outputPrograma, linha);
+    }
     assert(!pclose(pipe));
+    printf("%s\n", linha);
+    fflush(stdout);
 }
 
 bool contemTexto(const char *resultado, const char *texto)
@@ -59,24 +63,24 @@ void test_um_retangulo()
 
 void test_enunciado()
 {
-    char output[5000];
+    char output[20000];
 
     executarCli(output,
                 "create 1,3+12,5",
                 "create 9,6+11,3",
-                // "create 18,10+6,3",
-                // "moveleft 12,7+3",
+                "create 18,10+6,3",
+                "moveleft 12,7+3",
                 "exit", NULL);
 
-    const char *esperado =
-        "        xxxxxxxxxxx                                                             \n"
-        "        x         x                                                             \n"
-        "        xxxxxxxxxxx                                                             \n";
-    // "xxxxxxxxxxxx                                                                   \n"
-    // "x          x                                                                   \n"
-    // "x          x     xxxxxx                                                        \n"
-    // "x          x     x    x                                                        \n"
-    // "xxxxxxxxxxxx     xxxxxx                                                        \n";
+    char *esperado =
+        "     xxxxxxxxxxx                                                                \n"
+        "     x         x                                                                \n"
+        "     xxxxxxxxxxx                                                                \n"
+        "xxxxxxxxxxxx                                                                    \n"
+        "x          x                                                                    \n"
+        "x          x     xxxxxx                                                         \n"
+        "x          x     x    x                                                         \n"
+        "xxxxxxxxxxxx     xxxxxx                                                         \n";
     assert(contemTexto(output, esperado));
 }
 
