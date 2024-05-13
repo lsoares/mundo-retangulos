@@ -27,9 +27,9 @@ int main()
             scanf("%d,%d+%d,%d", &args[0], &args[1], &args[2], &args[3]);
             int resultado = criaRetangulo(&retangulos, args[0], args[1], args[2], args[3]);
             if (resultado == ERRO_FORA_MUNDO)
-                printf("❌ retângulo fora do mundo.\n");
+                printf("❌ retângulo fora do mundo\n");
             else if (resultado == ERRO_COLISAO)
-                printf("❌ retângulo colide com outro.\n");
+                printf("❌ retângulo colide com outro\n");
             else
                 imprimirMundo(&retangulos);
         }
