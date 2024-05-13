@@ -5,10 +5,9 @@
 #include "retangulos.h"
 
 #define PINTADO 'x'
-#define VAZIO '-'
+#define VAZIO ' '
 // um extra em x,y para obrigar a começar em 1,1
-// um extra em x para facilitar impressão
-typedef char Mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 2];
+typedef char Mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
 
 void desenhaRetangulo(Mundo mundo, Retangulo retangulo)
 {
@@ -31,22 +30,24 @@ void trataImprimirMundo(Retangulos *retangulos)
     Mundo mundo;
     // limpa
     for (int y = 1; y <= ALTURA_MUNDO; y++)
-    {
-        mundo[y][LARGURA_MUNDO + 1] = '\0'; // para imprimir cada linha diretamente
         for (int x = 1; x <= LARGURA_MUNDO; x++)
             mundo[y][x] = VAZIO;
-    }
     // desenha retangulos
     for (int r = 0; r < retangulos->total; r++)
         desenhaRetangulo(mundo, retangulos->lista[r]);
     // imprime
     for (int y = ALTURA_MUNDO; y >= 1; y--)
     {
-        // printf("%s\n", mundo[y]);
-       for (int x = 1; x <= LARGURA_MUNDO; x++)
-           printf("%c", mundo[y][x]);
-       printf("\n");
+        for (int x = 1; x <= LARGURA_MUNDO; x++)
+            printf("%c", mundo[y][x]);
+        printf("\n");
     }
+}
+
+void trataImprimirRetangulos(Retangulos *retangulos)
+{
+    for (int r = 0; r < retangulos->total; r++)
+        printf("   ▬ %d,%d+%d,%d\n", retangulos->lista[r].x, retangulos->lista[r].y, retangulos->lista[r].l, retangulos->lista[r].h);
 }
 
 int main()
@@ -59,6 +60,7 @@ int main()
         printf(" ⦿ moveright x,y+p\n");
         printf(" ⦿ moveleft x,y+p\n");
         printf(" ⦿ print\n");
+        printf(" ⦿ list\n");
         printf(" ⦿ exit\n");
         printf("\n");
 
@@ -79,6 +81,10 @@ int main()
         else if (strcmp(comando, "print") == 0)
         {
             trataImprimirMundo(&retangulos);
+        }
+        else if (strcmp(comando, "list") == 0)
+        {
+            trataImprimirRetangulos(&retangulos);
         }
         else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
         {
@@ -112,4 +118,7 @@ create 1,3+12,5
 create 9,6+11,3
 create 18,10+6,3
 moveleft 12,7+3
+list
+exit
+
 */
