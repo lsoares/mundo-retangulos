@@ -47,7 +47,7 @@ void trataImprimirMundo(Retangulos *retangulos)
 void trataImprimirRetangulos(Retangulos *retangulos)
 {
     for (int r = 0; r < retangulos->total; r++)
-        printf("   ▬ %d,%d+%d,%d\n", retangulos->lista[r].x, retangulos->lista[r].y, retangulos->lista[r].l, retangulos->lista[r].h);
+        printf("   ▬ %2d,%2d + %2d,%2d\n", retangulos->lista[r].x, retangulos->lista[r].y, retangulos->lista[r].l, retangulos->lista[r].h);
 }
 
 int main()
