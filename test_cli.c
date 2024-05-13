@@ -21,6 +21,25 @@ void test_um_retangulo()
     assert(contemTexto(output, esperado));
 }
 
+void test_gravidade()
+{
+    char output[20000];
+
+    executarCli(output,
+                "create 38,20+4,4",
+                "create 38,20+4,4",
+                "create 38,20+4,4",
+                "create 38,20+4,4",
+                "moveleft 38,1+10",
+                "list",
+                "exit", NULL);
+
+    assert(contemTexto(output, "▬ 28, 1 +  4, 4"));
+    assert(contemTexto(output, "▬ 38, 1 +  4, 4"));
+    assert(contemTexto(output, "▬ 38, 5 +  4, 4"));
+    assert(contemTexto(output, "▬ 38, 9 +  4, 4"));
+}
+
 void test_enunciado()
 {
     char output[20000];
@@ -71,7 +90,7 @@ void test_colisao_desenhar()
 
 void test_colisao_mover()
 {
-    char output[5000];
+    char output[10000];
 
     executarCli(output,
                 "create 5,5+10,10",
@@ -113,6 +132,7 @@ int main()
 {
     test_um_retangulo();
     test_enunciado();
+    test_gravidade();
     test_desenhar_fora_do_mundo();
     test_colisao_desenhar();
     test_colisao_mover();
