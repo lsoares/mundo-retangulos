@@ -40,7 +40,7 @@ int main()
         else if (strcmp(comando, "list") == 0)
         {
             for (int r = 0; r < retangulos.total; r++)
-                printf("   ▬ %2d,%2d + %2d,%2d\n", retangulos.lista[r].x, retangulos.lista[r].y, retangulos.lista[r].l, retangulos.lista[r].h);
+                imprimeRetangulo(retangulos.lista[r]);
         }
         else if (strcmp(comando, "moveleft") == 0 || strcmp(comando, "moveright") == 0)
         {

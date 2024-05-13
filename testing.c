@@ -27,7 +27,6 @@ void executarCli(char *outputPrograma, ...)
     while (fgets(linha, sizeof(linha), pipe))
         strcat(outputPrograma, linha);
     assert(!pclose(pipe));
-    printf("%s\n", linha);
     fflush(stdout);
 }
 

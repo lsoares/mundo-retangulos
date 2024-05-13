@@ -104,7 +104,12 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     return 0;
 }
 
+void imprimeRetangulo(Retangulo retangulo) {
+    printf("   ▬ %2d,%2d + %2d,%2d\n", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
+}
+
 void limpaRetangulos(Retangulos *retangulos)
 {
+    retangulos->total = 0;
     free(retangulos->lista);
 }
