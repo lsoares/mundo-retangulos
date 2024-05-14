@@ -4,24 +4,14 @@
 #include <string.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
-
-#define GREEN "\033[32m"
-#define RESET "\033[0m"
+#include "cli.h"
 
 int main()
 {
     Retangulos retangulos = {};
     while (true)
     {
-        printf(GREEN "╔═══════════════════╗\n");
-        printf("║ ⦿ create x,y+l,h  ║\n");
-        printf("║ ⦿ moveright x,y+p ║\n");
-        printf("║ ⦿ moveleft x,y+p  ║\n");
-        printf("║ ⦿ print           ║\n");
-        printf("║ ⦿ clear           ║\n");
-        printf("║ ⦿ list            ║\n");
-        printf("║ ⦿ exit            ║\n");
-        printf("╚═══════════════════╝\n▶ " RESET);
+        imprimeMenu();
 
         char comando[20];
         scanf("%s", comando);
@@ -37,11 +27,11 @@ int main()
             else if (resultado == COLISAO)
                 printf("❌ retângulo colide com outro\n");
             else
-                imprimirMundo(&retangulos);
+                imprimeMundo(&retangulos);
         }
         else if (strcmp(comando, "print") == 0)
         {
-            imprimirMundo(&retangulos);
+            imprimeMundo(&retangulos);
         }
         else if (strcmp(comando, "list") == 0)
         {
@@ -61,12 +51,12 @@ int main()
             else if (resultado == RET_NAO_ENCONTRADO)
                 printf("❌ retângulo não encontrado\n");
             else
-                imprimirMundo(&retangulos);
+                imprimeMundo(&retangulos);
         }
         else if (strcmp(comando, "clear") == 0)
         {
             limpaRetangulos(&retangulos);
-            imprimirMundo(&retangulos);
+            imprimeMundo(&retangulos);
         }
         else if (strcmp(comando, "exit") == 0)
         {
@@ -78,4 +68,19 @@ int main()
     }
 
     return 0;
+}
+
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+void imprimeMenu()
+{
+    printf(GREEN "╔═══════════════════╗\n");
+    printf("║ ⦿ create x,y+l,h  ║\n");
+    printf("║ ⦿ moveright x,y+p ║\n");
+    printf("║ ⦿ moveleft x,y+p  ║\n");
+    printf("║ ⦿ print           ║\n");
+    printf("║ ⦿ clear           ║\n");
+    printf("║ ⦿ list            ║\n");
+    printf("║ ⦿ exit            ║\n");
+    printf("╚═══════════════════╝\n▶ " RESET);
 }

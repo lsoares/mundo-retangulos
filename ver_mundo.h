@@ -4,6 +4,6 @@
 #define PINTADO 'x'
 #define VAZIO ' '
 
-void imprimirMundo(Retangulos *retangulos);
+void imprimeMundo(Retangulos *retangulos);
 
 #endif

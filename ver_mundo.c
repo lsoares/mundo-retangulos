@@ -21,7 +21,7 @@ void desenhaRetangulo(Mundo mundo, Retangulo retangulo)
     }
 }
 
-void imprimirMundo(Retangulos *retangulos)
+void imprimeMundo(Retangulos *retangulos)
 {
     Mundo mundo;
     // limpa

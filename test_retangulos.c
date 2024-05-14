@@ -210,11 +210,11 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
     criaRetangulo(&retangulos, 1, 10, 3, 1);
     assert(4 == retangulos.lista[1].y); // começa em 4
 
-    int resultado = moveRetangulo(&retangulos, 1, 4, 20); // move o debaixo para a direita
+    int resultado = moveRetangulo(&retangulos, 1, 1, 35); // move o debaixo para a direita
 
     assert(0 == resultado);
-    assert(retangulosIguais((Retangulo){21, 1, 2, 3}, retangulos.lista[0]));
-    assert(1 == retangulos.lista[1].y); // mas caiu para 1
+    assert(retangulosIguais((Retangulo){36, 1, 2, 3}, retangulos.lista[0]));
+    assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[1]));
 }
 
 void test_limpar()

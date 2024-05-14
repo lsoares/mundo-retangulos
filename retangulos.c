@@ -14,18 +14,17 @@ bool verificaDentroMundo(Retangulo retangulo)
 
 bool detetaColisao(Retangulo a, Retangulo b)
 {
-    bool colisaoX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
-    bool colisaoY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
-    return colisaoX && colisaoY;
+    bool entreX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
+    bool entreY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
+    return entreX && entreY;
 }
 
 bool detetaColisoes(Retangulos *retangulos, Retangulo *retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
     {
-        if (&retangulos->lista[r] == retangulo) // ignora ele próprio
-            continue;
-        if (detetaColisao(retangulos->lista[r], *retangulo))
+        if (&retangulos->lista[r] != retangulo // ignora ele próprio
+            && detetaColisao(retangulos->lista[r], *retangulo))
             return true;
     }
     return false;
@@ -77,10 +76,11 @@ int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
 
 Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
 {
+    Retangulo ponto = {x, y, 1, 1};
     for (int i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &(retangulos->lista[i]);
-        if (x >= ret->x && x <= ret->x + ret->l && y >= ret->y && y <= ret->y + ret->h)
+        if (detetaColisao(ponto, *ret))
             return ret;
     }
     return NULL;
@@ -96,7 +96,7 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     ret->x += p;
     if (!verificaDentroMundo(*ret))
     {
-        ret->x = antigoX;
+        ret->x = antigoX; // colocar onde estava pois sairia do mundo
         return FORA_DO_MUNDO;
     }
     if (detetaColisoes(retangulos, ret))
@@ -115,7 +115,7 @@ void imprimeRetangulo(Retangulo retangulo)
 
 void limpaRetangulos(Retangulos *retangulos)
 {
-    retangulos->total = 0;
     free(retangulos->lista);
+    retangulos->total = 0;
     retangulos->lista = NULL;
 }
