@@ -150,12 +150,12 @@ void test_moveRetanguloEsquerdaMaximo()
 void test_moveForaDoMundoEsq()
 {
     Retangulos retangulos = {};
-    criaRetangulo(&retangulos, 1, 1, 2, 3);
+    criaRetangulo(&retangulos, 1, 1, 1, 3);
 
-    int resultado = moveRetangulo(&retangulos, 1, 1, -5);
+    int resultado = moveRetangulo(&retangulos, 1, 1, -1);
 
     assert(FORA_DO_MUNDO == resultado);
-    assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
+    assert(retangulosIguais((Retangulo){1, 1, 1, 3}, retangulos.lista[0]));
 }
 
 void test_moveForaDoMundoDir()
@@ -217,6 +217,21 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
     assert(1 == retangulos.lista[1].y); // mas caiu para 1
 }
 
+void test_limpar()
+{
+    Retangulos retangulos = {};
+    assert(0 == retangulos.total);
+    assert(NULL == retangulos.lista);
+    criaRetangulo(&retangulos, 1, 1, 2, 3);
+    assert(retangulos.total);
+    assert(retangulos.lista);
+
+    limpaRetangulos(&retangulos);
+
+    assert(0 == retangulos.total);
+    assert(NULL == retangulos.lista);
+}
+
 ////////////////////////////////////////////////////////////
 
 int main()
@@ -241,6 +256,8 @@ int main()
     test_gravidade();
     test_gravidadeCaiEmCimaDeOutro();
     test_gravidadeQuandoSaiDeBaixoOPrimeiroCai();
+
+    test_limpar();
 
     return 0;
 }

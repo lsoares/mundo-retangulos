@@ -2,7 +2,7 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-// um extra em x,y para obrigar a começar em 1,1
+// um extra em x,y para obrigar a começar em 1,1 e evitar contas
 typedef char Mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
 
 void desenhaRetangulo(Mundo mundo, Retangulo retangulo)

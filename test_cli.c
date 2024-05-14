@@ -46,16 +46,12 @@ void test_gravidade_apoiado_no_extremo()
 
     executarCli(output,
                 "create 1,1+1,1",
-                "create 1,2+79,2",
+                "create 1,2+80,1",
                 "exit", NULL);
 
     char *esperado =
-        "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
-        "  x                                                                           x\n"
-        "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
-        "xxx                                                                            \n"
-        "x x                                                                            \n"
-        "xxx                                                                            \n";
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+        "x                                                                               \n";
     assert(contemTexto(output, esperado));
 }
 
@@ -164,14 +160,13 @@ int main()
     test_um_retangulo();
     test_enunciado();
     test_gravidade();
-    // test_gravidade_apoiado_no_extremo();
+    test_gravidade_apoiado_no_extremo();
     test_desenhar_fora_do_mundo();
     test_colisao_desenhar();
     test_colisao_mover();
     test_colisao_mover_para_fora_do_mundo();
     test_comando_invalido();
     test_retangulo_invalido();
-    // TODO: testar limpar
 
     return 0;
 }
