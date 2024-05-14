@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - run: sudo apt update
-    - run: sudo apt install --only-upgrade gcc
-    - run: gcc --version
     - uses: actions/checkout@v4
     - name: Run all tests
       run: make test
