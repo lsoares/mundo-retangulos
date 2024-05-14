@@ -7,7 +7,9 @@
 
 bool verificaDentroMundo(Retangulo retangulo)
 {
-    return retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO && retangulo.y + retangulo.h <= ALTURA_MUNDO;
+    bool dentroEmX = retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO + 1;
+    bool dentroEmY = retangulo.y + retangulo.h <= ALTURA_MUNDO + 1;
+    return dentroEmX && dentroEmY;
 }
 
 bool detetaColisao(Retangulo a, Retangulo b)

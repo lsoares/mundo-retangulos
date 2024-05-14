@@ -28,6 +28,28 @@ void test_criaRetangulo()
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
+void test_maximoRetangulo()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 1, 1, 80, 25);
+
+    assert(0 == resultado);
+    assert(1 == retangulos.total);
+    assert(retangulosIguais((Retangulo){1, 1, 80, 25}, retangulos.lista[0]));
+}
+
+void test_minimoRetangulo()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 80, 25, 1, 1); // deixa cair do topo à direita
+
+    assert(0 == resultado);
+    assert(1 == retangulos.total);
+    assert(retangulosIguais((Retangulo){80, 1, 1, 1}, retangulos.lista[0]));
+}
+
 // CRIAR. ERROS
 void test_criarForaDoMundoX()
 {
@@ -101,6 +123,28 @@ void test_moveRetanguloDireita()
 
     assert(0 == resultado);
     assert(retangulosIguais((Retangulo){6, 1, 2, 3}, retangulos.lista[0]));
+}
+
+void test_moveRetanguloDireitaMaximo()
+{
+    Retangulos retangulos = {};
+    criaRetangulo(&retangulos, 1, 1, 1, 1);
+
+    int resultado = moveRetangulo(&retangulos, 1, 1, 79);
+
+    assert(0 == resultado);
+    assert(retangulosIguais((Retangulo){80, 1, 1, 1}, retangulos.lista[0]));
+}
+
+void test_moveRetanguloEsquerdaMaximo()
+{
+    Retangulos retangulos = {};
+    criaRetangulo(&retangulos, 80, 1, 1, 1);
+
+    int resultado = moveRetangulo(&retangulos, 80, 1, -79);
+
+    assert(0 == resultado);
+    assert(retangulosIguais((Retangulo){1, 1, 1, 1}, retangulos.lista[0]));
 }
 
 void test_moveForaDoMundoEsq()
@@ -178,8 +222,8 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
 int main()
 {
     test_criaRetangulo();
-    // TODO: teste retangulo tamanho tabuleiro
-    // TODO: teste retangulo tamanho 1x1
+    test_maximoRetangulo();
+    test_minimoRetangulo();
     test_criarForaDoMundoX();
     test_criarForaDoMundoY();
     test_criarSobreposto();
@@ -188,7 +232,8 @@ int main()
 
     test_moveRetanguloEsquerda();
     test_moveRetanguloDireita();
-    // TODO: mover para os limites
+    test_moveRetanguloDireitaMaximo();
+    test_moveRetanguloEsquerdaMaximo();
     test_moveForaDoMundoEsq();
     test_moveForaDoMundoDir();
     test_moveSobreposto();
