@@ -27,7 +27,7 @@ int main()
     {
         imprimeMenu();
         char comando[20];
-        scanf("%s", comando);
+        scanf("%19s", comando);
         correComando(&retangulos, comando);
     }
 
