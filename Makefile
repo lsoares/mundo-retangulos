@@ -1,6 +1,6 @@
 .SILENT:
 
-GCC_FLAGS = -Werror -Wall -Wextra -Wenum-conversion -Wassign-enum -Wenum-compare -Wswitch -Wshadow
+GCC_FLAGS = -Werror -Wall -Wextra -Wenum-conversion -Wenum-compare -Wswitch -Wshadow
 
 build:
 	gcc ${GCC_FLAGS} cli.c retangulos.c ver_mundo.c -o cli.exe
