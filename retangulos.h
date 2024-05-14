@@ -1,5 +1,4 @@
-#ifndef RETANGULOS_H
-#define RETANGULOS_H
+#pragma once
 
 #define LARGURA_MUNDO 80
 #define ALTURA_MUNDO 25
@@ -24,5 +23,3 @@ int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h);
 int moveRetangulo(Retangulos *retangulos, int x, int y, int p);
 void imprimeRetangulo(Retangulo retangulo);
 void limpaRetangulos(Retangulos *retangulos);
-
-#endif

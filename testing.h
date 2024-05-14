@@ -1,5 +1,4 @@
-#ifndef TESTING_H
-#define TESTING_H
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,5 +11,3 @@
 void executarCli(char *outputPrograma, ...);
 
 bool contemTexto(const char *resultado, const char *texto);
-
-#endif
