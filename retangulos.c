@@ -7,7 +7,6 @@
 
 bool verificaDentroMundo(Retangulo retangulo)
 {
-    // TODO: considerar se largura/altura do mundo fazem parte do conceito de guardar retangulos
     return retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO && retangulo.y + retangulo.h <= ALTURA_MUNDO;
 }
 
@@ -116,4 +115,5 @@ void limpaRetangulos(Retangulos *retangulos)
 {
     retangulos->total = 0;
     free(retangulos->lista);
+    retangulos->lista = NULL;
 }

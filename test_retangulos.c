@@ -178,6 +178,8 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
 int main()
 {
     test_criaRetangulo();
+    // TODO: teste retangulo tamanho tabuleiro
+    // TODO: teste retangulo tamanho 1x1
     test_criarForaDoMundoX();
     test_criarForaDoMundoY();
     test_criarSobreposto();
@@ -186,6 +188,7 @@ int main()
 
     test_moveRetanguloEsquerda();
     test_moveRetanguloDireita();
+    // TODO: mover para os limites
     test_moveForaDoMundoEsq();
     test_moveForaDoMundoDir();
     test_moveSobreposto();

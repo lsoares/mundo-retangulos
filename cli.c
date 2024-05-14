@@ -18,6 +18,7 @@ int main()
         printf("║ ⦿ moveright x,y+p ║\n");
         printf("║ ⦿ moveleft x,y+p  ║\n");
         printf("║ ⦿ print           ║\n");
+        printf("║ ⦿ clear           ║\n");
         printf("║ ⦿ list            ║\n");
         printf("║ ⦿ exit            ║\n");
         printf("╚═══════════════════╝\n▶ " RESET);
@@ -29,12 +30,12 @@ int main()
             int args[4];
             scanf("%d,%d+%d,%d", &args[0], &args[1], &args[2], &args[3]);
             int resultado = criaRetangulo(&retangulos, args[0], args[1], args[2], args[3]);
-            if (resultado == FORA_DO_MUNDO)
+            if (resultado == TAMANHO_INVALIDO)
+                printf("❌ retângulo com tamanho inválido\n");
+            else if (resultado == FORA_DO_MUNDO)
                 printf("❌ retângulo fora do mundo\n");
             else if (resultado == COLISAO)
                 printf("❌ retângulo colide com outro\n");
-            else if (resultado == TAMANHO_INVALIDO)
-                printf("❌ retângulo com tamanho inválido\n");
             else
                 imprimirMundo(&retangulos);
         }
@@ -61,6 +62,11 @@ int main()
                 printf("❌ retângulo não encontrado\n");
             else
                 imprimirMundo(&retangulos);
+        }
+        else if (strcmp(comando, "clear") == 0)
+        {
+            limpaRetangulos(&retangulos);
+            imprimirMundo(&retangulos);
         }
         else if (strcmp(comando, "exit") == 0)
         {
