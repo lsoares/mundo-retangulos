@@ -13,6 +13,7 @@ typedef enum
 } Direcao;
 
 void imprimeMenu();
+void correComando(Retangulos *retangulos, char *comando);
 void correComandoCriar(Retangulos *retangulos);
 void correComandoMover(Retangulos *retangulos, Direcao direcao);
 void correComandoListar(Retangulos *retangulos);
@@ -25,25 +26,9 @@ int main()
     while (true)
     {
         imprimeMenu();
-
         char comando[20];
         scanf("%s", comando);
-        if (strcmp(comando, "create") == 0)
-            correComandoCriar(&retangulos);
-        else if (strcmp(comando, "print") == 0)
-            imprimeMundo(&retangulos);
-        else if (strcmp(comando, "list") == 0)
-            correComandoListar(&retangulos);
-        else if (strcmp(comando, "moveleft") == 0)
-            correComandoMover(&retangulos, ESQUERDA);
-        else if (strcmp(comando, "moveright") == 0)
-            correComandoMover(&retangulos, DIREITA);
-        else if (strcmp(comando, "clear") == 0)
-            correComandoLimpar(&retangulos);
-        else if (strcmp(comando, "exit") == 0)
-            correComandoSair(&retangulos);
-        else
-            printf("❌ comando inválido\n");
+        correComando(&retangulos, comando);
     }
 
     return 0;
@@ -62,6 +47,26 @@ void imprimeMenu()
     printf("║ ⦿ list            ║\n");
     printf("║ ⦿ exit            ║\n");
     printf("╚═══════════════════╝\n▶ " RESET);
+}
+
+void correComando(Retangulos *retangulos, char *comando)
+{
+    if (strcmp(comando, "create") == 0)
+        correComandoCriar(retangulos);
+    else if (strcmp(comando, "print") == 0)
+        imprimeMundo(retangulos);
+    else if (strcmp(comando, "list") == 0)
+        correComandoListar(retangulos);
+    else if (strcmp(comando, "moveleft") == 0)
+        correComandoMover(retangulos, ESQUERDA);
+    else if (strcmp(comando, "moveright") == 0)
+        correComandoMover(retangulos, DIREITA);
+    else if (strcmp(comando, "clear") == 0)
+        correComandoLimpar(retangulos);
+    else if (strcmp(comando, "exit") == 0)
+        correComandoSair(retangulos);
+    else
+        printf("❌ comando inválido\n");
 }
 
 void correComandoCriar(Retangulos *retangulos)
