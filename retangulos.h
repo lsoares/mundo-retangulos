@@ -4,9 +4,10 @@
 #define LARGURA_MUNDO 80
 #define ALTURA_MUNDO 25
 
-#define ERRO_FORA_MUNDO 11
-#define ERRO_COLISAO 12
-#define ERRO_RET_NAO_ENCONTRADO 21
+#define FORA_DO_MUNDO 11
+#define COLISAO 12
+#define TAMANHO_INVALIDO 13
+#define RET_NAO_ENCONTRADO 21
 
 typedef struct
 {

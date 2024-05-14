@@ -17,27 +17,6 @@ bool retangulosIguais(const Retangulo esp, const Retangulo atual)
 }
 ////////////////////////////////////////////////////////////
 // CRIAR
-void test_criarForaDoMundoX()
-{
-    Retangulos retangulos = {};
-
-    int resultado = criaRetangulo(&retangulos, 100, 1, 2, 3);
-
-    assert(ERRO_FORA_MUNDO == resultado);
-    assert(0 == retangulos.total);
-}
-
-// CRIAR. ERROS
-void test_criarForaDoMundoY()
-{
-    Retangulos retangulos = {};
-
-    int resultado = criaRetangulo(&retangulos, 1, 100, 2, 3);
-
-    assert(ERRO_FORA_MUNDO == resultado);
-    assert(0 == retangulos.total);
-}
-
 void test_criaRetangulo()
 {
     Retangulos retangulos = {};
@@ -49,6 +28,46 @@ void test_criaRetangulo()
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
+// CRIAR. ERROS
+void test_criarForaDoMundoX()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 100, 1, 2, 3);
+
+    assert(FORA_DO_MUNDO == resultado);
+    assert(0 == retangulos.total);
+}
+void test_criarForaDoMundoY()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 1, 100, 2, 3);
+
+    assert(FORA_DO_MUNDO == resultado);
+    assert(0 == retangulos.total);
+}
+
+void test_criaRetanguloSemLargura()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 1, 1, 0, 3);
+
+    assert(TAMANHO_INVALIDO == resultado);
+    assert(0 == retangulos.total);
+}
+
+void test_criaRetanguloSemAltura()
+{
+    Retangulos retangulos = {};
+
+    int resultado = criaRetangulo(&retangulos, 1, 1, 3, 0);
+
+    assert(TAMANHO_INVALIDO == resultado);
+    assert(0 == retangulos.total);
+}
+
 void test_criarSobreposto()
 {
     Retangulos retangulos = {};
@@ -57,7 +76,7 @@ void test_criarSobreposto()
 
     int resultado = criaRetangulo(&retangulos, 2, 2, 2, 3);
 
-    assert(ERRO_COLISAO == resultado);
+    assert(COLISAO == resultado);
     assert(1 == retangulos.total);
 }
 
@@ -84,7 +103,6 @@ void test_moveRetanguloDireita()
     assert(retangulosIguais((Retangulo){6, 1, 2, 3}, retangulos.lista[0]));
 }
 
-// MOVER. ERROS
 void test_moveForaDoMundoEsq()
 {
     Retangulos retangulos = {};
@@ -92,7 +110,7 @@ void test_moveForaDoMundoEsq()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, -5);
 
-    assert(ERRO_FORA_MUNDO == resultado);
+    assert(FORA_DO_MUNDO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
@@ -103,7 +121,7 @@ void test_moveForaDoMundoDir()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 80);
 
-    assert(ERRO_FORA_MUNDO == resultado);
+    assert(FORA_DO_MUNDO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
@@ -115,7 +133,7 @@ void test_moveSobreposto()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 4);
 
-    assert(ERRO_COLISAO == resultado);
+    assert(COLISAO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
@@ -163,6 +181,8 @@ int main()
     test_criarForaDoMundoX();
     test_criarForaDoMundoY();
     test_criarSobreposto();
+    test_criaRetanguloSemAltura();
+    test_criaRetanguloSemLargura();
 
     test_moveRetanguloEsquerda();
     test_moveRetanguloDireita();

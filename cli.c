@@ -20,7 +20,7 @@ int main()
         printf("║ ⦿ print           ║\n");
         printf("║ ⦿ list            ║\n");
         printf("║ ⦿ exit            ║\n");
-        printf("╚═══════════════════╝\n" RESET);
+        printf("╚═══════════════════╝\n▶ " RESET);
 
         char comando[20];
         scanf("%s", comando);
@@ -29,10 +29,12 @@ int main()
             int args[4];
             scanf("%d,%d+%d,%d", &args[0], &args[1], &args[2], &args[3]);
             int resultado = criaRetangulo(&retangulos, args[0], args[1], args[2], args[3]);
-            if (resultado == ERRO_FORA_MUNDO)
+            if (resultado == FORA_DO_MUNDO)
                 printf("❌ retângulo fora do mundo\n");
-            else if (resultado == ERRO_COLISAO)
+            else if (resultado == COLISAO)
                 printf("❌ retângulo colide com outro\n");
+            else if (resultado == TAMANHO_INVALIDO)
+                printf("❌ retângulo com tamanho inválido\n");
             else
                 imprimirMundo(&retangulos);
         }
@@ -51,11 +53,11 @@ int main()
             scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
             int mult = strcmp(comando, "moveleft") == 0 ? -1 : 1;
             int resultado = moveRetangulo(&retangulos, args[0], args[1], mult * args[2]);
-            if (resultado == ERRO_FORA_MUNDO)
+            if (resultado == FORA_DO_MUNDO)
                 printf("❌ retângulo fora do mundo\n");
-            else if (resultado == ERRO_COLISAO)
+            else if (resultado == COLISAO)
                 printf("❌ retângulo colide com outro\n");
-            else if (resultado == ERRO_RET_NAO_ENCONTRADO)
+            else if (resultado == RET_NAO_ENCONTRADO)
                 printf("❌ retângulo não encontrado\n");
             else
                 imprimirMundo(&retangulos);
