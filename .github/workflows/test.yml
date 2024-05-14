@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install GCC
+      uses: egor-tensin/setup-gcc@v1.3
     - uses: actions/checkout@v4
     - name: make test
       run: make test
