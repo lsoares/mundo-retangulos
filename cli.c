@@ -30,7 +30,6 @@ int main()
         scanf(" %19s", comando);
         correComando(&retangulos, comando);
     }
-
     return 0;
 }
 
