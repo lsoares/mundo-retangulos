@@ -2,15 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-#define ESQUERDA -1
-#define DIREITA 1
+typedef enum
+{
+    ESQUERDA = -1,
+    DIREITA = 1
+} Direcao;
 
 void imprimeMenu();
 void correComandoCriar(Retangulos *retangulos);
-void correComandoMover(Retangulos *retangulos, int direcao);
+void correComandoMover(Retangulos *retangulos, Direcao direcao);
 void correComandoListar(Retangulos *retangulos);
 void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
@@ -93,8 +97,9 @@ void correComandoSair(Retangulos *retangulos)
     exit(0);
 }
 
-void correComandoMover(Retangulos *retangulos, int direcao)
+void correComandoMover(Retangulos *retangulos, Direcao direcao)
 {
+    assert(direcao == ESQUERDA || direcao == DIREITA);
     int args[3];
     scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
     int resultado = moveRetangulo(retangulos, args[0], args[1], direcao * args[2]);
