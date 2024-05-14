@@ -72,7 +72,7 @@ void test_desenhar_fora_do_mundo()
                 "exit",
                 NULL);
 
-    assert(contemTexto(output, "❌ retângulo fora do mundo"));
+    assert(contemTexto(output, "retângulo fora do mundo"));
 }
 
 void test_colisao_desenhar()
@@ -85,7 +85,7 @@ void test_colisao_desenhar()
                 "exit",
                 NULL);
 
-    assert(contemTexto(output, "❌ retângulo colide com outro"));
+    assert(contemTexto(output, "retângulo colide com outro"));
 }
 
 void test_colisao_mover()
@@ -99,7 +99,7 @@ void test_colisao_mover()
                 "exit",
                 NULL);
 
-    assert(contemTexto(output, "❌ retângulo colide com outro"));
+    assert(contemTexto(output, "retângulo colide com outro"));
 }
 
 void test_colisao_mover_para_fora_do_mundo()
@@ -112,7 +112,19 @@ void test_colisao_mover_para_fora_do_mundo()
                 "exit",
                 NULL);
 
-    assert(contemTexto(output, "❌ retângulo não encontrado"));
+    assert(contemTexto(output, "retângulo não encontrado"));
+}
+
+void test_retangulo_invalido()
+{
+    char output[5000];
+
+    executarCli(output,
+                "create 5,5+10,0",
+                "exit",
+                NULL);
+
+    assert(contemTexto(output, "retângulo com tamanho inválido"));
 }
 
 void test_comando_invalido()
@@ -125,7 +137,7 @@ void test_comando_invalido()
                 "exit",
                 NULL);
 
-    assert(contemTexto(output, "❌ comando inválido"));
+    assert(contemTexto(output, "comando inválido"));
 }
 
 int main()
@@ -138,6 +150,7 @@ int main()
     test_colisao_mover();
     test_colisao_mover_para_fora_do_mundo();
     test_comando_invalido();
+    test_retangulo_invalido();
 
     return 0;
 }

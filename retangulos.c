@@ -52,7 +52,7 @@ void aplicaGravidade(Retangulos *retangulos)
         {
             ret->y--; // avança até haver colisão
         } while (!detetaColisoes(retangulos, ret) && verificaDentroMundo(*ret));
-        ret->y++; // anula último movimento quando há colisão
+        ret->y++; // anula último movimento visto que foi de colisão
     }
 }
 
