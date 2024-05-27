@@ -7,7 +7,6 @@
 #include <assert.h>
 #include <stdbool.h>
 
-
-void executarCli(char *outputPrograma, ...);
-
-bool contemTexto(const char *resultado, const char *texto);
+int runCommand(const char *executable, char *output);
+int pipeToRunCommand(const char *input, const char *command, char *output);
+bool containsText(const char *resultado, const char *texto);

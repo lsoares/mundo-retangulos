@@ -1,42 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 #include <assert.h>
 #include <stdbool.h>
 #include "testing.h"
 
-void executarCli(char *outputPrograma, ...)
+int runCommand(const char *executable, char *output)
 {
-    // prepara comandos: converte ["m","3","103","S"] em "m\n3\n103\nS"
-    va_list comandosUt;
-    va_start(comandosUt, outputPrograma);
-    char comandosUtComNewline[300] = "";
-    char *arg;
-    while ((arg = va_arg(comandosUt, char *)) != NULL)
-        sprintf(comandosUtComNewline + strlen(comandosUtComNewline), "%s\n", arg);
-    va_end(comandosUt);
-    // executa programa: converte "m\n3\n103\nS" em "echo '"m\n3\n103\nS"' | cli ./cli.exe" e corre
-    char comandoComExecutavel[320] = "";
-    sprintf(comandoComExecutavel, "echo '%s' | ./cli.exe", comandosUtComNewline);
-    FILE *pipe = popen(comandoComExecutavel, "r");
+    char command[1024];
+    snprintf(command, sizeof(command), "%s 2>&1", executable); // redirect stderr to stdout
+    FILE *pipe = popen(command, "r");
     assert(pipe);
-    // coleta output do programa (com um pipe de leitura)
-    outputPrograma[0] = '\0';
-    char linha[1000];
-    while (fgets(linha, sizeof(linha), pipe))
-        strcat(outputPrograma, linha);
-    assert(!pclose(pipe));
-    fflush(stdout);
+    output[0] = '\0';
+    char row[1000];
+    while (fgets(row, sizeof(row), pipe))
+        strcat(output, row);
+    int exitStatus = pclose(pipe);
+    assert(exitStatus != -1);
+    return WEXITSTATUS(exitStatus); // return the executable exit status
 }
 
-bool contemTexto(const char *resultado, const char *texto)
+int pipeToRunCommand(const char *input, const char *command, char *output)
 {
-    bool contido = strstr(resultado, texto);
-    if (!contido)
+    char fullCommand[2048];
+    snprintf(fullCommand, sizeof(fullCommand), "echo '%s' | %s", input, command);
+    // TODO: escape the ' character inside input or it will break the command above
+    return runCommand(fullCommand, output);
+}
+
+bool containsText(const char *text, const char *search)
+{
+    bool contained = strstr(text, search) != NULL;
+    if (!contained)
     {
-        fprintf(stderr, "%s\n", resultado);
-        fflush(stderr);
+        fprintf(stderr, "%s\n", text);
+        fprintf(stderr, "❌ The text '%s' was not found above.\n", search);
     }
-    return contido;
+    return contained;
 }
