@@ -15,11 +15,11 @@ void test_um_retangulo()
         output);
 
     const char *esperado =
-        " xxxxxxxxxxxx                                                                   \n"
-        " x          x                                                                   \n"
-        " x          x                                                                   \n"
-        " x          x                                                                   \n"
-        " xxxxxxxxxxxx                                                                   \n";
+        " XXXXXXXXXXXX                                                                   \n"
+        " X          X                                                                   \n"
+        " X          X                                                                   \n"
+        " X          X                                                                   \n"
+        " XXXXXXXXXXXX                                                                   \n";
     assert(containsText(output, esperado));
 }
 
@@ -55,8 +55,8 @@ void test_gravidade_apoiado_no_extremo()
                      output);
 
     char *esperado =
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
-        "x                                                                               \n";
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+        "X                                                                               \n";
     assert(containsText(output, esperado));
 }
 
@@ -74,14 +74,14 @@ void test_enunciado()
         output);
 
     char *esperado =
-        "     xxxxxxxxxxx                                                                \n"
-        "     x         x                                                                \n"
-        "     xxxxxxxxxxx                                                                \n"
-        "xxxxxxxxxxxx                                                                    \n"
-        "x          x                                                                    \n"
-        "x          x     xxxxxx                                                         \n"
-        "x          x     x    x                                                         \n"
-        "xxxxxxxxxxxx     xxxxxx                                                         \n";
+        "     XXXXXXXXXXX                                                                \n"
+        "     X         X                                                                \n"
+        "     XXXXXXXXXXX                                                                \n"
+        "XXXXXXXXXXXX                                                                    \n"
+        "X          X                                                                    \n"
+        "X          X     XXXXXX                                                         \n"
+        "X          X     X    X                                                         \n"
+        "XXXXXXXXXXXX     XXXXXX                                                         \n";
     assert(containsText(output, esperado));
 }
 
