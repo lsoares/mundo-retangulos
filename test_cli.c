@@ -8,12 +8,13 @@ void test_um_retangulo()
 {
     char output[5000];
 
-    pipeToRunCommand(
+    int erro = pipeToRunCommand(
         "create 2,3+12,5\n"
         "exit\n",
         "./cli.exe",
         output);
 
+    assert(erro == 0);
     const char *esperado =
         " XXXXXXXXXXXX                                                                   \n"
         " X          X                                                                   \n"

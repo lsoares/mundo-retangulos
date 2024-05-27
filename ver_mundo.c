@@ -7,14 +7,14 @@ void desenhaRetangulo(char mundo[][LARGURA_MUNDO + 1], Retangulo retangulo)
     // pinta arestas horizontais
     for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
     {
-        mundo[retangulo.y][xx] = PINTADO;
-        mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO;
+        mundo[retangulo.y][xx] = PINTADO_CONTORNO;
+        mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO_CONTORNO;
     }
     // pinta arestas verticais
     for (int yy = retangulo.y + 1; yy < retangulo.y + retangulo.h - 1; yy++)
     {
-        mundo[yy][retangulo.x] = PINTADO;
-        mundo[yy][retangulo.x + retangulo.l - 1] = PINTADO;
+        mundo[yy][retangulo.x] = PINTADO_CONTORNO;
+        mundo[yy][retangulo.x + retangulo.l - 1] = PINTADO_CONTORNO;
     }
 }
 

@@ -8,9 +8,10 @@ bool retangulosIguais(const Retangulo esp, const Retangulo atual)
     bool result = esp.x == atual.x && esp.y == atual.y && esp.l == atual.l && esp.h == atual.h;
     if (!result)
     {
-        printf("esperado: ");
+        fprintf(stderr, "❌ Retângulos diferem");
+        fprintf(stderr, "esperado: ");
         imprimeRetangulo(esp);
-        printf("atual:    ");
+        fprintf(stderr, "atual:    ");
         imprimeRetangulo(atual);
     }
     return result;
