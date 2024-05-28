@@ -17,9 +17,9 @@ void test_um_retangulo()
     assert(erro == 0);
     const char *esperado =
         " XXXXXXXXXXXX                                                                   \n"
-        " X          X                                                                   \n"
-        " X          X                                                                   \n"
-        " X          X                                                                   \n"
+        " XOOOOOOOOOOX                                                                   \n"
+        " XOOOOOOOOOOX                                                                   \n"
+        " XOOOOOOOOOOX                                                                   \n"
         " XXXXXXXXXXXX                                                                   \n";
     assert(containsText(output, esperado));
 }
@@ -76,12 +76,12 @@ void test_enunciado()
 
     char *esperado =
         "     XXXXXXXXXXX                                                                \n"
-        "     X         X                                                                \n"
+        "     XOOOOOOOOOX                                                                \n"
         "     XXXXXXXXXXX                                                                \n"
         "XXXXXXXXXXXX                                                                    \n"
-        "X          X                                                                    \n"
-        "X          X     XXXXXX                                                         \n"
-        "X          X     X    X                                                         \n"
+        "XOOOOOOOOOOX                                                                    \n"
+        "XOOOOOOOOOOX     XXXXXX                                                         \n"
+        "XOOOOOOOOOOX     XOOOOX                                                         \n"
         "XXXXXXXXXXXX     XXXXXX                                                         \n";
     assert(containsText(output, esperado));
 }
@@ -171,16 +171,23 @@ void test_comando_invalido()
 
 int main()
 {
+    // create
     test_um_retangulo();
+    test_retangulo_invalido();
+    test_desenhar_fora_do_mundo();
+    test_colisao_desenhar();
+
+    // move
+    test_colisao_mover();
+    test_colisao_mover_para_fora_do_mundo();
+
+    // gravidade
     test_enunciado();
     test_gravidade();
     test_gravidade_apoiado_no_extremo();
-    test_desenhar_fora_do_mundo();
-    test_colisao_desenhar();
-    test_colisao_mover();
-    test_colisao_mover_para_fora_do_mundo();
+
+    // geral
     test_comando_invalido();
-    test_retangulo_invalido();
 
     return 0;
 }

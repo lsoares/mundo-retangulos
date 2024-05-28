@@ -1,21 +1,19 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
 
+bool isPontoContorno(Retangulo retangulo, int x, int y)
+{
+    return y == retangulo.y || y == retangulo.y + retangulo.h - 1 ||
+           x == retangulo.x || x == retangulo.x + retangulo.l - 1;
+}
+
 void desenhaRetangulo(char mundo[][LARGURA_MUNDO + 1], Retangulo retangulo)
 {
-    // pinta arestas horizontais
-    for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
-    {
-        mundo[retangulo.y][xx] = PINTADO_CONTORNO;
-        mundo[retangulo.y + retangulo.h - 1][xx] = PINTADO_CONTORNO;
-    }
-    // pinta arestas verticais
-    for (int yy = retangulo.y + 1; yy < retangulo.y + retangulo.h - 1; yy++)
-    {
-        mundo[yy][retangulo.x] = PINTADO_CONTORNO;
-        mundo[yy][retangulo.x + retangulo.l - 1] = PINTADO_CONTORNO;
-    }
+    for (int yy = retangulo.y; yy < retangulo.y + retangulo.h; yy++)
+        for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
+            mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
 }
 
 void imprimeMundo(Retangulos *retangulos)
