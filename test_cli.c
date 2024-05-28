@@ -155,6 +155,21 @@ void test_retangulo_invalido()
     assert(containsText(output, "retângulo com tamanho inválido"));
 }
 
+void test_menu()
+{
+    char output[5000];
+
+    pipeToRunCommand("exit\n", "./cli.exe", output);
+
+    assert(containsText(output, " create x,y+l,h "));
+    assert(containsText(output, " moveright x,y+p "));
+    assert(containsText(output, " moveleft x,y+p "));
+    assert(containsText(output, " print "));
+    assert(containsText(output, " clear "));
+    assert(containsText(output, " list "));
+    assert(containsText(output, " exit "));
+}
+
 void test_comando_invalido()
 {
     char output[5000];
@@ -205,6 +220,7 @@ int main()
     test_gravidade_apoiado_no_extremo();
 
     // geral
+    test_menu();
     test_comando_invalido();
 
     return 0;
