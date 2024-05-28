@@ -9,7 +9,7 @@ void test_um_retangulo()
     char output[5000];
 
     int erro = pipeToRunCommand(
-        "create 2,3+12,5\n"
+        "create 2, 3 + 12, 5\n"
         "exit\n",
         "./cli.exe",
         output);
@@ -120,7 +120,7 @@ void test_colisao_mover()
     pipeToRunCommand(
         "create 5,5+10,10\n"
         "create 20,5+10,10\n"
-        "moveleft 20,1+10"
+        "moveleft 20, 1 + 10"
         "exit\n",
         "./cli.exe",
         output);
@@ -207,7 +207,7 @@ void test_fundir_retangulos()
     pipeToRunCommand(
         "create 5,1+4,2\n"
         "create 5,15+4,3\n"
-        "merge 5,1 + 5,3\n"
+        "merge 5, 1 + 5, 3\n"
         "exit\n",
         "./cli.exe",
         output);
@@ -237,7 +237,8 @@ int main()
     test_fusao_mostrar_info();
     test_fundir_retangulos();
     // TODO: testar fusao invalida
-    // TODO: testar retangulo nao existe
+    // TODO: testar retangulo 1 nao existe
+    // TODO: testar retangulo 2 nao existe
 
     // gravidade
     test_enunciado();

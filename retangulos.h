@@ -20,8 +20,8 @@ typedef enum
     CRIAR_TAMANHO_INVALIDO,
     CRIAR_FORA_DO_MUNDO,
     CRIAR_COLISAO
-} ErroCriar;
-ErroCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h);
+} ResultadoCriar;
+ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h);
 typedef enum
 {
     MOVER_OK = 0,
@@ -29,8 +29,8 @@ typedef enum
     MOVER_FORA_DO_MUNDO,
     MOVER_COLISAO,
     MOVER_RET_NAO_ENCONTRADO,
-} ErroMover;
-ErroMover moveRetangulo(Retangulos *retangulos, int x, int y, int p);
+} ResultadoMover;
+ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p);
 bool isPontoContorno(Retangulo retangulo, int x, int y);
 void imprimeRetangulo(Retangulo retangulo);
 void limpaRetangulos(Retangulos *retangulos);
@@ -55,5 +55,5 @@ typedef enum
     FUNDIR_RET1_NAO_ENCONTRADO,
     FUNDIR_RET2_NAO_ENCONTRADO,
     FUNDIR_FUSAO_INVALIDA
-} ErroFundir;
-ErroFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2);
+} ResultadoFundir;
+ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2);

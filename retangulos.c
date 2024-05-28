@@ -53,7 +53,7 @@ void aplicaGravidade(Retangulos *retangulos)
     }
 }
 
-ErroCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
+ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
 {
     Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1)
@@ -83,7 +83,7 @@ Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
     return NULL;
 }
 
-ErroMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
+ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (!ret)
@@ -161,7 +161,7 @@ int min(int a, int b)
     return a < b ? a : b;
 }
 
-ErroFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2)
+ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2)
 {
     Retangulo *ret1 = procuraRetangulo(retangulos, x1, y1);
     if (ret1 == NULL)
