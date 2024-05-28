@@ -5,10 +5,10 @@
 #include <stddef.h>
 #include "retangulos.h"
 
-bool verificaDentroMundo(Retangulo retangulo)
+bool estaDentroMundo(Retangulo retangulo)
 {
-    bool dentroEmX = retangulo.x >= 1 && retangulo.y >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO + 1;
-    bool dentroEmY = retangulo.y + retangulo.h <= ALTURA_MUNDO + 1;
+    bool dentroEmX = retangulo.x >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO + 1;
+    bool dentroEmY = retangulo.y >= 1 && retangulo.y + retangulo.h <= ALTURA_MUNDO + 1;
     return dentroEmX && dentroEmY;
 }
 
@@ -22,11 +22,9 @@ bool detetaColisao(Retangulo a, Retangulo b)
 bool detetaColisoes(Retangulos *retangulos, Retangulo *retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
-    {
         if (&retangulos->lista[r] != retangulo // ignora ele próprio
             && detetaColisao(retangulos->lista[r], *retangulo))
             return true;
-    }
     return false;
 }
 
@@ -49,19 +47,19 @@ void aplicaGravidade(Retangulos *retangulos)
     {
         Retangulo *ret = &(retangulos->lista[i]);
         do
-        {
-            ret->y--; // avança até haver colisão
-        } while (!detetaColisoes(retangulos, ret) && verificaDentroMundo(*ret));
-        ret->y++; // anula último movimento visto que foi de colisão
+            ret->y--; // avança enquanto for possível
+        while (!detetaColisoes(retangulos, ret) && estaDentroMundo(*ret));
+        ret->y++; // anula último movimento visto que foi inválido
     }
 }
 
+// TODO: return error enum
 int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
 {
-    Retangulo novoRetangulo = (Retangulo){x, y, l, h};
+    Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1)
         return TAMANHO_INVALIDO;
-    if (!verificaDentroMundo(novoRetangulo))
+    if (!estaDentroMundo(novoRetangulo))
         return FORA_DO_MUNDO;
     if (detetaColisoes(retangulos, &novoRetangulo))
         return COLISAO;
@@ -86,6 +84,7 @@ Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
     return NULL;
 }
 
+// TODO: return error enum
 int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
@@ -94,7 +93,7 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 
     int antigoX = ret->x;
     ret->x += p;
-    if (!verificaDentroMundo(*ret))
+    if (!estaDentroMundo(*ret))
     {
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
         return FORA_DO_MUNDO;
@@ -108,6 +107,12 @@ int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     return 0;
 }
 
+bool isPontoContorno(Retangulo retangulo, int x, int y)
+{
+    return y == retangulo.y || y == retangulo.y + retangulo.h - 1 ||
+           x == retangulo.x || x == retangulo.x + retangulo.l - 1;
+}
+
 void imprimeRetangulo(Retangulo retangulo)
 {
     printf("   ▬ %2d,%2d + %2d,%2d\n", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
@@ -118,4 +123,30 @@ void limpaRetangulos(Retangulos *retangulos)
     free(retangulos->lista);
     retangulos->total = 0;
     retangulos->lista = NULL;
+}
+
+bool detetaMergePossivel(Retangulo *a, Retangulo *b)
+{
+    bool mesmaLagura = a->x == b->x && a->x + a->l == b->x + b->l;
+    bool sobrepostosA = a->y + a->h == b->y;
+    bool sobrepostosB = b->y + b->h == a->y;
+    return mesmaLagura && (sobrepostosA || sobrepostosB);
+}
+
+void detetaMergesPossiveis(Retangulos *retangulos, MergesPossiveis *mergesPossiveis)
+{
+    for (int i = 0; i < retangulos->total; i++)
+    {
+        Retangulo *a = &retangulos->lista[i];
+        for (int k = i + 1; k < retangulos->total; k++)
+        {
+            Retangulo *b = &retangulos->lista[k];
+            if (detetaMergePossivel(a, b))
+            {
+                mergesPossiveis->lista = realloc(mergesPossiveis->lista, sizeof(MergePossivel) * (mergesPossiveis->total + 1));
+                mergesPossiveis->lista[mergesPossiveis->total] = (MergePossivel){a, b};
+                mergesPossiveis->total++;
+            }
+        }
+    }
 }

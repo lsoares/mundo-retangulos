@@ -21,5 +21,20 @@ typedef struct
 
 int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h);
 int moveRetangulo(Retangulos *retangulos, int x, int y, int p);
+bool isPontoContorno(Retangulo retangulo, int x, int y);
 void imprimeRetangulo(Retangulo retangulo);
 void limpaRetangulos(Retangulos *retangulos);
+
+typedef struct
+{
+    Retangulo *a;
+    Retangulo *b;
+} MergePossivel;
+
+typedef struct
+{
+    MergePossivel *lista;
+    int total;
+} MergesPossiveis;
+
+void detetaMergesPossiveis(Retangulos *retangulos, MergesPossiveis *mergesPossiveis);

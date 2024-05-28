@@ -4,12 +4,6 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-bool isPontoContorno(Retangulo retangulo, int x, int y)
-{
-    return y == retangulo.y || y == retangulo.y + retangulo.h - 1 ||
-           x == retangulo.x || x == retangulo.x + retangulo.l - 1;
-}
-
 void desenhaRetangulo(char mundo[][LARGURA_MUNDO + 1], Retangulo retangulo)
 {
     for (int yy = retangulo.y; yy < retangulo.y + retangulo.h; yy++)
@@ -23,10 +17,14 @@ void imprimeMundo(Retangulos *retangulos)
     memset(mundo, VAZIO, sizeof(mundo));             // limpa
     for (int i = 0; i < retangulos->total; i++)      // desenha retangulos
         desenhaRetangulo(mundo, retangulos->lista[i]);
-    for (int y = ALTURA_MUNDO; y >= 1; y--)          // imprime
+    for (int x = 1; x <= LARGURA_MUNDO; x++)
+        printf(x < LARGURA_MUNDO ? "-" : "\n");
+    for (int y = ALTURA_MUNDO; y >= 1; y--) // imprime
     {
         for (int x = 1; x <= LARGURA_MUNDO; x++)
             printf("%c", mundo[y][x]);
         printf("\n");
     }
+    for (int x = 1; x <= LARGURA_MUNDO; x++)
+        printf(x < LARGURA_MUNDO ? "-" : "-\n");
 }

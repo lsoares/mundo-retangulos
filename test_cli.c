@@ -169,6 +169,22 @@ void test_comando_invalido()
     assert(containsText(output, "comando inválido"));
 }
 
+void test_merge_mostrar_info()
+{
+    char output[10000];
+
+    pipeToRunCommand(
+        "create 5,1+4,2\n"
+        "create 5,3+4,3\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    assert(containsText(output, "Possíveis merges"));
+    assert(containsText(output, "▬  5, 1 +  4, 2\n"
+                                "   ▬  5, 3 +  4, 3"));
+}
+
 int main()
 {
     // create
@@ -180,6 +196,9 @@ int main()
     // move
     test_colisao_mover();
     test_colisao_mover_para_fora_do_mundo();
+
+    // merge
+    test_merge_mostrar_info();
 
     // gravidade
     test_enunciado();

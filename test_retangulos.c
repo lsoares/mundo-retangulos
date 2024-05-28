@@ -20,7 +20,7 @@ bool retangulosIguais(const Retangulo esp, const Retangulo atual)
 // CRIAR
 void test_criaRetangulo()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 2, 3);
 
@@ -31,7 +31,7 @@ void test_criaRetangulo()
 
 void test_maximoRetangulo()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 80, 25);
 
@@ -42,7 +42,7 @@ void test_maximoRetangulo()
 
 void test_minimoRetangulo()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 80, 25, 1, 1); // deixa cair do topo à direita
 
@@ -54,7 +54,7 @@ void test_minimoRetangulo()
 // CRIAR. ERROS
 void test_criarForaDoMundoX()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 100, 1, 2, 3);
 
@@ -63,7 +63,7 @@ void test_criarForaDoMundoX()
 }
 void test_criarForaDoMundoY()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 100, 2, 3);
 
@@ -73,7 +73,7 @@ void test_criarForaDoMundoY()
 
 void test_criaRetanguloSemLargura()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 0, 3);
 
@@ -83,7 +83,7 @@ void test_criaRetanguloSemLargura()
 
 void test_criaRetanguloSemAltura()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 3, 0);
 
@@ -93,7 +93,7 @@ void test_criaRetanguloSemAltura()
 
 void test_criarSobreposto()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     int res = criaRetangulo(&retangulos, 1, 1, 2, 3);
     assert(0 == res);
 
@@ -106,7 +106,7 @@ void test_criarSobreposto()
 // MOVER
 void test_moveRetanguloEsquerda()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 7, 1, 2, 3);
 
     int resultado = moveRetangulo(&retangulos, 8, 1, -5);
@@ -117,7 +117,7 @@ void test_moveRetanguloEsquerda()
 
 void test_moveRetanguloDireita()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 2, 3);
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 5);
@@ -128,7 +128,7 @@ void test_moveRetanguloDireita()
 
 void test_moveRetanguloDireitaMaximo()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 1, 1);
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 79);
@@ -139,7 +139,7 @@ void test_moveRetanguloDireitaMaximo()
 
 void test_moveRetanguloEsquerdaMaximo()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 80, 1, 1, 1);
 
     int resultado = moveRetangulo(&retangulos, 80, 1, -79);
@@ -150,7 +150,7 @@ void test_moveRetanguloEsquerdaMaximo()
 
 void test_moveForaDoMundoEsq()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 1, 3);
 
     int resultado = moveRetangulo(&retangulos, 1, 1, -1);
@@ -161,7 +161,7 @@ void test_moveForaDoMundoEsq()
 
 void test_moveForaDoMundoDir()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 2, 3);
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 80);
@@ -172,7 +172,7 @@ void test_moveForaDoMundoDir()
 
 void test_moveSobreposto()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     assert(!criaRetangulo(&retangulos, 1, 1, 2, 3));
     assert(!criaRetangulo(&retangulos, 5, 1, 2, 3));
 
@@ -185,7 +185,7 @@ void test_moveSobreposto()
 // GRAVIDADE
 void test_gravidade()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
 
     int resultado = criaRetangulo(&retangulos, 1, 5, 2, 3);
 
@@ -195,7 +195,7 @@ void test_gravidade()
 
 void test_gravidadeCaiEmCimaDeOutro()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 2, 3);
 
     criaRetangulo(&retangulos, 1, 10, 2, 1);
@@ -206,7 +206,7 @@ void test_gravidadeCaiEmCimaDeOutro()
 
 void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     criaRetangulo(&retangulos, 1, 1, 2, 3);
     criaRetangulo(&retangulos, 1, 10, 3, 1);
     assert(4 == retangulos.lista[1].y); // começa em 4
@@ -220,7 +220,7 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
 
 void test_limpar()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {0};
     assert(0 == retangulos.total);
     assert(NULL == retangulos.lista);
     criaRetangulo(&retangulos, 1, 1, 2, 3);
