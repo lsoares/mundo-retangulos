@@ -181,8 +181,7 @@ void test_merge_mostrar_info()
         output);
 
     assert(containsText(output, "Possíveis merges"));
-    assert(containsText(output, "▬  5, 1 +  4, 2\n"
-                                "   ▬  5, 3 +  4, 3"));
+    assert(containsText(output, "5,1 + 5,3"));
 }
 
 int main()

@@ -95,13 +95,10 @@ void imprimeMergesPossiveis(Retangulos *retangulos)
     if (mergesPossiveis.total)
     {
         printf("ℹ️ Possíveis merges:\n");
+        for (int i = 0; i < mergesPossiveis.total; i++)
         {
-            for (int i = 0; i < mergesPossiveis.total; i++)
-            {
-                imprimeRetangulo(*mergesPossiveis.lista[i].a);
-                imprimeRetangulo(*mergesPossiveis.lista[i].b);
-                printf("\n");
-            }
+            MergePossivel mergePossivel = mergesPossiveis.lista[i];
+            printf("   ▬ %d,%d + %d,%d\n", mergePossivel.a->x, mergePossivel.a->y, mergePossivel.b->x, mergePossivel.b->y);
         }
         free(mergesPossiveis.lista);
     }
@@ -119,11 +116,11 @@ void correComandoMover(Retangulos *retangulos, Direcao direcao)
         printf("❌ retângulo colide com outro\n");
     else if (resultado == RET_NAO_ENCONTRADO)
         printf("❌ retângulo não encontrado\n");
-    else {
+    else
+    {
         imprimeMundo(retangulos);
         imprimeMergesPossiveis(retangulos);
     }
-
 }
 
 void correComandoListar(Retangulos *retangulos)
