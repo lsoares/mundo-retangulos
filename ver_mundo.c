@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
 
@@ -18,17 +19,11 @@ void desenhaRetangulo(char mundo[][LARGURA_MUNDO + 1], Retangulo retangulo)
 
 void imprimeMundo(Retangulos *retangulos)
 {
-    // um extra em x,y para obrigar a começar em 1,1 e evitar contas
-    char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1];
-    // limpa
-    for (int y = 1; y <= ALTURA_MUNDO; y++)
-        for (int x = 1; x <= LARGURA_MUNDO; x++)
-            mundo[y][x] = VAZIO;
-    // desenha retangulos
-    for (int i = 0; i < retangulos->total; i++)
+    char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1]; // extra para referencial em 1,1 e evitar contas
+    memset(mundo, VAZIO, sizeof(mundo));             // limpa
+    for (int i = 0; i < retangulos->total; i++)      // desenha retangulos
         desenhaRetangulo(mundo, retangulos->lista[i]);
-    // imprime
-    for (int y = ALTURA_MUNDO; y >= 1; y--)
+    for (int y = ALTURA_MUNDO; y >= 1; y--)          // imprime
     {
         for (int x = 1; x <= LARGURA_MUNDO; x++)
             printf("%c", mundo[y][x]);
