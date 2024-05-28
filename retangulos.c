@@ -53,23 +53,22 @@ void aplicaGravidade(Retangulos *retangulos)
     }
 }
 
-// TODO: return error enum
-int criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
+ErroCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
 {
     Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1)
-        return TAMANHO_INVALIDO;
+        return CRIAR_TAMANHO_INVALIDO;
     if (!estaDentroMundo(novoRetangulo))
-        return FORA_DO_MUNDO;
+        return CRIAR_FORA_DO_MUNDO;
     if (detetaColisoes(retangulos, &novoRetangulo))
-        return COLISAO;
+        return CRIAR_COLISAO;
 
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
     retangulos->lista[retangulos->total] = novoRetangulo;
     retangulos->total++;
 
     aplicaGravidade(retangulos);
-    return 0;
+    return CRIAR_OK;
 }
 
 Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
@@ -84,27 +83,26 @@ Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
     return NULL;
 }
 
-// TODO: return error enum
-int moveRetangulo(Retangulos *retangulos, int x, int y, int p)
+ErroMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (!ret)
-        return RET_NAO_ENCONTRADO;
+        return MOVER_RET_NAO_ENCONTRADO;
 
     int antigoX = ret->x;
     ret->x += p;
     if (!estaDentroMundo(*ret))
     {
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
-        return FORA_DO_MUNDO;
+        return MOVER_FORA_DO_MUNDO;
     }
     if (detetaColisoes(retangulos, ret))
     {
         ret->x = antigoX; // colocar onde estava pois houve colisão
-        return COLISAO;
+        return MOVER_COLISAO;
     }
     aplicaGravidade(retangulos);
-    return 0;
+    return MOVER_OK;
 }
 
 bool isPontoContorno(Retangulo retangulo, int x, int y)
@@ -163,20 +161,20 @@ int min(int a, int b)
     return a < b ? a : b;
 }
 
-ErroFusao fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2)
+ErroFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2)
 {
     Retangulo *ret1 = procuraRetangulo(retangulos, x1, y1);
     if (ret1 == NULL)
-        return RET1_NAO_ENCONTRADO;
+        return FUNDIR_RET1_NAO_ENCONTRADO;
     Retangulo *ret2 = procuraRetangulo(retangulos, x2, y2);
     if (ret2 == NULL)
-        return RET2_NAO_ENCONTRADO;
+        return FUNDIR_RET2_NAO_ENCONTRADO;
     if (!verificaFusaoPossivel(ret1, ret2))
-        return FUSAO_INVALIDA;
-        
+        return FUNDIR_FUSAO_INVALIDA;
+
     ret2->y = min(ret1->y, ret2->y);
     ret2->h = ret1->h + ret2->h;
     apagaRetangulo(retangulos, ret1);
 
-    return OK;
+    return FUNDIR_OK;
 }

@@ -58,7 +58,7 @@ void test_criarForaDoMundoX()
 
     int resultado = criaRetangulo(&retangulos, 100, 1, 2, 3);
 
-    assert(FORA_DO_MUNDO == resultado);
+    assert(CRIAR_FORA_DO_MUNDO == resultado);
     assert(0 == retangulos.total);
 }
 void test_criarForaDoMundoY()
@@ -67,7 +67,7 @@ void test_criarForaDoMundoY()
 
     int resultado = criaRetangulo(&retangulos, 1, 100, 2, 3);
 
-    assert(FORA_DO_MUNDO == resultado);
+    assert(CRIAR_FORA_DO_MUNDO == resultado);
     assert(0 == retangulos.total);
 }
 
@@ -77,7 +77,7 @@ void test_criaRetanguloSemLargura()
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 0, 3);
 
-    assert(TAMANHO_INVALIDO == resultado);
+    assert(CRIAR_TAMANHO_INVALIDO == resultado);
     assert(0 == retangulos.total);
 }
 
@@ -87,7 +87,7 @@ void test_criaRetanguloSemAltura()
 
     int resultado = criaRetangulo(&retangulos, 1, 1, 3, 0);
 
-    assert(TAMANHO_INVALIDO == resultado);
+    assert(CRIAR_TAMANHO_INVALIDO == resultado);
     assert(0 == retangulos.total);
 }
 
@@ -99,7 +99,7 @@ void test_criarSobreposto()
 
     int resultado = criaRetangulo(&retangulos, 2, 2, 2, 3);
 
-    assert(COLISAO == resultado);
+    assert(CRIAR_COLISAO == resultado);
     assert(1 == retangulos.total);
 }
 
@@ -155,7 +155,7 @@ void test_moveForaDoMundoEsq()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, -1);
 
-    assert(FORA_DO_MUNDO == resultado);
+    assert(MOVER_FORA_DO_MUNDO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 1, 3}, retangulos.lista[0]));
 }
 
@@ -166,7 +166,7 @@ void test_moveForaDoMundoDir()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 80);
 
-    assert(FORA_DO_MUNDO == resultado);
+    assert(MOVER_FORA_DO_MUNDO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
@@ -178,7 +178,7 @@ void test_moveSobreposto()
 
     int resultado = moveRetangulo(&retangulos, 1, 1, 4);
 
-    assert(COLISAO == resultado);
+    assert(MOVER_COLISAO == resultado);
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
