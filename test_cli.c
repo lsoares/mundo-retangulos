@@ -164,6 +164,7 @@ void test_menu()
     assert(containsText(output, " create x,y+l,h "));
     assert(containsText(output, " moveright x,y+p "));
     assert(containsText(output, " moveleft x,y+p "));
+    assert(containsText(output, " merge x₁,y₁+x₂,y₂ "));
     assert(containsText(output, " print "));
     assert(containsText(output, " clear "));
     assert(containsText(output, " list "));
@@ -184,35 +185,59 @@ void test_comando_invalido()
     assert(containsText(output, "comando inválido"));
 }
 
-void test_merge_mostrar_info()
+void test_fusao_mostrar_info()
 {
     char output[10000];
 
     pipeToRunCommand(
         "create 5,1+4,2\n"
-        "create 5,3+4,3\n"
+        "create 5,15+4,3\n"
         "exit\n",
         "./cli.exe",
         output);
 
-    assert(containsText(output, "Possíveis merges"));
+    assert(containsText(output, "Possíveis fusões"));
     assert(containsText(output, "5,1 + 5,3"));
+}
+
+void test_fundir_retangulos()
+{
+    char output[10000];
+
+    pipeToRunCommand(
+        "create 5,1+4,2\n"
+        "create 5,15+4,3\n"
+        "merge 5,1 + 5,3\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    char *esperado =
+        "    XXXX                                                                        \n"
+        "    XOOX                                                                        \n"
+        "    XOOX                                                                        \n"
+        "    XOOX                                                                        \n"
+        "    XXXX                                                                        \n";
+    assert(containsText(output, esperado));
 }
 
 int main()
 {
-    // create
+    // criar
     test_um_retangulo();
     test_retangulo_invalido();
     test_desenhar_fora_do_mundo();
     test_colisao_desenhar();
 
-    // move
+    // mover
     test_colisao_mover();
     test_colisao_mover_para_fora_do_mundo();
 
-    // merge
-    test_merge_mostrar_info();
+    // fundir
+    test_fusao_mostrar_info();
+    test_fundir_retangulos();
+    // TODO: testar fusao invalida
+    // TODO: testar retangulo nao existe
 
     // gravidade
     test_enunciado();

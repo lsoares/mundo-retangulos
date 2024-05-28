@@ -125,7 +125,7 @@ void limpaRetangulos(Retangulos *retangulos)
     retangulos->lista = NULL;
 }
 
-bool detetaMergePossivel(Retangulo *a, Retangulo *b)
+bool verificaFusaoPossivel(Retangulo *a, Retangulo *b)
 {
     bool mesmaLagura = a->x == b->x && a->x + a->l == b->x + b->l;
     bool sobrepostosA = a->y + a->h == b->y;
@@ -133,7 +133,7 @@ bool detetaMergePossivel(Retangulo *a, Retangulo *b)
     return mesmaLagura && (sobrepostosA || sobrepostosB);
 }
 
-void detetaMergesPossiveis(Retangulos *retangulos, MergesPossiveis *mergesPossiveis)
+void listaFusoesPossiveis(Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis)
 {
     for (int i = 0; i < retangulos->total; i++)
     {
@@ -141,12 +141,42 @@ void detetaMergesPossiveis(Retangulos *retangulos, MergesPossiveis *mergesPossiv
         for (int k = i + 1; k < retangulos->total; k++)
         {
             Retangulo *b = &retangulos->lista[k];
-            if (detetaMergePossivel(a, b))
+            if (verificaFusaoPossivel(a, b))
             {
-                mergesPossiveis->lista = realloc(mergesPossiveis->lista, sizeof(MergePossivel) * (mergesPossiveis->total + 1));
-                mergesPossiveis->lista[mergesPossiveis->total] = (MergePossivel){a, b};
-                mergesPossiveis->total++;
+                fusoesPossiveis->lista = realloc(fusoesPossiveis->lista, sizeof(FusaoPossivel) * (fusoesPossiveis->total + 1));
+                fusoesPossiveis->lista[fusoesPossiveis->total] = (FusaoPossivel){a, b};
+                fusoesPossiveis->total++;
             }
         }
     }
+}
+
+void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo)
+{
+    *retangulo = retangulos->lista[retangulos->total - 1]; // sobrepõe o retangulo a apagar com o último
+    retangulos->total--;
+    retangulos->lista = realloc(retangulos->lista, retangulos->total * sizeof(Retangulo));
+}
+
+int min(int a, int b)
+{
+    return a < b ? a : b;
+}
+
+ErroFusao fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2)
+{
+    Retangulo *ret1 = procuraRetangulo(retangulos, x1, y1);
+    if (ret1 == NULL)
+        return RET1_NAO_ENCONTRADO;
+    Retangulo *ret2 = procuraRetangulo(retangulos, x2, y2);
+    if (ret2 == NULL)
+        return RET2_NAO_ENCONTRADO;
+    if (!verificaFusaoPossivel(ret1, ret2))
+        return FUSAO_INVALIDA;
+        
+    ret2->y = min(ret1->y, ret2->y);
+    ret2->h = ret1->h + ret2->h;
+    apagaRetangulo(retangulos, ret1);
+
+    return OK;
 }

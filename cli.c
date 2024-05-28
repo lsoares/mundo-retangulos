@@ -16,10 +16,11 @@ void imprimeMenu();
 void correComando(Retangulos *retangulos, char *comando);
 void correComandoCriar(Retangulos *retangulos);
 void correComandoMover(Retangulos *retangulos, Direcao direcao);
+void correComandoMerge(Retangulos *retangulos);
 void correComandoListar(Retangulos *retangulos);
 void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
-void imprimeMergesPossiveis(Retangulos *retangulos);
+void imprimeFusoesPossiveis(Retangulos *retangulos);
 
 int main()
 {
@@ -38,15 +39,16 @@ int main()
 #define RESET "\033[0m"
 void imprimeMenu()
 {
-    printf(GREEN "╔═══════════════════╗\n");
-    printf("║ ⦿ create x,y+l,h  ║\n");
-    printf("║ ⦿ moveright x,y+p ║\n");
-    printf("║ ⦿ moveleft x,y+p  ║\n");
-    printf("║ ⦿ print           ║\n");
-    printf("║ ⦿ clear           ║\n");
-    printf("║ ⦿ list            ║\n");
-    printf("║ ⦿ exit            ║\n");
-    printf("╚═══════════════════╝\n▶ " RESET);
+    printf(GREEN "╔═════════════════════╗\n");
+    printf("║ ⦿ create x,y+l,h    ║\n");
+    printf("║ ⦿ moveright x,y+p   ║\n");
+    printf("║ ⦿ moveleft x,y+p    ║\n");
+    printf("║ ⦿ merge x₁,y₁+x₂,y₂ ║\n");
+    printf("║ ⦿ print             ║\n");
+    printf("║ ⦿ clear             ║\n");
+    printf("║ ⦿ list              ║\n");
+    printf("║ ⦿ exit              ║\n");
+    printf("╚═════════════════════╝\n▶ " RESET);
 }
 
 void correComando(Retangulos *retangulos, char *comando)
@@ -61,7 +63,8 @@ void correComando(Retangulos *retangulos, char *comando)
         correComandoMover(retangulos, ESQUERDA);
     else if (strcmp(comando, "moveright") == 0)
         correComandoMover(retangulos, DIREITA);
-    // TODO: comando merge. e.g. merge 23,2+24,6
+    else if (strcmp(comando, "merge") == 0)
+        correComandoMerge(retangulos);
     else if (strcmp(comando, "clear") == 0)
         correComandoLimpar(retangulos);
     else if (strcmp(comando, "exit") == 0)
@@ -73,7 +76,7 @@ void correComando(Retangulos *retangulos, char *comando)
 void correComandoCriar(Retangulos *retangulos)
 {
     int args[4];
-    scanf("%d,%d+%d,%d", &args[0], &args[1], &args[2], &args[3]);
+    scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
     int resultado = criaRetangulo(retangulos, args[0], args[1], args[2], args[3]);
     if (resultado == TAMANHO_INVALIDO)
         printf("❌ retângulo com tamanho inválido\n");
@@ -84,23 +87,23 @@ void correComandoCriar(Retangulos *retangulos)
     else
     {
         imprimeMundo(retangulos);
-        imprimeMergesPossiveis(retangulos);
+        imprimeFusoesPossiveis(retangulos);
     }
 }
 
-void imprimeMergesPossiveis(Retangulos *retangulos)
+void imprimeFusoesPossiveis(Retangulos *retangulos)
 {
-    MergesPossiveis mergesPossiveis = {0};
-    detetaMergesPossiveis(retangulos, &mergesPossiveis);
-    if (mergesPossiveis.total)
+    FusoesPossiveis fusoesPossiveis = {0};
+    listaFusoesPossiveis(retangulos, &fusoesPossiveis);
+    if (fusoesPossiveis.total)
     {
-        printf("ℹ️ Possíveis merges:\n");
-        for (int i = 0; i < mergesPossiveis.total; i++)
+        printf("ℹ️ Possíveis fusões:\n");
+        for (int i = 0; i < fusoesPossiveis.total; i++)
         {
-            MergePossivel mergePossivel = mergesPossiveis.lista[i];
-            printf("   ▬ %d,%d + %d,%d\n", mergePossivel.a->x, mergePossivel.a->y, mergePossivel.b->x, mergePossivel.b->y);
+            FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
+            printf("   ▬ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
         }
-        free(mergesPossiveis.lista);
+        free(fusoesPossiveis.lista);
     }
 }
 
@@ -108,7 +111,7 @@ void correComandoMover(Retangulos *retangulos, Direcao direcao)
 {
     assert(direcao == ESQUERDA || direcao == DIREITA);
     int args[3];
-    scanf("%d,%d+%d", &args[0], &args[1], &args[2]);
+    scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);
     int resultado = moveRetangulo(retangulos, args[0], args[1], direcao * args[2]);
     if (resultado == FORA_DO_MUNDO)
         printf("❌ retângulo fora do mundo\n");
@@ -119,7 +122,27 @@ void correComandoMover(Retangulos *retangulos, Direcao direcao)
     else
     {
         imprimeMundo(retangulos);
-        imprimeMergesPossiveis(retangulos);
+        imprimeFusoesPossiveis(retangulos);
+    }
+}
+
+void correComandoMerge(Retangulos *retangulos)
+{
+    int args[4];
+    scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
+
+    int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
+
+    if (resultado == RET1_NAO_ENCONTRADO)
+        printf("❌ retângulo 1 não encontrado\n");
+    if (resultado == RET2_NAO_ENCONTRADO)
+        printf("❌ retângulo 2 não encontrado\n");
+    if (resultado == FUSAO_INVALIDA)
+        printf("❌ fusão inválida\n");
+    else if (resultado == OK)
+    {
+        imprimeMundo(retangulos);
+        imprimeFusoesPossiveis(retangulos);
     }
 }
 

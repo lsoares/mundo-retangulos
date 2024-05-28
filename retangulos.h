@@ -29,12 +29,21 @@ typedef struct
 {
     Retangulo *a;
     Retangulo *b;
-} MergePossivel;
+} FusaoPossivel;
 
 typedef struct
 {
-    MergePossivel *lista;
+    FusaoPossivel *lista;
     int total;
-} MergesPossiveis;
+} FusoesPossiveis;
 
-void detetaMergesPossiveis(Retangulos *retangulos, MergesPossiveis *mergesPossiveis);
+void listaFusoesPossiveis(Retangulos *retangulos, FusoesPossiveis *mergesPossiveis);
+
+typedef enum
+{
+    OK = 0,
+    RET1_NAO_ENCONTRADO,
+    RET2_NAO_ENCONTRADO,
+    FUSAO_INVALIDA
+} ErroFusao;
+ErroFusao fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, int y2);
