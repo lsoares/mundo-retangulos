@@ -18,7 +18,8 @@ void imprimeMundo(Retangulos *retangulos)
     for (int i = 0; i < retangulos->total; i++)      // desenha retangulos
         desenhaRetangulo(mundo, retangulos->lista[i]);
     for (int x = 1; x <= LARGURA_MUNDO; x++)
-        printf(x < LARGURA_MUNDO ? "-" : "\n");
+        printf(x % 10 == 0 ? "%d" : "-", x / 10);
+    printf("\n");
     for (int y = ALTURA_MUNDO; y >= 1; y--) // imprime
     {
         for (int x = 1; x <= LARGURA_MUNDO; x++)
@@ -26,5 +27,6 @@ void imprimeMundo(Retangulos *retangulos)
         printf("\n");
     }
     for (int x = 1; x <= LARGURA_MUNDO; x++)
-        printf(x < LARGURA_MUNDO ? "-" : "-\n");
+        printf(x % 10 == 0 ? "%d" : "-", x / 10);
+    printf("\n");
 }
