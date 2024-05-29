@@ -7,6 +7,7 @@ typedef struct
 {
     int x, y, l, h;
 } Retangulo;
+void retanguloToString(Retangulo retangulo, char* str);
 
 typedef struct
 {
@@ -32,7 +33,6 @@ typedef enum
 } ResultadoMover;
 ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p);
 bool isPontoContorno(Retangulo retangulo, int x, int y);
-void imprimeRetangulo(Retangulo retangulo);
 void limpaRetangulos(Retangulos *retangulos);
 
 typedef struct

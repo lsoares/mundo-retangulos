@@ -24,17 +24,16 @@ int pipeToRunCommand(const char *input, const char *command, char *output)
 {
     char fullCommand[2048];
     snprintf(fullCommand, sizeof(fullCommand), "echo '%s' | %s", input, command);
-    // TODO: escape the ' character inside input or it will break the command above
     return runCommand(fullCommand, output);
 }
 
 bool containsText(const char *text, const char *search)
 {
-    bool contained = strstr(text, search) != NULL;
-    if (!contained)
+    if (strstr(text, search) == NULL)
     {
         fprintf(stderr, "%s\n", text);
         fprintf(stderr, "❌ The text '%s' was not found above.\n", search);
+        return false;
     }
-    return contained;
+    return true;
 }

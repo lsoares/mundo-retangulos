@@ -111,9 +111,9 @@ bool isPontoContorno(Retangulo retangulo, int x, int y)
            x == retangulo.x || x == retangulo.x + retangulo.l - 1;
 }
 
-void imprimeRetangulo(Retangulo retangulo)
+void retanguloToString(Retangulo retangulo, char *str)
 {
-    printf("   ▬ %2d,%2d + %2d,%2d\n", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
+    sprintf(str, "%2d,%2d + %2d,%2d", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
 }
 
 void limpaRetangulos(Retangulos *retangulos)

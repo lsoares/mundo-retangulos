@@ -17,14 +17,15 @@ bool equalInts(const int expected, const int actual)
 
 bool retangulosIguais(const Retangulo esp, const Retangulo atual)
 {
+    char str[50];
     bool result = esp.x == atual.x && esp.y == atual.y && esp.l == atual.l && esp.h == atual.h;
     if (!result)
     {
         fprintf(stderr, "❌ Retângulos diferem\n");
-        fprintf(stderr, "esperado: ");
-        imprimeRetangulo(esp);
-        fprintf(stderr, "atual:    ");
-        imprimeRetangulo(atual);
+        retanguloToString(esp, str);
+        fprintf(stderr, "esperado: %s", str);
+        retanguloToString(atual, str);
+        fprintf(stderr, "atual:    %s", str);
     }
     return result;
 }

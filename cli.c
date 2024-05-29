@@ -145,11 +145,14 @@ void correComandoFundir(Retangulos *retangulos)
         imprimeFusoesPossiveis(retangulos);
     }
 }
-
 void correComandoListar(Retangulos *retangulos)
 {
+    char str[50];
     for (int r = 0; r < retangulos->total; r++)
-        imprimeRetangulo(retangulos->lista[r]);
+    {
+        retanguloToString(retangulos->lista[r], str);
+        printf("   ▬ %s\n", str);
+    }
 }
 
 void correComandoLimpar(Retangulos *retangulos)
