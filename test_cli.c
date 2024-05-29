@@ -221,6 +221,37 @@ void test_fundir_retangulos()
     assert(containsText(output, esperado));
 }
 
+void test_fundir_retangulos_invalido()
+{
+    char output[10000];
+
+    pipeToRunCommand(
+        "create 5,1+4,2\n"
+        "create 5,10+5,3\n"
+        "merge 5,1 + 5,2\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    assert(containsText(output, "fusão inválida"));
+}
+
+void test_fundir_retangulos_nao_existem()
+{
+    char output[10000];
+
+    pipeToRunCommand(
+        "create 5,1+4,2\n"
+        "merge 5,1+10,2\n"
+        "merge 20,1+10,2\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    assert(containsText(output, "retângulo 1 não encontrado"));
+    assert(containsText(output, "retângulo 2 não encontrado"));
+}
+
 int main()
 {
     // criar
@@ -236,9 +267,8 @@ int main()
     // fundir
     test_fusao_mostrar_info();
     test_fundir_retangulos();
-    // TODO: testar fusao invalida
-    // TODO: testar retangulo 1 nao existe
-    // TODO: testar retangulo 2 nao existe
+    test_fundir_retangulos_invalido();
+    test_fundir_retangulos_nao_existem();
 
     // gravidade
     test_enunciado();
