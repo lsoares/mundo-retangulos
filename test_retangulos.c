@@ -345,6 +345,7 @@ int main()
     test_fundir_invalido_retangulo_no_meio();
     test_fundir_ret1_nao_encontrado();
     test_fundir_ret2_nao_encontrado();
+    
     test_limpar();
 
     return 0;
