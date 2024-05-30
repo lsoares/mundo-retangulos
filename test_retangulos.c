@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "retangulos.h"
+#include "ver_mundo.h"
 
 bool equalInts(const int expected, const int actual)
 {
@@ -231,6 +233,7 @@ void test_gravidadeQuandoSaiDeBaixoOPrimeiroCai()
     assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[1]));
 }
 
+// FUNDIR
 void test_fundir()
 {
     Retangulos retangulos = {0};
@@ -299,6 +302,23 @@ void test_fundir_invalido_retangulo_no_meio()
     assert(equalInts(3, retangulos.total));
 }
 
+void test_listarFusoesPossiveis()
+{
+    Retangulos retangulos = {0};
+    assert(!criaRetangulo(&retangulos, 10, 1, 3, 3));
+    assert(!criaRetangulo(&retangulos, 11, 4, 3, 3));
+    FusoesPossiveis fusoesPossiveis = {0};
+    listaFusoesPossiveis(&retangulos, &fusoesPossiveis);
+    assert(equalInts(0, fusoesPossiveis.total));
+    assert(!moveRetangulo(&retangulos, 11, 4, -1)); // possível agora
+
+    listaFusoesPossiveis(&retangulos, &fusoesPossiveis);
+
+    assert(equalInts(1, fusoesPossiveis.total));
+    free(fusoesPossiveis.lista);
+}
+
+// LIMPAR
 void test_limpar()
 {
     Retangulos retangulos = {0};
@@ -339,13 +359,15 @@ int main()
     test_gravidadeCaiEmCimaDeOutro();
     test_gravidadeQuandoSaiDeBaixoOPrimeiroCai();
 
+    test_listarFusoesPossiveis();
+
     test_fundir();
     test_fundir_invalido_largura_diferente();
     test_fundir_invalido_diferentes_x();
     test_fundir_invalido_retangulo_no_meio();
     test_fundir_ret1_nao_encontrado();
     test_fundir_ret2_nao_encontrado();
-    
+
     test_limpar();
 
     return 0;

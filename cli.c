@@ -70,7 +70,7 @@ void correComando(Retangulos *retangulos, char *comando)
     else if (strcmp(comando, "exit") == 0)
         correComandoSair(retangulos);
     else
-        printf("❌ comando inválido\n");
+        printf("❌ comando inválido: %s\n", comando);
 }
 
 void correComandoCriar(Retangulos *retangulos)
