@@ -6,7 +6,7 @@ build:
 	gcc ${GCC_FLAGS} cli.c retangulos.c ver_mundo.c -o cli.exe
 
 test: build
-	gcc ${GCC_FLAGS} test_retangulos.c retangulos.c ver_mundo.c -o test_retangulos.exe
+	gcc ${GCC_FLAGS} test_retangulos.c retangulos.c -o test_retangulos.exe
 	./test_retangulos.exe
 	echo "✅ Testes ao módulo retângulos."
 
