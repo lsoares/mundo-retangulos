@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "retangulos.h"
-#include "ver_mundo.h"
 
 bool equalInts(const int expected, const int actual)
 {
@@ -22,9 +21,9 @@ bool retangulosIguais(const Retangulo esp, const Retangulo atual)
     if (esp.x != atual.x || esp.y != atual.y || esp.l != atual.l || esp.h != atual.h)
     {
         fprintf(stderr, "❌ Retângulos diferem\n");
-        retanguloToString(esp, str);
+        retanguloToString(&esp, str);
         fprintf(stderr, "esperado: %s", str);
-        retanguloToString(atual, str);
+        retanguloToString(&atual, str);
         fprintf(stderr, "atual:    %s", str);
         return false;
     }

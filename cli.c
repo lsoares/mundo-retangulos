@@ -8,7 +8,7 @@
 void imprimeMenu();
 void correComando(Retangulos *retangulos, char *comando);
 void correComandoCriar(Retangulos *retangulos);
-void correComandoMover(Retangulos *retangulos, int multiplicador);
+void correComandoMover(const Retangulos *retangulos, int multiplicador);
 void correComandoFundir(Retangulos *retangulos);
 void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
@@ -30,18 +30,19 @@ int main()
 #define RESET "\033[0m"
 void imprimeMenu()
 {
-    printf(GREEN "\n╔═════════════════════╗\n");
-    printf("║ ⦿ create x,y+l,h    ║\n");
-    printf("║ ⦿ moveright x,y+p   ║\n");
-    printf("║ ⦿ moveleft x,y+p    ║\n");
-    printf("║ ⦿ merge x₁,y₁+x₂,y₂ ║\n");
-    printf("║ ⦿ clear             ║\n");
-    printf("║                     ║\n");
-    printf("║ ⦿ print             ║\n");
-    printf("║ ⦿ list              ║\n");
-    printf("║                     ║\n");
-    printf("║ ⦿ exit              ║\n");
-    printf("╚═════════════════════╝\n▶ " RESET);
+    printf(GREEN "\n╔═══════════════════╗\n");
+    printf("║ create x,y+l,h    ║\n");
+    printf("║ moveright x,y+p   ║\n");
+    printf("║ moveleft x,y+p    ║\n");
+    printf("║ merge x₁,y₁+x₂,y₂ ║\n");
+    printf("║ clear             ║\n");
+    printf("║                   ║\n");
+    printf("║ print             ║\n");
+    printf("║ list              ║\n");
+    printf("║                   ║\n");
+    printf("║ exit              ║\n");
+    printf("╚═══════════════════╝\n▶ " RESET);
+    fflush(stdout);
 }
 
 void correComando(Retangulos *retangulos, char *comando)
@@ -84,7 +85,7 @@ void correComandoCriar(Retangulos *retangulos)
     }
 }
 
-void correComandoMover(Retangulos *retangulos, int multiplicador)
+void correComandoMover(const Retangulos *retangulos, int multiplicador)
 {
     int args[3];
     scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);

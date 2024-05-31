@@ -5,8 +5,8 @@
 #define PINTADO_INTERIOR 'O'
 #define VAZIO ' '
 
-void imprimeMundo(Retangulos *retangulos);
-void imprimeFusoesPossiveis(Retangulos *retangulos);
-void imprimeListaRetangulos(Retangulos *retangulos);
+void imprimeMundo(const Retangulos *retangulos);
+void imprimeFusoesPossiveis(const Retangulos *retangulos);
+void imprimeListaRetangulos(const Retangulos *retangulos);
 
 #endif

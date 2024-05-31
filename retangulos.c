@@ -4,11 +4,11 @@
 #include <stddef.h>
 #include "retangulos.h"
 
-bool estaDentroLimites(Retangulos *retangulos, Retangulo retangulo);
-bool estaEmZonaVazia(Retangulos *retangulos, Retangulo *retangulo);
-void aplicaGravidade(Retangulos *retangulos);
-Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y);
-bool verificaFusaoPossivel(Retangulo *a, Retangulo *b);
+bool estaDentroLimites(const Retangulos *retangulos, const Retangulo *retangulo);
+bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo);
+void aplicaGravidade(const Retangulos *retangulos);
+Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y);
+bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b);
 void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo);
 
 ////// API
@@ -17,7 +17,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1)
         return CRIAR_TAMANHO_INVALIDO;
-    if (!estaDentroLimites(retangulos, novoRetangulo))
+    if (!estaDentroLimites(retangulos, &novoRetangulo))
         return CRIAR_FORA_DO_MUNDO;
     if (!estaEmZonaVazia(retangulos, &novoRetangulo))
         return CRIAR_COLISAO;
@@ -30,7 +30,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     return CRIAR_OK;
 }
 
-ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
+ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p)
 {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (!ret)
@@ -38,7 +38,7 @@ ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 
     int antigoX = ret->x;
     ret->x += p;
-    if (!estaDentroLimites(retangulos, *ret))
+    if (!estaDentroLimites(retangulos, ret))
     {
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
         return MOVER_FORA_DO_MUNDO;
@@ -52,7 +52,7 @@ ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
     return MOVER_OK;
 }
 
-void listaFusoesPossiveis(Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis)
+void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis)
 {
     for (int i = 0; i < retangulos->total; i++)
     {
@@ -89,30 +89,31 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, 
 }
 
 ////// private
-bool estaDentroLimites(Retangulos *retangulos, Retangulo retangulo)
+bool estaDentroLimites(const Retangulos *retangulos, const Retangulo* retangulo)
 {
-    bool dentroEmX = retangulo.x >= 1 && retangulo.x + retangulo.l <= retangulos->maxX + 1;
-    bool dentroEmY = retangulo.y >= 1 && retangulo.y + retangulo.h <= retangulos->maxY + 1;
+    // de notar que começamos a desenhar em 1,1 e não 0,0
+    bool dentroEmX = (retangulo->x - 1 >= 0) && (retangulo->x + retangulo->l - 1) <= retangulos->maxX;
+    bool dentroEmY = (retangulo->y - 1 >= 0) && (retangulo->y + retangulo->h - 1) <= retangulos->maxY;
     return dentroEmX && dentroEmY;
 }
 
-bool colidem(Retangulo a, Retangulo b)
+bool colidem(const Retangulo* a, const Retangulo *b)
 {
-    bool entreX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
-    bool entreY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
+    bool entreX = (a->x < (b->x + b->l)) && ((a->x + a->l) > b->x);
+    bool entreY = (a->y < (b->y + b->h)) && ((a->y + a->h) > b->y);
     return entreX && entreY;
 }
 
-bool estaEmZonaVazia(Retangulos *retangulos, Retangulo *retangulo)
+bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
         if (&retangulos->lista[r] != retangulo // ignora ele próprio
-            && colidem(retangulos->lista[r], *retangulo))
+            && colidem(&retangulos->lista[r], retangulo))
             return false;
     return true;
 }
 
-void ordenaRetangulosPorY(Retangulos *retangulos)
+void ordenaRetangulosPorY(const Retangulos *retangulos)
 {
     for (int i = 0; i < retangulos->total - 1; i++)
         for (int j = 0; j < retangulos->total - i - 1; j++)
@@ -124,41 +125,41 @@ void ordenaRetangulosPorY(Retangulos *retangulos)
             }
 }
 
-void aplicaGravidadeRet(Retangulos *retangulos, Retangulo *ret)
+void aplicaGravidadeRet(const Retangulos *retangulos, Retangulo *ret)
 {
     do
         ret->y--; // avança enquanto for possível
-    while (estaDentroLimites(retangulos, *ret) && estaEmZonaVazia(retangulos, ret));
+    while (estaDentroLimites(retangulos, ret) && estaEmZonaVazia(retangulos, ret));
     ret->y++; // anula último movimento visto que foi inválido
 }
 
-void aplicaGravidade(Retangulos *retangulos)
+void aplicaGravidade(const Retangulos *retangulos)
 {
     ordenaRetangulosPorY(retangulos);
     for (int i = 0; i < retangulos->total; i++)
         aplicaGravidadeRet(retangulos, &(retangulos->lista[i]));
 }
 
-Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
+Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y)
 {
     Retangulo ponto = {x, y, 1, 1};
     for (int i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &(retangulos->lista[i]);
-        if (colidem(ponto, *ret))
+        if (colidem(&ponto, ret))
             return ret;
     }
     return NULL;
 }
-bool isPontoContorno(Retangulo retangulo, int x, int y)
+bool isPontoContorno(const Retangulo * retangulo, int x, int y)
 {
-    return y == retangulo.y || y == retangulo.y + retangulo.h - 1 ||
-           x == retangulo.x || x == retangulo.x + retangulo.l - 1;
+    return y == retangulo->y || y == retangulo->y + retangulo->h - 1 ||
+           x == retangulo->x || x == retangulo->x + retangulo->l - 1;
 }
 
-void retanguloToString(Retangulo retangulo, char *str)
+void retanguloToString(const Retangulo *retangulo, char *str)
 {
-    sprintf(str, "%2d,%2d + %2d,%2d", retangulo.x, retangulo.y, retangulo.l, retangulo.h);
+    sprintf(str, "%2d,%2d + %2d,%2d", retangulo->x, retangulo->y, retangulo->l, retangulo->h);
 }
 
 void limpaRetangulos(Retangulos *retangulos)
@@ -168,7 +169,7 @@ void limpaRetangulos(Retangulos *retangulos)
     retangulos->lista = NULL;
 }
 
-bool verificaFusaoPossivel(Retangulo *a, Retangulo *b)
+bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b)
 {
     bool mesmaLagura = a->x == b->x && a->x + a->l == b->x + b->l;
     bool aEmCimaDeB = a->y + a->h == b->y;

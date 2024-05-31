@@ -6,7 +6,7 @@ typedef struct
 {
     int x, y, l, h;
 } Retangulo;
-void retanguloToString(Retangulo retangulo, char *str);
+void retanguloToString(const Retangulo *retangulo, char *str);
 typedef struct
 {
     Retangulo *lista;
@@ -30,9 +30,9 @@ typedef enum
     MOVER_COLISAO,
     MOVER_RET_NAO_ENCONTRADO,
 } ResultadoMover;
-ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p);
+ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p);
 
-bool isPontoContorno(Retangulo retangulo, int x, int y);
+bool isPontoContorno(const Retangulo *retangulo, int x, int y);
 
 void limpaRetangulos(Retangulos *retangulos);
 
@@ -46,7 +46,7 @@ typedef struct
     FusaoPossivel *lista;
     int total;
 } FusoesPossiveis;
-void listaFusoesPossiveis(Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis);
+void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis);
 
 typedef enum
 {
