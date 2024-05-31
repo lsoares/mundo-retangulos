@@ -1,8 +1,5 @@
 #pragma once
 
-#define LARGURA_MUNDO 80
-#define ALTURA_MUNDO 25
-
 typedef struct
 {
     int x, y, l, h;
@@ -12,6 +9,7 @@ typedef struct
 {
     Retangulo *lista;
     int total;
+    int maxX, maxY;
 } Retangulos;
 typedef enum
 {

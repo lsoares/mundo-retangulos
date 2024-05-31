@@ -5,43 +5,52 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-void desenhaRetangulo(char mundo[][LARGURA_MUNDO + 1], Retangulo retangulo)
+void desenhaRetangulo(char **mundo, Retangulo retangulo)
 {
     for (int yy = retangulo.y; yy < retangulo.y + retangulo.h; yy++)
         for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
             mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
 }
-void desenhaRetangulos(Retangulos *retangulos, char mundo[][81])
+
+void desenhaRetangulos(Retangulos *retangulos, char **mundo)
 {
     for (int i = 0; i < retangulos->total; i++)
         desenhaRetangulo(mundo, retangulos->lista[i]);
 }
 
-void imprimeQuadro(char mundo[][81])
+void imprimeQuadro(Retangulos *retangulos, char **mundo)
 {
-    for (int y = ALTURA_MUNDO; y >= 1; y--) // imprime
+    for (int y = retangulos->maxY; y >= 1; y--) // imprime
     {
-        for (int x = 1; x <= LARGURA_MUNDO; x++)
+        for (int x = 1; x <= retangulos->maxX; x++)
             printf("%c", mundo[y][x]);
         printf("\n");
     }
 }
 
-void imprimeGuia()
+void imprimeGuia(Retangulos *retangulos)
 {
-    for (int x = 1; x <= LARGURA_MUNDO; x++)
+    for (int x = 1; x <= retangulos->maxX; x++)
         printf(x % 10 == 0 ? "%d" : "-", x / 10);
     printf("\n");
 }
 
 void imprimeMundo(Retangulos *retangulos)
 {
-    char mundo[ALTURA_MUNDO + 1][LARGURA_MUNDO + 1]; // extra para referencial em 1,1 e evitar contas
-    memset(mundo, VAZIO, sizeof(mundo));
+    char **mundo = (char **)malloc((retangulos->maxY + 1) * sizeof(char *));
+    for (int i = 0; i <= retangulos->maxY; i++) {
+        mundo[i] = (char *)malloc((retangulos->maxX + 1) * sizeof(char));
+        memset(mundo[i], VAZIO, (retangulos->maxX + 1) * sizeof(char));
+    }
+    
     desenhaRetangulos(retangulos, mundo);
-    imprimeGuia();
-    imprimeQuadro(mundo);
-    imprimeGuia();
+    imprimeGuia(retangulos);
+    imprimeQuadro(retangulos, mundo);
+    imprimeGuia(retangulos);
+
+    for (int i = 0; i <= retangulos->maxY; i++)
+        free(mundo[i]);
+    free(mundo);
 }
 
 void imprimeFusoesPossiveis(Retangulos *retangulos)

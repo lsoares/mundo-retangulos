@@ -5,10 +5,10 @@
 #include <stddef.h>
 #include "retangulos.h"
 
-bool estaDentroMundo(Retangulo retangulo)
+bool estaDentroLimites(Retangulos *retangulos, Retangulo retangulo)
 {
-    bool dentroEmX = retangulo.x >= 1 && retangulo.x + retangulo.l <= LARGURA_MUNDO + 1;
-    bool dentroEmY = retangulo.y >= 1 && retangulo.y + retangulo.h <= ALTURA_MUNDO + 1;
+    bool dentroEmX = retangulo.x >= 1 && retangulo.x + retangulo.l <= retangulos->maxX + 1;
+    bool dentroEmY = retangulo.y >= 1 && retangulo.y + retangulo.h <= retangulos->maxY + 1;
     return dentroEmX && dentroEmY;
 }
 
@@ -48,7 +48,7 @@ void aplicaGravidade(Retangulos *retangulos)
         Retangulo *ret = &(retangulos->lista[i]);
         do
             ret->y--; // avança enquanto for possível
-        while (!detetaColisoes(retangulos, ret) && estaDentroMundo(*ret));
+        while (!detetaColisoes(retangulos, ret) && estaDentroLimites(retangulos, *ret));
         ret->y++; // anula último movimento visto que foi inválido
     }
 }
@@ -58,7 +58,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
     Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1)
         return CRIAR_TAMANHO_INVALIDO;
-    if (!estaDentroMundo(novoRetangulo))
+    if (!estaDentroLimites(retangulos, novoRetangulo))
         return CRIAR_FORA_DO_MUNDO;
     if (detetaColisoes(retangulos, &novoRetangulo))
         return CRIAR_COLISAO;
@@ -91,7 +91,7 @@ ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
 
     int antigoX = ret->x;
     ret->x += p;
-    if (!estaDentroMundo(*ret))
+    if (!estaDentroLimites(retangulos, *ret))
     {
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
         return MOVER_FORA_DO_MUNDO;

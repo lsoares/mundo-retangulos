@@ -17,7 +17,7 @@ void correComandoSair(Retangulos *retangulos);
 
 int main()
 {
-    Retangulos retangulos = {};
+    Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true)
     {
         imprimeMenu();
