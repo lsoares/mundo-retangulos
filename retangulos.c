@@ -12,20 +12,20 @@ bool estaDentroLimites(Retangulos *retangulos, Retangulo retangulo)
     return dentroEmX && dentroEmY;
 }
 
-bool detetaColisao(Retangulo a, Retangulo b)
+bool colidem(Retangulo a, Retangulo b)
 {
     bool entreX = (a.x < (b.x + b.l)) && ((a.x + a.l) > b.x);
     bool entreY = (a.y < (b.y + b.h)) && ((a.y + a.h) > b.y);
     return entreX && entreY;
 }
 
-bool detetaColisoes(Retangulos *retangulos, Retangulo *retangulo)
+bool estaEmZonaVazia(Retangulos *retangulos, Retangulo *retangulo)
 {
     for (int r = 0; r < retangulos->total; r++)
         if (&retangulos->lista[r] != retangulo // ignora ele próprio
-            && detetaColisao(retangulos->lista[r], *retangulo))
-            return true;
-    return false;
+            && colidem(retangulos->lista[r], *retangulo))
+            return false;
+    return true;
 }
 
 void ordenaRetangulosPorY(Retangulos *retangulos)
@@ -48,7 +48,7 @@ void aplicaGravidade(Retangulos *retangulos)
         Retangulo *ret = &(retangulos->lista[i]);
         do
             ret->y--; // avança enquanto for possível
-        while (!detetaColisoes(retangulos, ret) && estaDentroLimites(retangulos, *ret));
+        while (estaDentroLimites(retangulos, *ret) && estaEmZonaVazia(retangulos, ret));
         ret->y++; // anula último movimento visto que foi inválido
     }
 }
@@ -60,7 +60,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
         return CRIAR_TAMANHO_INVALIDO;
     if (!estaDentroLimites(retangulos, novoRetangulo))
         return CRIAR_FORA_DO_MUNDO;
-    if (detetaColisoes(retangulos, &novoRetangulo))
+    if (!estaEmZonaVazia(retangulos, &novoRetangulo))
         return CRIAR_COLISAO;
 
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
@@ -77,7 +77,7 @@ Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
     for (int i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &(retangulos->lista[i]);
-        if (detetaColisao(ponto, *ret))
+        if (colidem(ponto, *ret))
             return ret;
     }
     return NULL;
@@ -96,7 +96,7 @@ ResultadoMover moveRetangulo(Retangulos *retangulos, int x, int y, int p)
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
         return MOVER_FORA_DO_MUNDO;
     }
-    if (detetaColisoes(retangulos, ret))
+    if (!estaEmZonaVazia(retangulos, ret))
     {
         ret->x = antigoX; // colocar onde estava pois houve colisão
         return MOVER_COLISAO;
