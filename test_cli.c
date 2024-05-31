@@ -6,7 +6,7 @@
 
 void test_um_retangulo()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     int erro = pipeToRunCommand(
         "create 2, 3 + 12, 5\n"
@@ -26,7 +26,7 @@ void test_um_retangulo()
 
 void test_gravidade()
 {
-    char output[20000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 38,20+4,4\n"
@@ -47,7 +47,7 @@ void test_gravidade()
 
 void test_gravidade_apoiado_no_extremo()
 {
-    char output[20000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand("create 1,1+1,1\n"
                      "create 1,2+80,1\n"
@@ -63,7 +63,7 @@ void test_gravidade_apoiado_no_extremo()
 
 void test_enunciado()
 {
-    char output[20000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 1,3+12,5\n"
@@ -88,7 +88,7 @@ void test_enunciado()
 
 void test_desenhar_fora_do_mundo()
 {
-    char output[1000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 120,50+10,5\n"
@@ -101,7 +101,7 @@ void test_desenhar_fora_do_mundo()
 
 void test_colisao_desenhar()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,5+10,10\n"
@@ -115,7 +115,7 @@ void test_colisao_desenhar()
 
 void test_colisao_mover()
 {
-    char output[10000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,5+10,10\n"
@@ -130,7 +130,7 @@ void test_colisao_mover()
 
 void test_colisao_mover_para_fora_do_mundo()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,5+10,10\n"
@@ -144,7 +144,7 @@ void test_colisao_mover_para_fora_do_mundo()
 
 void test_retangulo_invalido()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,5+10,0\n"
@@ -157,7 +157,7 @@ void test_retangulo_invalido()
 
 void test_menu()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand("exit\n", "./cli.exe", output);
 
@@ -173,7 +173,7 @@ void test_menu()
 
 void test_comando_invalido()
 {
-    char output[5000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,5+10,10\n"
@@ -187,7 +187,7 @@ void test_comando_invalido()
 
 void test_fusao_mostrar_info()
 {
-    char output[10000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,1+4,2\n"
@@ -202,7 +202,7 @@ void test_fusao_mostrar_info()
 
 void test_fundir_retangulos()
 {
-    char output[10000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,1+4,2\n"
@@ -223,7 +223,7 @@ void test_fundir_retangulos()
 
 void test_fundir_retangulos_invalido()
 {
-    char output[10000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,1+4,2\n"
@@ -238,7 +238,7 @@ void test_fundir_retangulos_invalido()
 
 void test_fundir_retangulos_nao_existem()
 {
-    char output[10000];
+    char output[MAX_OUTPUT_LEN];
 
     pipeToRunCommand(
         "create 5,1+4,2\n"

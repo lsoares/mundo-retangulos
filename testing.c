@@ -14,7 +14,14 @@ int runCommand(const char *executable, char *output)
     output[0] = '\0';
     char row[1000];
     while (fgets(row, sizeof(row), pipe))
+    {
+        if (strlen(output) + strlen(row) >= MAX_OUTPUT_LEN)
+        {
+            fprintf(stderr, "❌ Output size overflow on executing:\n%s\n", executable);
+            exit(1);
+        }
         strcat(output, row);
+    }
     int exitStatus = pclose(pipe);
     assert(exitStatus != -1);
     return WEXITSTATUS(exitStatus); // return the executable exit status

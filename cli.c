@@ -17,7 +17,7 @@ void correComandoSair(Retangulos *retangulos);
 
 int main()
 {
-    printf("💬 Bem-vindo/a\n");
+    printf("💬 Bem-vindo/a Mundo dos Retângulos\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true)
     {
@@ -38,9 +38,11 @@ void imprimeMenu()
     printf("║ ⦿ moveright x,y+p   ║\n");
     printf("║ ⦿ moveleft x,y+p    ║\n");
     printf("║ ⦿ merge x₁,y₁+x₂,y₂ ║\n");
-    printf("║ ⦿ print             ║\n");
     printf("║ ⦿ clear             ║\n");
+    printf("║                     ║\n");
+    printf("║ ⦿ print             ║\n");
     printf("║ ⦿ list              ║\n");
+    printf("║                     ║\n");
     printf("║ ⦿ exit              ║\n");
     printf("╚═════════════════════╝\n▶ " RESET);
 }
