@@ -306,7 +306,7 @@ void test_listarFusoesPossiveis()
 {
     Retangulos retangulos = {0};
     assert(!criaRetangulo(&retangulos, 10, 1, 3, 3));
-    assert(!criaRetangulo(&retangulos, 11, 4, 3, 3));
+    assert(!criaRetangulo(&retangulos, 11, 4, 3, 3)); // deslocado x+1
     FusoesPossiveis fusoesPossiveis = {0};
     listaFusoesPossiveis(&retangulos, &fusoesPossiveis);
     assert(equalInts(0, fusoesPossiveis.total));

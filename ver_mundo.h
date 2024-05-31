@@ -6,5 +6,7 @@
 #define VAZIO ' '
 
 void imprimeMundo(Retangulos *retangulos);
+void imprimeFusoesPossiveis(Retangulos *retangulos);
+void imprimeListaRetangulos(Retangulos *retangulos);
 
 #endif

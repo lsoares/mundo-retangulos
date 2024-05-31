@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
 
@@ -41,4 +42,30 @@ void imprimeMundo(Retangulos *retangulos)
     imprimeGuia();
     imprimeQuadro(mundo);
     imprimeGuia();
+}
+
+void imprimeFusoesPossiveis(Retangulos *retangulos)
+{
+    FusoesPossiveis fusoesPossiveis = {0};
+    listaFusoesPossiveis(retangulos, &fusoesPossiveis);
+    if (fusoesPossiveis.total)
+    {
+        printf("ℹ️ Possíveis fusões:\n");
+        for (int i = 0; i < fusoesPossiveis.total; i++)
+        {
+            FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
+            printf("   ▬ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
+        }
+        free(fusoesPossiveis.lista);
+    }
+}
+
+void imprimeListaRetangulos(Retangulos *retangulos)
+{
+    char str[50];
+    for (int r = 0; r < retangulos->total; r++)
+    {
+        retanguloToString(retangulos->lista[r], str);
+        printf("   ▬ %s\n", str);
+    }
 }

@@ -126,9 +126,9 @@ void limpaRetangulos(Retangulos *retangulos)
 bool verificaFusaoPossivel(Retangulo *a, Retangulo *b)
 {
     bool mesmaLagura = a->x == b->x && a->x + a->l == b->x + b->l;
-    bool sobrepostosA = a->y + a->h == b->y;
-    bool sobrepostosB = b->y + b->h == a->y;
-    return mesmaLagura && (sobrepostosA || sobrepostosB);
+    bool aEmCimaDeB = a->y + a->h == b->y;
+    bool bEmCimaDeA = b->y + b->h == a->y;
+    return mesmaLagura && (aEmCimaDeB || bEmCimaDeA);
 }
 
 void listaFusoesPossiveis(Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis)

@@ -58,7 +58,7 @@ void correComando(Retangulos *retangulos, char *comando)
     else if (strcmp(comando, "print") == 0)
         imprimeMundo(retangulos);
     else if (strcmp(comando, "list") == 0)
-        correComandoListar(retangulos);
+        imprimeListaRetangulos(retangulos);
     else if (strcmp(comando, "moveleft") == 0)
         correComandoMover(retangulos, ESQUERDA);
     else if (strcmp(comando, "moveright") == 0)
@@ -88,22 +88,6 @@ void correComandoCriar(Retangulos *retangulos)
     {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
-    }
-}
-
-void imprimeFusoesPossiveis(Retangulos *retangulos)
-{
-    FusoesPossiveis fusoesPossiveis = {0};
-    listaFusoesPossiveis(retangulos, &fusoesPossiveis);
-    if (fusoesPossiveis.total)
-    {
-        printf("ℹ️ Possíveis fusões:\n");
-        for (int i = 0; i < fusoesPossiveis.total; i++)
-        {
-            FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
-            printf("   ▬ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
-        }
-        free(fusoesPossiveis.lista);
     }
 }
 
@@ -143,15 +127,6 @@ void correComandoFundir(Retangulos *retangulos)
     {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
-    }
-}
-void correComandoListar(Retangulos *retangulos)
-{
-    char str[50];
-    for (int r = 0; r < retangulos->total; r++)
-    {
-        retanguloToString(retangulos->lista[r], str);
-        printf("   ▬ %s\n", str);
     }
 }
 
