@@ -6,21 +6,14 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-typedef enum
-{
-    ESQUERDA = -1,
-    DIREITA = 1
-} Direcao;
-
 void imprimeMenu();
 void correComando(Retangulos *retangulos, char *comando);
 void correComandoCriar(Retangulos *retangulos);
-void correComandoMover(Retangulos *retangulos, Direcao direcao);
+void correComandoMover(Retangulos *retangulos, int multiplicador);
 void correComandoFundir(Retangulos *retangulos);
 void correComandoListar(Retangulos *retangulos);
 void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
-void imprimeFusoesPossiveis(Retangulos *retangulos);
 
 int main()
 {
@@ -60,9 +53,9 @@ void correComando(Retangulos *retangulos, char *comando)
     else if (strcmp(comando, "list") == 0)
         imprimeListaRetangulos(retangulos);
     else if (strcmp(comando, "moveleft") == 0)
-        correComandoMover(retangulos, ESQUERDA);
+        correComandoMover(retangulos, -1);
     else if (strcmp(comando, "moveright") == 0)
-        correComandoMover(retangulos, DIREITA);
+        correComandoMover(retangulos, 1);
     else if (strcmp(comando, "merge") == 0)
         correComandoFundir(retangulos);
     else if (strcmp(comando, "clear") == 0)
@@ -91,12 +84,11 @@ void correComandoCriar(Retangulos *retangulos)
     }
 }
 
-void correComandoMover(Retangulos *retangulos, Direcao direcao)
+void correComandoMover(Retangulos *retangulos, int multiplicador)
 {
-    assert(direcao == ESQUERDA || direcao == DIREITA);
     int args[3];
     scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);
-    int resultado = moveRetangulo(retangulos, args[0], args[1], direcao * args[2]);
+    int resultado = moveRetangulo(retangulos, args[0], args[1], multiplicador * args[2]);
     if (resultado == MOVER_FORA_DO_MUNDO)
         printf("❌ retângulo fora do mundo\n");
     else if (resultado == MOVER_COLISAO)
@@ -116,7 +108,6 @@ void correComandoFundir(Retangulos *retangulos)
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
 
     int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
-
     if (resultado == FUNDIR_RET1_NAO_ENCONTRADO)
         printf("❌ retângulo 1 não encontrado\n");
     if (resultado == FUNDIR_RET2_NAO_ENCONTRADO)
