@@ -39,10 +39,10 @@ void test_gravidade()
         "./cli.exe",
         output);
 
-    assert(containsText(output, "▬ 28, 1 +  4, 4"));
-    assert(containsText(output, "▬ 38, 1 +  4, 4"));
-    assert(containsText(output, "▬ 38, 5 +  4, 4"));
-    assert(containsText(output, "▬ 38, 9 +  4, 4"));
+    assert(containsText(output, "⦾ 28, 1 +  4, 4"));
+    assert(containsText(output, "⦾ 38, 1 +  4, 4"));
+    assert(containsText(output, "⦾ 38, 5 +  4, 4"));
+    assert(containsText(output, "⦾ 38, 9 +  4, 4"));
 }
 
 void test_gravidade_apoiado_no_extremo()

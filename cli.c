@@ -17,6 +17,7 @@ void correComandoSair(Retangulos *retangulos);
 
 int main()
 {
+    printf("💬 Bem-vindo/a\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true)
     {
@@ -32,7 +33,7 @@ int main()
 #define RESET "\033[0m"
 void imprimeMenu()
 {
-    printf(GREEN "╔═════════════════════╗\n");
+    printf(GREEN "\n╔═════════════════════╗\n");
     printf("║ ⦿ create x,y+l,h    ║\n");
     printf("║ ⦿ moveright x,y+p   ║\n");
     printf("║ ⦿ moveleft x,y+p    ║\n");
@@ -63,7 +64,7 @@ void correComando(Retangulos *retangulos, char *comando)
     else if (strcmp(comando, "exit") == 0)
         correComandoSair(retangulos);
     else
-        printf("❌ comando inválido: %s\n", comando);
+        printf("❌ comando inválido\n");
 }
 
 void correComandoCriar(Retangulos *retangulos)
@@ -129,6 +130,7 @@ void correComandoLimpar(Retangulos *retangulos)
 
 void correComandoSair(Retangulos *retangulos)
 {
+    printf("💬 Até à próxima\n");
     limpaRetangulos(retangulos);
     exit(0);
 }

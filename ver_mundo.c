@@ -35,11 +35,11 @@ void imprimeFusoesPossiveis(Retangulos *retangulos)
     listaFusoesPossiveis(retangulos, &fusoesPossiveis);
     if (fusoesPossiveis.total)
     {
-        printf("ℹ️ Possíveis fusões:\n");
+        printf("💬 Possíveis fusões:\n");
         for (int i = 0; i < fusoesPossiveis.total; i++)
         {
             FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
-            printf("   ▬ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
+            printf("   ⦾ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
         }
         free(fusoesPossiveis.lista);
     }
@@ -47,11 +47,15 @@ void imprimeFusoesPossiveis(Retangulos *retangulos)
 
 void imprimeListaRetangulos(Retangulos *retangulos)
 {
+    if (retangulos->total == 0) {
+        printf("💬 Sem retângulos\n");
+        return;
+    }
     char str[50];
     for (int r = 0; r < retangulos->total; r++)
     {
         retanguloToString(retangulos->lista[r], str);
-        printf("   ▬ %s\n", str);
+        printf("   ⦾ %s\n", str);
     }
 }
 
