@@ -40,17 +40,19 @@ void ordenaRetangulosPorY(Retangulos *retangulos)
             }
 }
 
+void aplicaGravidadeRet(Retangulos *retangulos, Retangulo *ret)
+{
+    do
+        ret->y--; // avança enquanto for possível
+    while (estaDentroLimites(retangulos, *ret) && estaEmZonaVazia(retangulos, ret));
+    ret->y++; // anula último movimento visto que foi inválido
+}
+
 void aplicaGravidade(Retangulos *retangulos)
 {
     ordenaRetangulosPorY(retangulos);
     for (int i = 0; i < retangulos->total; i++)
-    {
-        Retangulo *ret = &(retangulos->lista[i]);
-        do
-            ret->y--; // avança enquanto for possível
-        while (estaDentroLimites(retangulos, *ret) && estaEmZonaVazia(retangulos, ret));
-        ret->y++; // anula último movimento visto que foi inválido
-    }
+        aplicaGravidadeRet(retangulos, &(retangulos->lista[i]));
 }
 
 ResultadoCriar criaRetangulo(Retangulos *retangulos, int x, int y, int l, int h)
