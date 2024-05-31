@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include "retangulos.h"
 #include "ver_mundo.h"
 
@@ -11,13 +10,12 @@ void correComando(Retangulos *retangulos, char *comando);
 void correComandoCriar(Retangulos *retangulos);
 void correComandoMover(Retangulos *retangulos, int multiplicador);
 void correComandoFundir(Retangulos *retangulos);
-void correComandoListar(Retangulos *retangulos);
 void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
 
 int main()
 {
-    printf("💬 Bem-vindo/a Mundo dos Retângulos\n");
+    printf("💬 Bem-vindo/a ao Mundo dos Retângulos\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true)
     {
@@ -26,7 +24,6 @@ int main()
         scanf(" %19s", comando);
         correComando(&retangulos, comando);
     }
-    return 0;
 }
 
 #define GREEN "\033[32m"

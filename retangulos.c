@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -83,7 +82,7 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, 
         return FUNDIR_FUSAO_INVALIDA;
 
     ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // new y = min y
-    ret2->h = ret1->h + ret2->h;                     // new h = sum both h
+    ret2->h = ret1->h + ret2->h; // new h = sum both h
     apagaRetangulo(retangulos, ret1);
 
     return FUNDIR_OK;
@@ -151,7 +150,6 @@ Retangulo *procuraRetangulo(Retangulos *retangulos, int x, int y)
     }
     return NULL;
 }
-
 bool isPontoContorno(Retangulo retangulo, int x, int y)
 {
     return y == retangulo.y || y == retangulo.y + retangulo.h - 1 ||
