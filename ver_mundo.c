@@ -5,44 +5,20 @@
 #include "retangulos.h"
 #include "ver_mundo.h"
 
-void desenhaRetangulo(char **mundo, Retangulo retangulo)
-{
-    for (int yy = retangulo.y; yy < retangulo.y + retangulo.h; yy++)
-        for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
-            mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
-}
+void desenhaRetangulos(Retangulos *retangulos, char **mundo);
+void imprimeGuia(Retangulos *retangulos);
+void imprimeQuadro(Retangulos *retangulos, char **mundo);
 
-void desenhaRetangulos(Retangulos *retangulos, char **mundo)
-{
-    for (int i = 0; i < retangulos->total; i++)
-        desenhaRetangulo(mundo, retangulos->lista[i]);
-}
-
-void imprimeQuadro(Retangulos *retangulos, char **mundo)
-{
-    for (int y = retangulos->maxY; y >= 1; y--) // imprime
-    {
-        for (int x = 1; x <= retangulos->maxX; x++)
-            printf("%c", mundo[y][x]);
-        printf("\n");
-    }
-}
-
-void imprimeGuia(Retangulos *retangulos)
-{
-    for (int x = 1; x <= retangulos->maxX; x++)
-        printf(x % 10 == 0 ? "%d" : "-", x / 10);
-    printf("\n");
-}
-
+////// API
 void imprimeMundo(Retangulos *retangulos)
 {
     char **mundo = (char **)malloc((retangulos->maxY + 1) * sizeof(char *));
-    for (int i = 0; i <= retangulos->maxY; i++) {
+    for (int i = 0; i <= retangulos->maxY; i++)
+    {
         mundo[i] = (char *)malloc((retangulos->maxX + 1) * sizeof(char));
         memset(mundo[i], VAZIO, (retangulos->maxX + 1) * sizeof(char));
     }
-    
+
     desenhaRetangulos(retangulos, mundo);
     imprimeGuia(retangulos);
     imprimeQuadro(retangulos, mundo);
@@ -77,4 +53,35 @@ void imprimeListaRetangulos(Retangulos *retangulos)
         retanguloToString(retangulos->lista[r], str);
         printf("   ▬ %s\n", str);
     }
+}
+
+///// private
+void desenhaRetangulo(char **mundo, Retangulo retangulo)
+{
+    for (int yy = retangulo.y; yy < retangulo.y + retangulo.h; yy++)
+        for (int xx = retangulo.x; xx < retangulo.x + retangulo.l; xx++)
+            mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
+}
+
+void desenhaRetangulos(Retangulos *retangulos, char **mundo)
+{
+    for (int i = 0; i < retangulos->total; i++)
+        desenhaRetangulo(mundo, retangulos->lista[i]);
+}
+
+void imprimeQuadro(Retangulos *retangulos, char **mundo)
+{
+    for (int y = retangulos->maxY; y >= 1; y--)
+    {
+        for (int x = 1; x <= retangulos->maxX; x++)
+            printf("%c", mundo[y][x]);
+        printf("\n");
+    }
+}
+
+void imprimeGuia(Retangulos *retangulos)
+{
+    for (int x = 1; x <= retangulos->maxX; x++)
+        printf(x % 10 == 0 ? "%d" : "-", x / 10);
+    printf("\n");
 }
