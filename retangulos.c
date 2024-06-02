@@ -81,23 +81,23 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, 
     if (!verificaFusaoPossivel(ret1, ret2))
         return FUNDIR_FUSAO_INVALIDA;
 
-    ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // new y = min y
-    ret2->h = ret1->h + ret2->h; // new h = sum both h
+    ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // novo y = min y
+    ret2->h = ret1->h + ret2->h;                     // novo h = somar os h
     apagaRetangulo(retangulos, ret1);
 
     return FUNDIR_OK;
 }
 
 ////// private
-bool estaDentroLimites(const Retangulos *retangulos, const Retangulo* retangulo)
+bool estaDentroLimites(const Retangulos *retangulos, const Retangulo *retangulo)
 {
-    // de notar que começamos a desenhar em 1,1 e não 0,0
+    // de notar que começamos a desenhar em 1,1 e não 0,0 para evitar conversões
     bool dentroEmX = (retangulo->x - 1 >= 0) && (retangulo->x + retangulo->l - 1) <= retangulos->maxX;
     bool dentroEmY = (retangulo->y - 1 >= 0) && (retangulo->y + retangulo->h - 1) <= retangulos->maxY;
     return dentroEmX && dentroEmY;
 }
 
-bool colidem(const Retangulo* a, const Retangulo *b)
+bool colidem(const Retangulo *a, const Retangulo *b)
 {
     bool entreX = (a->x < (b->x + b->l)) && ((a->x + a->l) > b->x);
     bool entreY = (a->y < (b->y + b->h)) && ((a->y + a->h) > b->y);
@@ -145,13 +145,14 @@ Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y)
     Retangulo ponto = {x, y, 1, 1};
     for (int i = 0; i < retangulos->total; i++)
     {
-        Retangulo *ret = &(retangulos->lista[i]);
+        Retangulo *ret = &retangulos->lista[i];
         if (colidem(&ponto, ret))
             return ret;
     }
     return NULL;
 }
-bool isPontoContorno(const Retangulo * retangulo, int x, int y)
+
+bool isPontoContorno(const Retangulo *retangulo, int x, int y)
 {
     return y == retangulo->y || y == retangulo->y + retangulo->h - 1 ||
            x == retangulo->x || x == retangulo->x + retangulo->l - 1;
@@ -171,10 +172,10 @@ void limpaRetangulos(Retangulos *retangulos)
 
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b)
 {
-    bool mesmaLagura = a->x == b->x && a->x + a->l == b->x + b->l;
-    bool aEmCimaDeB = a->y + a->h == b->y;
-    bool bEmCimaDeA = b->y + b->h == a->y;
-    return mesmaLagura && (aEmCimaDeB || bEmCimaDeA);
+    return (a->x == b->x) &&         // mesmo X e largura
+           (a->l == b->l) &&         // mesma largura
+           (a->y + a->h == b->y      // A em cima de B ou..
+            || b->y + b->h == a->y); // B em cima de A
 }
 
 void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo)
