@@ -62,9 +62,9 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
             Retangulo *b = &retangulos->lista[k];
             if (verificaFusaoPossivel(a, b))
             {
-                fusoesPossiveis->lista = realloc(fusoesPossiveis->lista, sizeof(FusaoPossivel) * (fusoesPossiveis->total + 1));
-                fusoesPossiveis->lista[fusoesPossiveis->total] = (FusaoPossivel){a, b};
                 fusoesPossiveis->total++;
+                fusoesPossiveis->lista = realloc(fusoesPossiveis->lista, sizeof(FusaoPossivel) * fusoesPossiveis->total);
+                fusoesPossiveis->lista[fusoesPossiveis->total-1] = (FusaoPossivel){a, b};
             }
         }
     }
