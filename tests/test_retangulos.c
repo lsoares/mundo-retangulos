@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "retangulos.h"
+#include "../retangulos.h"
 
 bool equalInts(const int expected, const int actual)
 {
