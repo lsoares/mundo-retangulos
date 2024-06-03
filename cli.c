@@ -49,16 +49,16 @@ void correComando(Retangulos *retangulos, char *comando)
 {
     if (strcmp(comando, "create") == 0)
         correComandoCriar(retangulos);
-    else if (strcmp(comando, "print") == 0)
-        imprimeMundo(retangulos);
-    else if (strcmp(comando, "list") == 0)
-        imprimeListaRetangulos(retangulos);
     else if (strcmp(comando, "moveleft") == 0)
         correComandoMover(retangulos, -1);
     else if (strcmp(comando, "moveright") == 0)
         correComandoMover(retangulos, 1);
     else if (strcmp(comando, "merge") == 0)
         correComandoFundir(retangulos);
+    else if (strcmp(comando, "print") == 0)
+        imprimeMundo(retangulos);
+    else if (strcmp(comando, "list") == 0)
+        imprimeListaRetangulos(retangulos);
     else if (strcmp(comando, "clear") == 0)
         correComandoLimpar(retangulos);
     else if (strcmp(comando, "exit") == 0)
