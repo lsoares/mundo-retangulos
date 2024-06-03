@@ -2,6 +2,9 @@
 
 GCC_FLAGS = -Werror -Wall -Wextra -Wenum-conversion -Wenum-compare -Wswitch -Wshadow
 
+clean:
+	find . -type f -name "*.exe" -exec rm -f {} \;
+
 build:
 	gcc ${GCC_FLAGS} cli.c retangulos.c ver_mundo.c -o cli.exe
 

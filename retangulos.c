@@ -38,6 +38,7 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p)
 
     int antigoX = ret->x;
     ret->x += p;
+    // temos de mover o retângulo em causa, pois seria mais difícil do que ignorá-lo ao criar um temporário
     if (!estaDentroLimites(retangulos, ret))
     {
         ret->x = antigoX; // colocar onde estava pois sairia do mundo
@@ -64,7 +65,7 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
             {
                 fusoesPossiveis->total++;
                 fusoesPossiveis->lista = realloc(fusoesPossiveis->lista, sizeof(FusaoPossivel) * fusoesPossiveis->total);
-                fusoesPossiveis->lista[fusoesPossiveis->total-1] = (FusaoPossivel){a, b};
+                fusoesPossiveis->lista[fusoesPossiveis->total - 1] = (FusaoPossivel){a, b};
             }
         }
     }

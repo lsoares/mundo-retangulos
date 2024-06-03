@@ -309,7 +309,7 @@ void test_listarFusoesPossiveis()
     FusoesPossiveis fusoesPossiveis = {0};
     listaFusoesPossiveis(&retangulos, &fusoesPossiveis);
     assert(equalInts(0, fusoesPossiveis.total));
-    assert(!moveRetangulo(&retangulos, 11, 4, -1)); // possível agora
+    assert(equalInts(0, moveRetangulo(&retangulos, 11, 4, -1))); // possível agora
 
     listaFusoesPossiveis(&retangulos, &fusoesPossiveis);
 
