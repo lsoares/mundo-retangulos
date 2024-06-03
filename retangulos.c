@@ -36,17 +36,16 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p)
     if (!ret)
         return MOVER_RET_NAO_ENCONTRADO;
 
-    int antigoX = ret->x;
     ret->x += p;
     // temos de mover o retângulo em causa, pois seria mais difícil do que ignorá-lo ao criar um temporário
     if (!estaDentroLimites(retangulos, ret))
     {
-        ret->x = antigoX; // colocar onde estava pois sairia do mundo
+        ret->x -= p; // anular devido a sair do mundo
         return MOVER_FORA_DO_MUNDO;
     }
     if (!estaEmZonaVazia(retangulos, ret))
     {
-        ret->x = antigoX; // colocar onde estava pois houve colisão
+        ret->x -= p; // anular devido a colisão
         return MOVER_COLISAO;
     }
     aplicaGravidade(retangulos);
@@ -92,7 +91,7 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, int x1, int y1, int x2, 
 ////// private
 bool estaDentroLimites(const Retangulos *retangulos, const Retangulo *retangulo)
 {
-    // de notar que começamos a desenhar em 1,1 e não 0,0 para evitar conversões
+    // começamos a desenhar em 1,1 e não 0,0 para evitar conversões
     bool dentroEmX = (retangulo->x - 1 >= 0) && (retangulo->x + retangulo->l - 1) <= retangulos->maxX;
     bool dentroEmY = (retangulo->y - 1 >= 0) && (retangulo->y + retangulo->h - 1) <= retangulos->maxY;
     return dentroEmX && dentroEmY;
@@ -173,10 +172,10 @@ void limpaRetangulos(Retangulos *retangulos)
 
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b)
 {
-    return (a->x == b->x) &&         // mesmo X e largura
-           (a->l == b->l) &&         // mesma largura
-           (a->y + a->h == b->y      // A em cima de B ou..
-            || b->y + b->h == a->y); // B em cima de A
+    return (a->x == b->x) &&         // mesmo X
+           (a->l == b->l) &&         // e mesma largura
+           (a->y + a->h == b->y      // A em cima de B
+            || b->y + b->h == a->y); // ou B em cima de A
 }
 
 void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo)
