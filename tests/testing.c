@@ -14,7 +14,7 @@ int runCommand(const char *executable, char *output)
     while (fgets(row, sizeof(row), pipe))
     {
         assert(strlen(row) < sizeof(row)); // fails on larger rows. need to increase their size above
-        assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN); // fail on output size not enough
+        assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN); // fails on output size insufficient
         strcat(output, row);
     }
     int exitStatus = pclose(pipe);
