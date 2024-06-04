@@ -13,7 +13,6 @@ int runCommand(const char *executable, char *output)
     char row[1000];
     while (fgets(row, sizeof(row), pipe))
     {
-        printf("sizeof(row): %lu", sizeof(row));
         assert(strlen(row) < sizeof(row)); // fails on larger rows. need to increase their size above
         assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN); // fail on output size not enough
         strcat(output, row);
