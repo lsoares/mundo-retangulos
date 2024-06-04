@@ -7,15 +7,13 @@
 
 int runCommand(const char *executable, char *output)
 {
-    char command[1024];
-    snprintf(command, sizeof(command), "%s 2>&1", executable); // redirect stderr to stdout
-    FILE *pipe = popen(command, "r");
+    FILE *pipe = popen(executable, "r");
     assert(pipe);
     output[0] = '\0';
     char row[1000];
     while (fgets(row, sizeof(row), pipe))
     {
-        assert (strlen(output) + strlen(row) < MAX_OUTPUT_LEN);
+        assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN);
         strcat(output, row);
     }
     int exitStatus = pclose(pipe);
@@ -26,7 +24,7 @@ int runCommand(const char *executable, char *output)
 int pipeToRunCommand(const char *input, const char *command, char *output)
 {
     char fullCommand[2048];
-    snprintf(fullCommand, sizeof(fullCommand), "echo '%s' | %s", input, command);
+    snprintf(fullCommand, sizeof(fullCommand), "echo '%s' | %s 2>&1", input, command); // redirect stderr to stdout
     return runCommand(fullCommand, output);
 }
 
