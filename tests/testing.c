@@ -15,11 +15,7 @@ int runCommand(const char *executable, char *output)
     char row[1000];
     while (fgets(row, sizeof(row), pipe))
     {
-        if (strlen(output) + strlen(row) >= MAX_OUTPUT_LEN)
-        {
-            fprintf(stderr, "❌ Output size overflow on executing:\n%s\n", executable);
-            exit(1);
-        }
+        assert (strlen(output) + strlen(row) < MAX_OUTPUT_LEN);
         strcat(output, row);
     }
     int exitStatus = pclose(pipe);
