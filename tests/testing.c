@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <stdbool.h>
 #include "testing.h"
 
 int runCommand(const char *executable, char *output)
