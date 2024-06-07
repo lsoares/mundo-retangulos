@@ -54,10 +54,10 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p)
 
 void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis)
 {
-    for (int i = 0; i < retangulos->total; i++)
+    for (size_t i = 0; i < retangulos->total; i++)
     {
         Retangulo *a = &retangulos->lista[i];
-        for (int k = i + 1; k < retangulos->total; k++)
+        for (size_t k = i + 1; k < retangulos->total; k++)
         {
             Retangulo *b = &retangulos->lista[k];
             if (verificaFusaoPossivel(a, b))
@@ -106,7 +106,7 @@ bool colidem(const Retangulo *a, const Retangulo *b)
 
 bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo)
 {
-    for (int r = 0; r < retangulos->total; r++)
+    for (size_t r = 0; r < retangulos->total; r++)
         if (&retangulos->lista[r] != retangulo // ignora ele próprio
             && colidem(&retangulos->lista[r], retangulo))
             return false;
@@ -115,8 +115,8 @@ bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo)
 
 void ordenaRetangulosPorY(const Retangulos *retangulos)
 {
-    for (int i = 0; i < retangulos->total - 1; i++)
-        for (int j = 0; j < retangulos->total - i - 1; j++)
+    for (size_t i = 0; i < retangulos->total - 1; i++)
+        for (size_t j = 0; j < retangulos->total - i - 1; j++)
             if (retangulos->lista[j].y > retangulos->lista[j + 1].y)
             {
                 Retangulo temp = retangulos->lista[j];
@@ -136,14 +136,14 @@ void aplicaGravidadeRet(const Retangulos *retangulos, Retangulo *ret)
 void aplicaGravidade(const Retangulos *retangulos)
 {
     ordenaRetangulosPorY(retangulos);
-    for (int i = 0; i < retangulos->total; i++)
+    for (size_t i = 0; i < retangulos->total; i++)
         aplicaGravidadeRet(retangulos, &(retangulos->lista[i]));
 }
 
 Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y)
 {
     Retangulo ponto = {x, y, 1, 1};
-    for (int i = 0; i < retangulos->total; i++)
+    for (size_t i = 0; i < retangulos->total; i++)
     {
         Retangulo *ret = &retangulos->lista[i];
         if (colidem(&ponto, ret))

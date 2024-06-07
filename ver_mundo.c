@@ -46,7 +46,7 @@ void imprimeFusoesPossiveis(const Retangulos *retangulos)
     if (fusoesPossiveis.total)
     {
         printf("💬 Possíveis fusões:\n");
-        for (int i = 0; i < fusoesPossiveis.total; i++)
+        for (size_t i = 0; i < fusoesPossiveis.total; i++)
         {
             FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
             printf("   ⦾ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
@@ -63,7 +63,7 @@ void imprimeListaRetangulos(const Retangulos *retangulos)
         return;
     }
     char str[50];
-    for (int r = 0; r < retangulos->total; r++)
+    for (size_t r = 0; r < retangulos->total; r++)
     {
         retanguloToString(&retangulos->lista[r], str);
         printf("   ⦾ %s\n", str);
@@ -80,7 +80,7 @@ void desenhaRetangulo(char **mundo, const Retangulo* retangulo)
 
 void desenhaRetangulos(const Retangulos *retangulos, char **mundo)
 {
-    for (int i = 0; i < retangulos->total; i++)
+    for (size_t i = 0; i < retangulos->total; i++)
         desenhaRetangulo(mundo, &retangulos->lista[i]);
 }
 

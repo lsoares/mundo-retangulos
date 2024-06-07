@@ -10,7 +10,7 @@ void retanguloToString(const Retangulo *retangulo, char *str);
 typedef struct
 {
     Retangulo *lista;
-    int total;
+    size_t total;
     int maxX, maxY;
 } Retangulos;
 typedef enum
@@ -44,7 +44,7 @@ typedef struct
 typedef struct
 {
     FusaoPossivel *lista;
-    int total;
+    size_t total;
 } FusoesPossiveis;
 void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis);
 

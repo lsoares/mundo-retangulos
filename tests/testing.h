@@ -1,6 +1,6 @@
-#pragma once
-
 #include <stdbool.h>
+
+#pragma once
 
 #define MAX_OUTPUT_LEN 15000
 
