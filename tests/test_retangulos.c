@@ -2,18 +2,8 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "testing.h"
 #include "../retangulos.h"
-
-bool equalInts(const int expected, const int actual)
-{
-    if (expected != actual)
-    {
-        fprintf(stderr, "❌ Valores diferem\n");
-        fprintf(stderr, "esperado: %d\n", expected);
-        fprintf(stderr, "atual:    %d\n", actual);
-    }
-    return expected == actual;
-}
 
 bool retangulosIguais(const Retangulo esp, const Retangulo atual)
 {

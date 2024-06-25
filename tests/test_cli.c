@@ -14,7 +14,7 @@ void test_um_retangulo()
         "./cli.exe",
         output);
 
-    assert(erro == 0);
+    assert(equalInts(0, erro));
     const char *esperado =
         " XXXXXXXXXXXX                                                                   \n"
         " XOOOOOOOOOOX                                                                   \n"

@@ -39,3 +39,14 @@ bool containsText(const char *text, const char *search)
     }
     return true;
 }
+
+bool equalInts(const int expected, const int actual)
+{
+    if (expected != actual)
+    {
+        fprintf(stderr, "❌ Valores diferem\n");
+        fprintf(stderr, "esperado: %d\n", expected);
+        fprintf(stderr, "atual:    %d\n", actual);
+    }
+    return expected == actual;
+}
