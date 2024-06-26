@@ -13,7 +13,7 @@ int runCommand(const char *executable, char *output)
     while (fgets(row, sizeof(row), pipe))
     {
         assert(strlen(row) < sizeof(row)); // fails on larger rows. need to increase their size above
-        assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN); // fails on output size insufficient
+        assert(strlen(output) + strlen(row) < MAX_OUTPUT_LEN); // fails on insufficient output size
         strcat(output, row);
     }
     int exitStatus = pclose(pipe);
@@ -44,9 +44,9 @@ bool equalInts(const int expected, const int actual)
 {
     if (expected != actual)
     {
-        fprintf(stderr, "❌ Valores diferem\n");
-        fprintf(stderr, "esperado: %d\n", expected);
-        fprintf(stderr, "atual:    %d\n", actual);
+        fprintf(stderr, "❌ Different integers\n");
+        fprintf(stderr, "expected: %d\n", expected);
+        fprintf(stderr, "actual:   %d\n", actual);
     }
     return expected == actual;
 }
