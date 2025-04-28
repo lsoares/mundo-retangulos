@@ -1,11 +1,11 @@
-#include <stdbool.h>
-
 #pragma once
+
+#include <stdbool.h>
 
 #define MAX_OUTPUT_LEN 15000
 
-int runCommand(const char *executable, char *output);
-int pipeToRunCommand(const char *input, const char *command, char *output);
+int run(const char *executable, char *output);
+int runWithInput(const char *input, const char *command, char *output);
 
 bool containsText(const char *result, const char *text);
-bool equalInts(const int expected, const int actual);
+bool equalInts(int expected, int actual);

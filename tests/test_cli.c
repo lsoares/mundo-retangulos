@@ -8,7 +8,7 @@ void test_um_retangulo()
 {
     char output[MAX_OUTPUT_LEN];
 
-    int erro = pipeToRunCommand(
+    int erro = runWithInput(
         "create 2, 3 + 12, 5\n"
         "exit\n",
         "./cli.exe",
@@ -28,7 +28,7 @@ void test_gravidade()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 38,20+4,4\n"
         "create 38,20+4,4\n"
         "create 38,20+4,4\n"
@@ -49,7 +49,7 @@ void test_gravidade_apoiado_no_extremo()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand("create 1,1+1,1\n"
+    runWithInput("create 1,1+1,1\n"
                      "create 1,2+80,1\n"
                      "exit\n",
                      "./cli.exe",
@@ -65,7 +65,7 @@ void test_enunciado()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 1,3+12,5\n"
         "create 9,6+11,3\n"
         "create 18,10+6,3\n"
@@ -90,7 +90,7 @@ void test_desenhar_fora_do_mundo()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 120,50+10,5\n"
         "exit\n",
         "./cli.exe",
@@ -103,7 +103,7 @@ void test_colisao_desenhar()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,5+10,10\n"
         "create 10,5+10,10\n"
         "exit\n",
@@ -117,7 +117,7 @@ void test_colisao_mover()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,5+10,10\n"
         "create 20,5+10,10\n"
         "moveleft 20, 1 + 10"
@@ -132,7 +132,7 @@ void test_colisao_mover_para_fora_do_mundo()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,5+10,10\n"
         "moveleft 20,1+80\n"
         "exit\n",
@@ -146,7 +146,7 @@ void test_retangulo_invalido()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,5+10,0\n"
         "exit\n",
         "./cli.exe",
@@ -159,7 +159,7 @@ void test_menu()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand("exit\n", "./cli.exe", output);
+    runWithInput("exit\n", "./cli.exe", output);
 
     assert(containsText(output, " create x,y+l,h "));
     assert(containsText(output, " moveright x,y+p "));
@@ -175,7 +175,7 @@ void test_comando_invalido()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,5+10,10\n"
         "xyz\n"
         "exit\n",
@@ -189,7 +189,7 @@ void test_fusao_mostrar_info()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,1+4,2\n"
         "create 5,15+4,3\n"
         "exit\n",
@@ -204,7 +204,7 @@ void test_fundir_retangulos()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,1+4,2\n"
         "create 5,15+4,3\n"
         "merge 5, 1 + 5, 3\n"
@@ -225,7 +225,7 @@ void test_fundir_retangulos_invalido()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,1+4,2\n"
         "create 5,10+5,3\n"
         "merge 5,1 + 5,2\n"
@@ -240,7 +240,7 @@ void test_fundir_retangulos_nao_existem()
 {
     char output[MAX_OUTPUT_LEN];
 
-    pipeToRunCommand(
+    runWithInput(
         "create 5,1+4,2\n"
         "merge 5,1+10,2\n"
         "merge 20,1+10,2\n"

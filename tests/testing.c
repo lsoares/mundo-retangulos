@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "testing.h"
 
-int runCommand(const char *executable, char *output)
+int run(const char *executable, char *output)
 {
     FILE *pipe = popen(executable, "r");
     assert(pipe);
@@ -21,12 +21,12 @@ int runCommand(const char *executable, char *output)
     return WEXITSTATUS(exitStatus); // return the executable exit status
 }
 
-int pipeToRunCommand(const char *input, const char *command, char *output)
+int runWithInput(const char *input, const char *command, char *output)
 {
     char fullCommand[2020];
     assert(strlen(command) + strlen(input) < 2000);  // fails if we need a bigger command length
     snprintf(fullCommand, sizeof(fullCommand), "echo '%s' | %s 2>&1", input, command); // redirect stderr to stdout
-    return runCommand(fullCommand, output);
+    return run(fullCommand, output);
 }
 
 bool containsText(const char *text, const char *search)

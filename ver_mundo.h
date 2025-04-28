@@ -1,6 +1,6 @@
-#include "retangulos.h"
-
 #pragma once
+
+#include "retangulos.h"
 
 #define PINTADO_CONTORNO 'X'
 #define PINTADO_INTERIOR 'O'
