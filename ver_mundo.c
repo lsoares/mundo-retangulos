@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "retangulos.h"
+#include <assert.h>
 #include "ver_mundo.h"
 
 char **preparaMundo(const Retangulos *retangulos);
@@ -25,13 +26,15 @@ void imprimeMundo(const Retangulos *retangulos) {
 }
 
 void apagaMundo(const Retangulos *retangulos, char **mundo) {
+    assert(mundo);
     for (int i = 0; i <= retangulos->maxY; i++)
         free(mundo[i]);
     free(mundo);
 }
 
 char **preparaMundo(const Retangulos *retangulos) {
-    char **mundo = (char **) malloc((retangulos->maxY + 1) * sizeof(char *));
+    char **mundo = malloc((retangulos->maxY + 1) * sizeof(char *));
+    assert(mundo);
     for (int i = 0; i <= retangulos->maxY; i++) {
         mundo[i] = (char *) malloc((retangulos->maxX + 1) * sizeof(char));
         memset(mundo[i], VAZIO, (retangulos->maxX + 1) * sizeof(char));
@@ -67,17 +70,20 @@ void imprimeListaRetangulos(const Retangulos *retangulos) {
 
 ///// private
 void desenhaRetangulo(char **mundo, const Retangulo *retangulo) {
+    assert(mundo);
     for (int yy = retangulo->y; yy < retangulo->y + retangulo->h; yy++)
         for (int xx = retangulo->x; xx < retangulo->x + retangulo->l; xx++)
             mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
 }
 
 void desenhaRetangulos(const Retangulos *retangulos, char **mundo) {
+    assert(mundo);
     for (size_t i = 0; i < retangulos->total; i++)
         desenhaRetangulo(mundo, &retangulos->lista[i]);
 }
 
 void imprimeQuadro(const Retangulos *retangulos, char **mundo) {
+    assert(mundo);
     for (int y = retangulos->maxY; y >= 1; y--) {
         for (int x = 1; x <= retangulos->maxX; x++)
             printf("%c", mundo[y][x]);
