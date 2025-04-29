@@ -34,6 +34,7 @@ int main() {
 #define RESET "\033[0m"
 
 void imprimeMenu() {
+    system("chcp 65001 > nul 2>&1 || true");
     printf(GREEN);
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");
