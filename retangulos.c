@@ -93,14 +93,18 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, const int x1, const int 
 ////// private
 bool estaDentroLimites(const Retangulos *retangulos, const Retangulo *retangulo) {
     // começamos a desenhar em 1,1 e não 0,0 para evitar conversões
-    bool dentroEmX = (retangulo->x - 1 >= 0) && (retangulo->x + retangulo->l - 1) <= retangulos->maxX;
-    bool dentroEmY = (retangulo->y - 1 >= 0) && (retangulo->y + retangulo->h - 1) <= retangulos->maxY;
+    const bool dentroEmX = retangulo->x - 1 >= 0 &&
+                           retangulo->x + retangulo->l - 1 <= retangulos->maxX;
+    const bool dentroEmY = retangulo->y - 1 >= 0 &&
+                           retangulo->y + retangulo->h - 1 <= retangulos->maxY;
     return dentroEmX && dentroEmY;
 }
 
 bool colidem(const Retangulo *a, const Retangulo *b) {
-    bool entreX = (a->x < (b->x + b->l)) && ((a->x + a->l) > b->x);
-    bool entreY = (a->y < (b->y + b->h)) && ((a->y + a->h) > b->y);
+    const bool entreX = a->x < b->x + b->l &&
+                        a->x + a->l > b->x;
+    const bool entreY = a->y < b->y + b->h &&
+                        a->y + a->h > b->y;
     return entreX && entreY;
 }
 
