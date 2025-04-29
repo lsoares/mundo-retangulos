@@ -56,17 +56,18 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, const int x, const in
 }
 
 void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesPossiveis) {
+    const size_t maiorNrFusoesPossivel = retangulos->total * (retangulos->total - 1) / 2;
+    fusoesPossiveis->lista = malloc(sizeof(FusaoPossivel) * maiorNrFusoesPossivel);
+    assert(fusoesPossiveis->lista);
+    fusoesPossiveis->total = 0;
+
     for (size_t i = 0; i < retangulos->total; i++) {
         Retangulo *a = &retangulos->lista[i];
         for (size_t k = i + 1; k < retangulos->total; k++) {
             Retangulo *b = &retangulos->lista[k];
             if (verificaFusaoPossivel(a, b)) {
+                fusoesPossiveis->lista[fusoesPossiveis->total] = (FusaoPossivel){a, b};
                 fusoesPossiveis->total++;
-                fusoesPossiveis->lista = realloc(
-                    fusoesPossiveis->lista, sizeof(FusaoPossivel) * fusoesPossiveis->total
-                );
-                assert(fusoesPossiveis->lista);
-                fusoesPossiveis->lista[fusoesPossiveis->total - 1] = (FusaoPossivel){a, b};
             }
         }
     }
