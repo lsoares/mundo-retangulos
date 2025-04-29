@@ -20,6 +20,7 @@ void correComandoLimpar(Retangulos *retangulos);
 void correComandoSair(Retangulos *retangulos);
 
 int main() {
+    system("chcp 65001 > nul 2>&1 || true");
     printf("💬 Bem-vindo/a ao Mundo dos Retângulos\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true) {
@@ -34,7 +35,6 @@ int main() {
 #define RESET "\033[0m"
 
 void imprimeMenu() {
-    system("chcp 65001 > nul 2>&1 || true");
     printf(GREEN);
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");

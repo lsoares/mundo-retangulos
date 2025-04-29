@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include <assert.h>
 #include "retangulos.h"
 
 bool estaDentroLimites(const Retangulos *retangulos, const Retangulo *retangulo);
@@ -27,6 +28,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, const int x, const int y, c
         return CRIAR_COLISAO;
 
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
+    assert(retangulos->lista);
     retangulos->lista[retangulos->total] = novoRetangulo;
     retangulos->total++;
 
@@ -60,8 +62,10 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
             Retangulo *b = &retangulos->lista[k];
             if (verificaFusaoPossivel(a, b)) {
                 fusoesPossiveis->total++;
-                fusoesPossiveis->lista = realloc(fusoesPossiveis->lista,
-                                                 sizeof(FusaoPossivel) * fusoesPossiveis->total);
+                fusoesPossiveis->lista = realloc(
+                    fusoesPossiveis->lista, sizeof(FusaoPossivel) * fusoesPossiveis->total
+                );
+                assert(fusoesPossiveis->lista);
                 fusoesPossiveis->lista[fusoesPossiveis->total - 1] = (FusaoPossivel){a, b};
             }
         }
@@ -166,4 +170,5 @@ void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo) {
     *retangulo = retangulos->lista[retangulos->total - 1]; // sobrepõe o retangulo a apagar com o último
     retangulos->total--;
     retangulos->lista = realloc(retangulos->lista, retangulos->total * sizeof(Retangulo));
+    assert(retangulos->lista);
 }

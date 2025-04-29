@@ -51,8 +51,8 @@ void imprimeFusoesPossiveis(const Retangulos *retangulos)
             FusaoPossivel fusaoPossivel = fusoesPossiveis.lista[i];
             printf("   ⦾ %d,%d + %d,%d\n", fusaoPossivel.a->x, fusaoPossivel.a->y, fusaoPossivel.b->x, fusaoPossivel.b->y);
         }
-        free(fusoesPossiveis.lista);
     }
+    free(fusoesPossiveis.lista);
 }
 
 void imprimeListaRetangulos(const Retangulos *retangulos)
