@@ -21,7 +21,7 @@ void correComandoSair(Retangulos *retangulos);
 
 int main() {
     system("chcp 65001 > nul 2>&1 || true");
-    printf("💬 Bem-vindo/a ao Mundo dos Retângulos\n");
+    printf("▭ ▭ ▭ ▭ Bem-vindo/a ao Mundo dos Retângulos ▭ ▭ ▭ ▭\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     while (true) {
         imprimeMenu();
@@ -31,19 +31,16 @@ int main() {
     }
 }
 
-#define GREEN "\033[32m"
-#define RESET "\033[0m"
-
 void imprimeMenu() {
-    printf(GREEN);
+    printf("\033[32m"); // green
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");
     printf("║ moveright x,y+p   ║ print ║\n");
     printf("║ moveleft x,y+p    ║ list  ║\n");
     printf("║ merge x₁,y₁+x₂,y₂ ║ exit  ║\n");
     printf("╚═══════════════════╩═══════╝\n");
-    printf("▶ ");
-    printf(RESET);
+    printf("┈➤ ");
+    printf("\033[0m"); // reset color
     fflush(stdout);
 }
 
@@ -65,19 +62,19 @@ void correComando(Retangulos *retangulos, const char *comando) {
     else if (strcmp(comando, "exit") == 0)
         correComandoSair(retangulos);
     else
-        printf("❌ comando inválido\n");
+        printf("⚠️ comando inválido\n");
 }
 
 void correComandoCriar(Retangulos *retangulos) {
     int args[4];
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
-    int resultado = criaRetangulo(retangulos, args[0], args[1], args[2], args[3]);
+    const int resultado = criaRetangulo(retangulos, args[0], args[1], args[2], args[3]);
     if (resultado == CRIAR_TAMANHO_INVALIDO)
-        printf("❌ retângulo com tamanho inválido\n");
+        printf("⚠️ retângulo com tamanho inválido\n");
     else if (resultado == CRIAR_FORA_DO_MUNDO)
-        printf("❌ retângulo fora do mundo\n");
+        printf("⚠️ retângulo fora do mundo\n");
     else if (resultado == CRIAR_COLISAO)
-        printf("❌ retângulo colide com outro\n");
+        printf("⚠️ retângulo colide com outro\n");
     else {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
@@ -87,13 +84,13 @@ void correComandoCriar(Retangulos *retangulos) {
 void correComandoMover(const Retangulos *retangulos, const int multiplicador) {
     int args[3];
     scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);
-    int resultado = moveRetangulo(retangulos, args[0], args[1], multiplicador * args[2]);
+    const int resultado = moveRetangulo(retangulos, args[0], args[1], multiplicador * args[2]);
     if (resultado == MOVER_FORA_DO_MUNDO)
-        printf("❌ retângulo fora do mundo\n");
+        printf("⚠️ retângulo fora do mundo\n");
     else if (resultado == MOVER_COLISAO)
-        printf("❌ retângulo colide com outro\n");
+        printf("⚠️ retângulo colide com outro\n");
     else if (resultado == MOVER_RET_NAO_ENCONTRADO)
-        printf("❌ retângulo não encontrado\n");
+        printf("⚠️ retângulo não encontrado\n");
     else {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
@@ -103,14 +100,13 @@ void correComandoMover(const Retangulos *retangulos, const int multiplicador) {
 void correComandoFundir(Retangulos *retangulos) {
     int args[4];
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
-
-    int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
+    const int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
     if (resultado == FUNDIR_RET1_NAO_ENCONTRADO)
-        printf("❌ retângulo 1 não encontrado\n");
+        printf("⚠️ retângulo 1 não encontrado\n");
     if (resultado == FUNDIR_RET2_NAO_ENCONTRADO)
-        printf("❌ retângulo 2 não encontrado\n");
+        printf("⚠️ retângulo 2 não encontrado\n");
     if (resultado == FUNDIR_FUSAO_INVALIDA)
-        printf("❌ fusão inválida\n");
+        printf("⚠️ fusão inválida\n");
     else if (resultado == FUNDIR_OK) {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
