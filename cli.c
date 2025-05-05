@@ -32,7 +32,7 @@ int main() {
 }
 
 void imprimeMenu() {
-    printf("\033[32m"); // green
+    printf("\033[92m"); // green
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");
     printf("║ moveright x,y+p   ║ print ║\n");
