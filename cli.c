@@ -14,6 +14,8 @@ void correComandoCriar(Retangulos *retangulos);
 
 void correComandoMover(const Retangulos *retangulos, int multiplicador);
 
+void correComandoApagar(Retangulos *retangulos);
+
 void correComandoFundir(Retangulos *retangulos);
 
 void correComandoLimpar(Retangulos *retangulos);
@@ -29,8 +31,9 @@ int main() {
     system("chcp 65001 > nul 2>&1 || true");
     printf("▭ ▭ ▭ ▭ Bem-vindo/a ao Mundo dos Retângulos ▭ ▭ ▭ ▭\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
+    imprimeMenu();
     while (true) {
-        imprimeMenu();
+        printf("\033[92m" "┈➤ " "\033[0m"); // green
         char comando[20];
         scanf(" %19s", comando);
         toLowerCase(comando);
@@ -42,11 +45,11 @@ void imprimeMenu() {
     printf("\033[92m"); // green
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");
-    printf("║ moveright x,y+p   ║ print ║\n");
-    printf("║ moveleft x,y+p    ║ list  ║\n");
+    printf("║ delete x,y        ║ print ║\n");
+    printf("║ moveright x,y+p   ║ list  ║\n");
+    printf("║ moveleft x,y+p    ║       ║\n");
     printf("║ merge x₁,y₁+x₂,y₂ ║ exit  ║\n");
     printf("╚═══════════════════╩═══════╝\n");
-    printf("┈➤ ");
     printf("\033[0m"); // reset color
     fflush(stdout);
 }
@@ -60,6 +63,8 @@ void correComando(Retangulos *retangulos, const char *comando) {
         correComandoMover(retangulos, 1);
     else if (strcmp(comando, "merge") == 0)
         correComandoFundir(retangulos);
+    else if (strcmp(comando, "delete") == 0)
+        correComandoApagar(retangulos);
     else if (strcmp(comando, "print") == 0)
         imprimeMundo(retangulos);
     else if (strcmp(comando, "list") == 0)
@@ -68,8 +73,10 @@ void correComando(Retangulos *retangulos, const char *comando) {
         correComandoLimpar(retangulos);
     else if (strcmp(comando, "exit") == 0)
         correComandoSair(retangulos);
-    else
+    else {
         printf("⚠️ comando inválido\n");
+        imprimeMenu();
+    }
 }
 
 void correComandoCriar(Retangulos *retangulos) {
@@ -118,6 +125,14 @@ void correComandoFundir(Retangulos *retangulos) {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
     }
+}
+
+void correComandoApagar(Retangulos *retangulos) {
+    int args[2];
+    scanf(" %d,%d", &args[0], &args[1]);
+    const int resultado = apagaRetangulo(retangulos, args[0], args[1]);
+    if (resultado == APAGAR_INEXISTENTE)
+        printf("⚠️ retângulo não encontrado\n");
 }
 
 void correComandoLimpar(Retangulos *retangulos) {

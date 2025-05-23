@@ -1,14 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
 #include "testing.h"
 
-void test_um_retangulo()
-{
+void test_um_retangulo() {
     char output[MAX_OUTPUT_LEN];
 
-    int erro = runWithInput(
+    const int erro = runWithInput(
         "create 2, 3 + 12, 5\n"
         "exit\n",
         "./cli.exe",
@@ -16,16 +14,15 @@ void test_um_retangulo()
 
     assert(equalInts(0, erro));
     const char *esperado =
-        " XXXXXXXXXXXX                                                                   \n"
-        " XOOOOOOOOOOX                                                                   \n"
-        " XOOOOOOOOOOX                                                                   \n"
-        " XOOOOOOOOOOX                                                                   \n"
-        " XXXXXXXXXXXX                                                                   \n";
+            " XXXXXXXXXXXX                                                                   \n"
+            " XOOOOOOOOOOX                                                                   \n"
+            " XOOOOOOOOOOX                                                                   \n"
+            " XOOOOOOOOOOX                                                                   \n"
+            " XXXXXXXXXXXX                                                                   \n";
     assert(containsText(output, esperado));
 }
 
-void test_gravidade()
-{
+void test_gravidade() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -45,24 +42,22 @@ void test_gravidade()
     assert(containsText(output, "⦾ 38, 9 +  4, 4"));
 }
 
-void test_gravidade_apoiado_no_extremo()
-{
+void test_gravidade_apoiado_no_extremo() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput("create 1,1+1,1\n"
-                     "create 1,2+80,1\n"
-                     "exit\n",
-                     "./cli.exe",
-                     output);
+                 "create 1,2+80,1\n"
+                 "exit\n",
+                 "./cli.exe",
+                 output);
 
-    char *esperado =
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
-        "X                                                                               \n";
+    const char *esperado =
+            "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+            "X                                                                               \n";
     assert(containsText(output, esperado));
 }
 
-void test_enunciado()
-{
+void test_enunciado() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -74,20 +69,19 @@ void test_enunciado()
         "./cli.exe",
         output);
 
-    char *esperado =
-        "     XXXXXXXXXXX                                                                \n"
-        "     XOOOOOOOOOX                                                                \n"
-        "     XXXXXXXXXXX                                                                \n"
-        "XXXXXXXXXXXX                                                                    \n"
-        "XOOOOOOOOOOX                                                                    \n"
-        "XOOOOOOOOOOX     XXXXXX                                                         \n"
-        "XOOOOOOOOOOX     XOOOOX                                                         \n"
-        "XXXXXXXXXXXX     XXXXXX                                                         \n";
+    const char *esperado =
+            "     XXXXXXXXXXX                                                                \n"
+            "     XOOOOOOOOOX                                                                \n"
+            "     XXXXXXXXXXX                                                                \n"
+            "XXXXXXXXXXXX                                                                    \n"
+            "XOOOOOOOOOOX                                                                    \n"
+            "XOOOOOOOOOOX     XXXXXX                                                         \n"
+            "XOOOOOOOOOOX     XOOOOX                                                         \n"
+            "XXXXXXXXXXXX     XXXXXX                                                         \n";
     assert(containsText(output, esperado));
 }
 
-void test_desenhar_fora_do_mundo()
-{
+void test_desenhar_fora_do_mundo() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -99,8 +93,7 @@ void test_desenhar_fora_do_mundo()
     assert(containsText(output, "retângulo fora do mundo"));
 }
 
-void test_colisao_desenhar()
-{
+void test_colisao_desenhar() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -113,8 +106,7 @@ void test_colisao_desenhar()
     assert(containsText(output, "retângulo colide com outro"));
 }
 
-void test_colisao_mover()
-{
+void test_colisao_mover() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -128,8 +120,7 @@ void test_colisao_mover()
     assert(containsText(output, "retângulo colide com outro"));
 }
 
-void test_colisao_mover_para_fora_do_mundo()
-{
+void test_colisao_mover_para_fora_do_mundo() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -142,8 +133,34 @@ void test_colisao_mover_para_fora_do_mundo()
     assert(containsText(output, "retângulo não encontrado"));
 }
 
-void test_retangulo_invalido()
-{
+void test_apagar() {
+    char output[MAX_OUTPUT_LEN];
+
+    runWithInput(
+        "create 5,1+10,10\n"
+        "delete 5,1\n"
+        "list\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    assert(containsText(output, "Sem retângulos"));
+}
+
+void test_apagarInexistente() {
+    char output[MAX_OUTPUT_LEN];
+
+    runWithInput(
+        "delete 5,6\n"
+        "list\n"
+        "exit\n",
+        "./cli.exe",
+        output);
+
+    assert(containsText(output, "retângulo não encontrado"));
+}
+
+void test_retangulo_invalido() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -155,8 +172,7 @@ void test_retangulo_invalido()
     assert(containsText(output, "retângulo com tamanho inválido"));
 }
 
-void test_menu()
-{
+void test_menu() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput("exit\n", "./cli.exe", output);
@@ -164,6 +180,7 @@ void test_menu()
     assert(containsText(output, " create x,y+l,h "));
     assert(containsText(output, " moveright x,y+p "));
     assert(containsText(output, " moveleft x,y+p "));
+    assert(containsText(output, " delete x,y "));
     assert(containsText(output, " merge x₁,y₁+x₂,y₂ "));
     assert(containsText(output, " print "));
     assert(containsText(output, " clear "));
@@ -171,8 +188,7 @@ void test_menu()
     assert(containsText(output, " exit "));
 }
 
-void test_comando_invalido()
-{
+void test_comando_invalido() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -185,8 +201,7 @@ void test_comando_invalido()
     assert(containsText(output, "comando inválido"));
 }
 
-void test_fusao_mostrar_info()
-{
+void test_fusao_mostrar_info() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -200,8 +215,7 @@ void test_fusao_mostrar_info()
     assert(containsText(output, "5,1 + 5,3"));
 }
 
-void test_fundir_retangulos()
-{
+void test_fundir_retangulos() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -212,17 +226,16 @@ void test_fundir_retangulos()
         "./cli.exe",
         output);
 
-    char *esperado =
-        "    XXXX                                                                        \n"
-        "    XOOX                                                                        \n"
-        "    XOOX                                                                        \n"
-        "    XOOX                                                                        \n"
-        "    XXXX                                                                        \n";
+    const char *esperado =
+            "    XXXX                                                                        \n"
+            "    XOOX                                                                        \n"
+            "    XOOX                                                                        \n"
+            "    XOOX                                                                        \n"
+            "    XXXX                                                                        \n";
     assert(containsText(output, esperado));
 }
 
-void test_fundir_retangulos_invalido()
-{
+void test_fundir_retangulos_invalido() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -236,8 +249,7 @@ void test_fundir_retangulos_invalido()
     assert(containsText(output, "fusão inválida"));
 }
 
-void test_fundir_retangulos_nao_existem()
-{
+void test_fundir_retangulos_nao_existem() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -252,8 +264,7 @@ void test_fundir_retangulos_nao_existem()
     assert(containsText(output, "retângulo 2 não encontrado"));
 }
 
-int main()
-{
+int main() {
     // criar
     test_um_retangulo();
     test_retangulo_invalido();
@@ -263,6 +274,9 @@ int main()
     // mover
     test_colisao_mover();
     test_colisao_mover_para_fora_do_mundo();
+
+    // apagar
+    test_apagar();
 
     // fundir
     test_fusao_mostrar_info();
