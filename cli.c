@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +20,11 @@ void correComandoLimpar(Retangulos *retangulos);
 
 void correComandoSair(Retangulos *retangulos);
 
+void toLowerCase(char *str) {
+    for (int i = 0; str[i]; i++)
+        str[i] = tolower((unsigned char) str[i]);
+}
+
 int main() {
     system("chcp 65001 > nul 2>&1 || true");
     printf("▭ ▭ ▭ ▭ Bem-vindo/a ao Mundo dos Retângulos ▭ ▭ ▭ ▭\n");
@@ -27,6 +33,7 @@ int main() {
         imprimeMenu();
         char comando[20];
         scanf(" %19s", comando);
+        toLowerCase(comando);
         correComando(&retangulos, comando);
     }
 }
@@ -89,7 +96,7 @@ void correComandoMover(const Retangulos *retangulos, const int multiplicador) {
         printf("⚠️ retângulo fora do mundo\n");
     else if (resultado == MOVER_COLISAO)
         printf("⚠️ retângulo colide com outro\n");
-    else if (resultado == MOVER_RET_NAO_ENCONTRADO)
+    else if (resultado == MOVER_INEXISTENTE)
         printf("⚠️ retângulo não encontrado\n");
     else {
         imprimeMundo(retangulos);
@@ -101,9 +108,9 @@ void correComandoFundir(Retangulos *retangulos) {
     int args[4];
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
     const int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
-    if (resultado == FUNDIR_RET1_NAO_ENCONTRADO)
+    if (resultado == FUNDIR_RET1_INEXISTENTE)
         printf("⚠️ retângulo 1 não encontrado\n");
-    if (resultado == FUNDIR_RET2_NAO_ENCONTRADO)
+    if (resultado == FUNDIR_RET2_INEXISTENTE)
         printf("⚠️ retângulo 2 não encontrado\n");
     if (resultado == FUNDIR_FUSAO_INVALIDA)
         printf("⚠️ fusão inválida\n");

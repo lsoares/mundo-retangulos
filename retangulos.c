@@ -15,17 +15,14 @@ Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y);
 
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b);
 
-void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo);
+void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo);
 
 ////// API
 ResultadoCriar criaRetangulo(Retangulos *retangulos, const int x, const int y, const int l, const int h) {
-    Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
-    if (l < 1 || h < 1)
-        return CRIAR_TAMANHO_INVALIDO;
-    if (!estaDentroLimites(retangulos, &novoRetangulo))
-        return CRIAR_FORA_DO_MUNDO;
-    if (!estaEmZonaVazia(retangulos, &novoRetangulo))
-        return CRIAR_COLISAO;
+    const Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
+    if (l < 1 || h < 1) return CRIAR_TAMANHO_INVALIDO;
+    if (!estaDentroLimites(retangulos, &novoRetangulo)) return CRIAR_FORA_DO_MUNDO;
+    if (!estaEmZonaVazia(retangulos, &novoRetangulo)) return CRIAR_COLISAO;
 
     retangulos->lista = realloc(retangulos->lista, (retangulos->total + 1) * sizeof(Retangulo));
     assert(retangulos->lista);
@@ -38,8 +35,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, const int x, const int y, c
 
 ResultadoMover moveRetangulo(const Retangulos *retangulos, const int x, const int y, const int p) {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
-    if (!ret)
-        return MOVER_RET_NAO_ENCONTRADO;
+    if (!ret) return MOVER_INEXISTENTE;
 
     ret->x += p;
     // temos de mover o retângulo em causa, pois seria mais difícil do que ignorá-lo ao criar um temporário
@@ -75,19 +71,25 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
 
 ResultadoFundir fundeRetangulos(Retangulos *retangulos, const int x1, const int y1, const int x2, const int y2) {
     Retangulo *ret1 = procuraRetangulo(retangulos, x1, y1);
-    if (ret1 == NULL)
-        return FUNDIR_RET1_NAO_ENCONTRADO;
+    if (ret1 == NULL) return FUNDIR_RET1_INEXISTENTE;
     Retangulo *ret2 = procuraRetangulo(retangulos, x2, y2);
-    if (ret2 == NULL)
-        return FUNDIR_RET2_NAO_ENCONTRADO;
-    if (!verificaFusaoPossivel(ret1, ret2))
-        return FUNDIR_FUSAO_INVALIDA;
+    if (ret2 == NULL) return FUNDIR_RET2_INEXISTENTE;
+    if (!verificaFusaoPossivel(ret1, ret2)) return FUNDIR_FUSAO_INVALIDA;
 
     ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // novo y = min y
     ret2->h = ret1->h + ret2->h; // novo h = somar os h
-    apagaRetangulo(retangulos, ret1);
+    apagaRetangulo2(retangulos, ret1);
 
     return FUNDIR_OK;
+}
+
+
+ResultadoApagar apagaRetangulo(Retangulos *retangulos, const int x, const int y) {
+    Retangulo *ret = procuraRetangulo(retangulos, x, y);
+    if (ret == NULL) return APAGAR_INEXISTENTE;
+
+    apagaRetangulo2(retangulos, ret);
+    return APAGAR_OK;
 }
 
 ////// private
@@ -139,8 +141,8 @@ void aplicaGravidade(const Retangulos *retangulos) {
         aplicaGravidadeRet(retangulos, &(retangulos->lista[i]));
 }
 
-Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y) {
-    Retangulo ponto = {x, y, 1, 1};
+Retangulo *procuraRetangulo(const Retangulos *retangulos, const int x, const int y) {
+    const Retangulo ponto = {.x = x, .y = y, .l = 1, .h = 1};
     for (size_t i = 0; i < retangulos->total; i++) {
         Retangulo *ret = &retangulos->lista[i];
         if (colidem(&ponto, ret))
@@ -155,7 +157,10 @@ bool isPontoContorno(const Retangulo *retangulo, const int x, const int y) {
 }
 
 void retanguloToString(const Retangulo *retangulo, char *str) {
-    sprintf(str, "%2d,%2d + %2d,%2d", retangulo->x, retangulo->y, retangulo->l, retangulo->h);
+    if (retangulo == NULL)
+        sprintf(str, "NULL");
+    else
+        sprintf(str, "%2d,%2d + %2d,%2d", retangulo->x, retangulo->y, retangulo->l, retangulo->h);
 }
 
 void limpaRetangulos(Retangulos *retangulos) {
@@ -171,7 +176,7 @@ bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b) {
             || b->y + b->h == a->y); // ou B em cima de A
 }
 
-void apagaRetangulo(Retangulos *retangulos, Retangulo *retangulo) {
+void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo) {
     *retangulo = retangulos->lista[retangulos->total - 1]; // sobrepõe o retangulo a apagar com o último
     retangulos->total--;
     retangulos->lista = realloc(retangulos->lista, retangulos->total * sizeof(Retangulo));
