@@ -147,7 +147,7 @@ void test_apagar() {
     assert(containsText(output, "Sem retângulos"));
 }
 
-void test_apagarInexistente() {
+void test_apagar_inexistente() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
