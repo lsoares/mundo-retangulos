@@ -11,6 +11,8 @@ bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo);
 
 void aplicaGravidade(const Retangulos *retangulos);
 
+void aplicaGravidadeRet(const Retangulos *retangulos, Retangulo *ret);
+
 Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y);
 
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b);
@@ -29,7 +31,7 @@ ResultadoCriar criaRetangulo(Retangulos *retangulos, const int x, const int y, c
     retangulos->lista[retangulos->total] = novoRetangulo;
     retangulos->total++;
 
-    aplicaGravidade(retangulos);
+    aplicaGravidadeRet(retangulos, &retangulos->lista[retangulos->total] - 1);
     return CRIAR_OK;
 }
 
@@ -138,7 +140,7 @@ void aplicaGravidadeRet(const Retangulos *retangulos, Retangulo *ret) {
 void aplicaGravidade(const Retangulos *retangulos) {
     ordenaRetangulosPorY(retangulos);
     for (size_t i = 0; i < retangulos->total; i++)
-        aplicaGravidadeRet(retangulos, &(retangulos->lista[i]));
+        aplicaGravidadeRet(retangulos, &retangulos->lista[i]);
 }
 
 Retangulo *procuraRetangulo(const Retangulos *retangulos, const int x, const int y) {
@@ -187,4 +189,6 @@ void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo) {
 
     retangulos->lista = realloc(retangulos->lista, retangulos->total * sizeof(Retangulo));
     assert(retangulos->lista);
+
+    aplicaGravidade(retangulos);
 }

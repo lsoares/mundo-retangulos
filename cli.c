@@ -45,10 +45,10 @@ void imprimeMenu() {
     printf("\033[92m"); // green
     printf("╔═══════════════════╦═══════╗\n");
     printf("║ create x,y+l,h    ║ clear ║\n");
-    printf("║ delete x,y        ║ print ║\n");
     printf("║ moveright x,y+p   ║ list  ║\n");
-    printf("║ moveleft x,y+p    ║       ║\n");
-    printf("║ merge x₁,y₁+x₂,y₂ ║ exit  ║\n");
+    printf("║ moveleft x,y+p    ║ print ║\n");
+    printf("║ merge x₁,y₁+x₂,y₂ ║       ║\n");
+    printf("║ delete x,y        ║ exit  ║\n");
     printf("╚═══════════════════╩═══════╝\n");
     printf("\033[0m"); // reset color
     fflush(stdout);

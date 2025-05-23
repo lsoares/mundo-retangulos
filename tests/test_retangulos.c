@@ -10,9 +10,9 @@ bool retangulosIguais(const Retangulo esp, const Retangulo atual) {
     if (esp.x != atual.x || esp.y != atual.y || esp.l != atual.l || esp.h != atual.h) {
         fprintf(stderr, "❌ Retângulos diferem\n");
         retanguloToString(&esp, str);
-        fprintf(stderr, "esperado: %s", str);
+        fprintf(stderr, "esperado: %s\n", str);
         retanguloToString(&atual, str);
-        fprintf(stderr, "atual:    %s", str);
+        fprintf(stderr, "atual:    %s\n", str);
         return false;
     }
     return true;
@@ -114,6 +114,19 @@ void test_apagar_inexistente() {
     const int resultado = apagaRetangulo(&retangulos, 2, 11);
 
     assert(equalInts(APAGAR_INEXISTENTE, resultado));
+}
+
+void test_gravidade_quando_se_apaga_o_de_cima_cai() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 2, 3);
+    criaRetangulo(&retangulos, 1, 10, 3, 1);
+    assert(equalInts(2, retangulos.total));
+
+    const ResultadoApagar resultado = apagaRetangulo(&retangulos, 1, 1); // apaga o de baixo
+
+    assert(equalInts(APAGAR_OK, resultado));
+    assert(equalInts(1, retangulos.total));
+    assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[0]));
 }
 
 // MOVER
@@ -336,6 +349,7 @@ int main() {
 
     test_apagar();
     test_apagar_inexistente();
+    test_gravidade_quando_se_apaga_o_de_cima_cai();
 
     test_gravidade();
     test_gravidade_cai_em_cima_de_outro();
