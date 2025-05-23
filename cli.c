@@ -8,23 +8,22 @@
 
 void imprimeMenu();
 
-void correComando(Retangulos *retangulos, const char *comando);
+void trataComando(Retangulos *retangulos, const char *comando);
 
-void correComandoCriar(Retangulos *retangulos);
+void trataCriar(Retangulos *retangulos);
 
-void correComandoMover(const Retangulos *retangulos, int multiplicador);
+void trataMover(const Retangulos *retangulos, int multiplicador);
 
-void correComandoApagar(Retangulos *retangulos);
+void trataApagar(Retangulos *retangulos);
 
-void correComandoFundir(Retangulos *retangulos);
+void trataFundir(Retangulos *retangulos);
 
-void correComandoLimpar(Retangulos *retangulos);
+void trataLimpar(Retangulos *retangulos);
 
-void correComandoSair(Retangulos *retangulos);
+void trataSair(Retangulos *retangulos);
 
 void toLowerCase(char *str) {
-    for (int i = 0; str[i]; i++)
-        str[i] = tolower((unsigned char) str[i]);
+    for (int i = 0; str[i]; i++) str[i] = tolower((unsigned char) str[i]);
 }
 
 int main() {
@@ -32,12 +31,13 @@ int main() {
     printf("▭ ▭ ▭ ▭ Bem-vindo/a ao Mundo dos Retângulos ▭ ▭ ▭ ▭\n");
     Retangulos retangulos = {.maxX = 80, .maxY = 25};
     imprimeMenu();
+    char comando[20];
     while (true) {
         printf("\033[92m" "┈➤ " "\033[0m"); // green
-        char comando[20];
         scanf(" %19s", comando);
         toLowerCase(comando);
-        correComando(&retangulos, comando);
+        trataComando(&retangulos, comando);
+        fflush(stdout);
     }
 }
 
@@ -51,35 +51,34 @@ void imprimeMenu() {
     printf("║ delete x,y        ║ exit  ║\n");
     printf("╚═══════════════════╩═══════╝\n");
     printf("\033[0m"); // reset color
-    fflush(stdout);
 }
 
-void correComando(Retangulos *retangulos, const char *comando) {
+void trataComando(Retangulos *retangulos, const char *comando) {
     if (strcmp(comando, "create") == 0)
-        correComandoCriar(retangulos);
+        trataCriar(retangulos);
     else if (strcmp(comando, "moveleft") == 0)
-        correComandoMover(retangulos, -1);
+        trataMover(retangulos, -1);
     else if (strcmp(comando, "moveright") == 0)
-        correComandoMover(retangulos, 1);
+        trataMover(retangulos, 1);
     else if (strcmp(comando, "merge") == 0)
-        correComandoFundir(retangulos);
+        trataFundir(retangulos);
     else if (strcmp(comando, "delete") == 0)
-        correComandoApagar(retangulos);
+        trataApagar(retangulos);
     else if (strcmp(comando, "print") == 0)
         imprimeMundo(retangulos);
     else if (strcmp(comando, "list") == 0)
         imprimeListaRetangulos(retangulos);
     else if (strcmp(comando, "clear") == 0)
-        correComandoLimpar(retangulos);
+        trataLimpar(retangulos);
     else if (strcmp(comando, "exit") == 0)
-        correComandoSair(retangulos);
+        trataSair(retangulos);
     else {
         printf("⚠️ comando inválido\n");
         imprimeMenu();
     }
 }
 
-void correComandoCriar(Retangulos *retangulos) {
+void trataCriar(Retangulos *retangulos) {
     int args[4];
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
     const int resultado = criaRetangulo(retangulos, args[0], args[1], args[2], args[3]);
@@ -95,7 +94,7 @@ void correComandoCriar(Retangulos *retangulos) {
     }
 }
 
-void correComandoMover(const Retangulos *retangulos, const int multiplicador) {
+void trataMover(const Retangulos *retangulos, const int multiplicador) {
     int args[3];
     scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);
     const int resultado = moveRetangulo(retangulos, args[0], args[1], multiplicador * args[2]);
@@ -111,15 +110,15 @@ void correComandoMover(const Retangulos *retangulos, const int multiplicador) {
     }
 }
 
-void correComandoFundir(Retangulos *retangulos) {
+void trataFundir(Retangulos *retangulos) {
     int args[4];
     scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
     const int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
     if (resultado == FUNDIR_RET1_INEXISTENTE)
         printf("⚠️ retângulo 1 não encontrado\n");
-    if (resultado == FUNDIR_RET2_INEXISTENTE)
+    else if (resultado == FUNDIR_RET2_INEXISTENTE)
         printf("⚠️ retângulo 2 não encontrado\n");
-    if (resultado == FUNDIR_FUSAO_INVALIDA)
+    else if (resultado == FUNDIR_FUSAO_INVALIDA)
         printf("⚠️ fusão inválida\n");
     else if (resultado == FUNDIR_OK) {
         imprimeMundo(retangulos);
@@ -127,7 +126,7 @@ void correComandoFundir(Retangulos *retangulos) {
     }
 }
 
-void correComandoApagar(Retangulos *retangulos) {
+void trataApagar(Retangulos *retangulos) {
     int args[2];
     scanf(" %d,%d", &args[0], &args[1]);
     const int resultado = apagaRetangulo(retangulos, args[0], args[1]);
@@ -135,12 +134,12 @@ void correComandoApagar(Retangulos *retangulos) {
         printf("⚠️ retângulo não encontrado\n");
 }
 
-void correComandoLimpar(Retangulos *retangulos) {
+void trataLimpar(Retangulos *retangulos) {
     limpaRetangulos(retangulos);
     imprimeMundo(retangulos);
 }
 
-void correComandoSair(Retangulos *retangulos) {
+void trataSair(Retangulos *retangulos) {
     printf("💬 Até à próxima\n");
     limpaRetangulos(retangulos);
     exit(0);

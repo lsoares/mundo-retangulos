@@ -12,11 +12,11 @@ build: clean
 test: build
 	gcc ${GCC_FLAGS} tests/test_retangulos.c tests/testing.c retangulos.c -o tests/test_retangulos.exe
 	tests/test_retangulos.exe
-	echo "✅ Testes ao módulo retângulos."
+	echo "✅ Testes ao módulo retângulos"
 
 	gcc ${GCC_FLAGS} tests/test_cli.c tests/testing.c -o tests/test_cli.exe
 	tests/test_cli.exe
-	echo "✅ Testes funcionais."
+	echo "✅ Testes à CLI"
 
 	make clean
 
