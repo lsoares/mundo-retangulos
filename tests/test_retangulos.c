@@ -201,6 +201,19 @@ void test_move_sobreposto() {
     assert(retangulosIguais((Retangulo){1, 1, 2, 3}, retangulos.lista[0]));
 }
 
+void test_gravidade_quando_sai_de_baixo_o_primeiro_cai() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 2, 3);
+    criaRetangulo(&retangulos, 1, 10, 3, 1);
+    assert(equalInts(4, retangulos.lista[1].y)); // começa em 4
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 35); // move o debaixo para a direita
+
+    assert(equalInts(MOVER_OK, resultado));
+    assert(retangulosIguais((Retangulo){36, 1, 2, 3}, retangulos.lista[0]));
+    assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[1]));
+}
+
 // GRAVIDADE
 void test_gravidade() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
@@ -221,18 +234,6 @@ void test_gravidade_cai_em_cima_de_outro() {
     assert(equalInts(4, retangulos.lista[1].y)); // caiu de 10 para 4
 }
 
-void test_gravidade_quando_sai_de_baixo_o_primeiro_cai() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 1, 1, 2, 3);
-    criaRetangulo(&retangulos, 1, 10, 3, 1);
-    assert(equalInts(4, retangulos.lista[1].y)); // começa em 4
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 35); // move o debaixo para a direita
-
-    assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo){36, 1, 2, 3}, retangulos.lista[0]));
-    assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[1]));
-}
 
 // FUNDIR
 void test_fundir() {
@@ -240,7 +241,7 @@ void test_fundir() {
     criaRetangulo(&retangulos, 1, 1, 2, 3);
     criaRetangulo(&retangulos, 1, 4, 2, 3);
 
-    ResultadoFundir resultado = fundeRetangulos(&retangulos, 1, 1, 1, 4);
+    const ResultadoFundir resultado = fundeRetangulos(&retangulos, 1, 1, 1, 4);
 
     assert(equalInts(FUNDIR_OK, resultado));
     assert(equalInts(1, retangulos.total));
@@ -346,6 +347,7 @@ int main() {
     test_move_fora_do_mundo_esq();
     test_move_fora_do_mundo_dir();
     test_move_sobreposto();
+    test_gravidade_quando_sai_de_baixo_o_primeiro_cai();
 
     test_apagar();
     test_apagar_inexistente();
@@ -353,7 +355,6 @@ int main() {
 
     test_gravidade();
     test_gravidade_cai_em_cima_de_outro();
-    test_gravidade_quando_sai_de_baixo_o_primeiro_cai();
 
     test_listar_fusoes_possiveis();
 
