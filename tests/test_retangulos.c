@@ -334,8 +334,8 @@ int main() {
     test_move_fora_do_mundo_dir();
     test_move_sobreposto();
 
-    // test_apagar();
-    // test_apagar_inexistente();
+    test_apagar();
+    test_apagar_inexistente();
 
     test_gravidade();
     test_gravidade_cai_em_cima_de_outro();

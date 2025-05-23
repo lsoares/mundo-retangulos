@@ -179,6 +179,12 @@ bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b) {
 void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo) {
     *retangulo = retangulos->lista[retangulos->total - 1]; // sobrepõe o retangulo a apagar com o último
     retangulos->total--;
+    if (retangulos->total == 0) {
+        free(retangulos->lista);
+        retangulos->lista = NULL;
+        return;
+    }
+
     retangulos->lista = realloc(retangulos->lista, retangulos->total * sizeof(Retangulo));
     assert(retangulos->lista);
 }
