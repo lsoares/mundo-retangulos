@@ -91,7 +91,7 @@ void test_criar_sobreposto() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
     assert(criaRetangulo(&retangulos, 1, 1, 2, 3) == CRIAR_OK);
 
-    const int resultado = criaRetangulo(&retangulos, 2, 2, 2, 3);
+    const ResultadoCriar resultado = criaRetangulo(&retangulos, 2, 2, 2, 3);
 
     assert(equalInts(CRIAR_COLISAO, resultado));
     assert(equalInts(1, retangulos.total));
@@ -102,7 +102,7 @@ void test_apagar() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
     assert(criaRetangulo(&retangulos, 4, 1, 2, 3) == CRIAR_OK);
 
-    const int resultado = apagaRetangulo(&retangulos, 5, 3);
+    const ResultadoApagar resultado = apagaRetangulo(&retangulos, 5, 3);
 
     assert(equalInts(APAGAR_OK, resultado));
     assert(equalInts(0, retangulos.total));
@@ -111,7 +111,7 @@ void test_apagar() {
 void test_apagar_inexistente() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
 
-    const int resultado = apagaRetangulo(&retangulos, 2, 11);
+    const ResultadoApagar resultado = apagaRetangulo(&retangulos, 2, 11);
 
     assert(equalInts(APAGAR_INEXISTENTE, resultado));
 }
@@ -154,7 +154,7 @@ void test_mover_retangulo_direita_maximo() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
     criaRetangulo(&retangulos, 1, 1, 1, 1);
 
-    const int resultado = moveRetangulo(&retangulos, 1, 1, 79);
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 79);
 
     assert(equalInts(MOVER_OK, resultado));
     assert(retangulosIguais((Retangulo){80, 1, 1, 1}, retangulos.lista[0]));
