@@ -46,7 +46,7 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, const int x, const in
         return MOVER_FORA_DO_MUNDO;
     }
     if (!estaEmZonaVazia(retangulos, ret)) {
-        ret->x -= p; // anular devido a colisão
+        ret->x -= p; // anular devido à colisão
         return MOVER_COLISAO;
     }
     aplicaGravidade(retangulos);
@@ -64,7 +64,7 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
         for (size_t k = i + 1; k < retangulos->total; k++) {
             Retangulo *b = &retangulos->lista[k];
             if (verificaFusaoPossivel(a, b)) {
-                fusoesPossiveis->lista[fusoesPossiveis->total] = (FusaoPossivel){a, b};
+                fusoesPossiveis->lista[fusoesPossiveis->total] = (FusaoPossivel){.a = a, .b = b};
                 fusoesPossiveis->total++;
             }
         }
@@ -73,9 +73,9 @@ void listaFusoesPossiveis(const Retangulos *retangulos, FusoesPossiveis *fusoesP
 
 ResultadoFundir fundeRetangulos(Retangulos *retangulos, const int x1, const int y1, const int x2, const int y2) {
     Retangulo *ret1 = procuraRetangulo(retangulos, x1, y1);
-    if (ret1 == NULL) return FUNDIR_RET1_INEXISTENTE;
+    if (!ret1) return FUNDIR_RET1_INEXISTENTE;
     Retangulo *ret2 = procuraRetangulo(retangulos, x2, y2);
-    if (ret2 == NULL) return FUNDIR_RET2_INEXISTENTE;
+    if (!ret2) return FUNDIR_RET2_INEXISTENTE;
     if (!verificaFusaoPossivel(ret1, ret2)) return FUNDIR_FUSAO_INVALIDA;
 
     ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // novo y = min y
@@ -120,14 +120,12 @@ bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo) {
     return true;
 }
 
+int comparaPorY(const void *a, const void *b) {
+    return ((Retangulo *) a)->y - ((Retangulo *) b)->y;
+}
+
 void ordenaRetangulosPorY(const Retangulos *retangulos) {
-    for (size_t i = 0; i < retangulos->total - 1; i++)
-        for (size_t j = 0; j < retangulos->total - i - 1; j++)
-            if (retangulos->lista[j].y > retangulos->lista[j + 1].y) {
-                Retangulo temp = retangulos->lista[j];
-                retangulos->lista[j] = retangulos->lista[j + 1];
-                retangulos->lista[j + 1] = temp;
-            }
+    qsort(retangulos->lista, retangulos->total, sizeof(Retangulo), comparaPorY);
 }
 
 void aplicaGravidadeRet(const Retangulos *retangulos, Retangulo *ret) {
