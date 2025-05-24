@@ -9,8 +9,6 @@ char **preparaMundo(const Retangulos *retangulos);
 
 void desenhaRetangulos(const Retangulos *retangulos, char **mundo);
 
-void imprimeGuia(const Retangulos *retangulos);
-
 void imprimeQuadro(const Retangulos *retangulos, char **mundo);
 
 void apagaMundo(const Retangulos *retangulos, char **mundo);
@@ -19,9 +17,12 @@ void apagaMundo(const Retangulos *retangulos, char **mundo);
 void imprimeMundo(const Retangulos *retangulos) {
     char **mundo = preparaMundo(retangulos);
     desenhaRetangulos(retangulos, mundo);
-    imprimeGuia(retangulos);
     imprimeQuadro(retangulos, mundo);
-    imprimeGuia(retangulos);
+
+    for (int x = 1; x <= retangulos->maxX; x++)
+        printf(x % 10 == 0 ? "%d" : " ", x / 10);
+    printf("\n");
+
     apagaMundo(retangulos, mundo);
 }
 
@@ -87,12 +88,7 @@ void imprimeQuadro(const Retangulos *retangulos, char **mundo) {
     for (int y = retangulos->maxY; y >= 1; y--) {
         for (int x = 1; x <= retangulos->maxX; x++)
             printf("%c", mundo[y][x]);
-        printf("\n");
+        if (y % 10 == 0) printf("%d", y / 10);
+        putchar('\n');
     }
-}
-
-void imprimeGuia(const Retangulos *retangulos) {
-    for (int x = 1; x <= retangulos->maxX; x++)
-        printf(x % 10 == 0 ? "%d" : "-", x / 10);
-    printf("\n");
 }

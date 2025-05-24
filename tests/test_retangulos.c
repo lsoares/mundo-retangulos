@@ -214,6 +214,16 @@ void test_gravidade_quando_sai_de_baixo_o_primeiro_cai() {
     assert(retangulosIguais((Retangulo){1, 1, 3, 1}, retangulos.lista[1]));
 }
 
+void test_move_com_outro_no_caminho() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    assert(equalInts(CRIAR_OK, criaRetangulo(&retangulos, 1, 1, 2, 2)));
+    assert(equalInts(CRIAR_OK, criaRetangulo(&retangulos, 10, 1, 2, 2)));
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 15);
+
+    assert(equalInts(MOVER_COLISAO, resultado));
+}
+
 // GRAVIDADE
 void test_gravidade() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
@@ -347,6 +357,7 @@ int main() {
     test_move_fora_do_mundo_esq();
     test_move_fora_do_mundo_dir();
     test_move_sobreposto();
+    test_move_com_outro_no_caminho();
     test_gravidade_quando_sai_de_baixo_o_primeiro_cai();
 
     test_apagar();

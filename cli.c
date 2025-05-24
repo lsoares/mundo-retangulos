@@ -88,7 +88,7 @@ void trataCriar(Retangulos *retangulos) {
         printf("⚠️ retângulo fora do mundo\n");
     else if (resultado == CRIAR_COLISAO)
         printf("⚠️ retângulo colide com outro\n");
-    else {
+    else if (resultado == CRIAR_OK) {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
     }
@@ -104,7 +104,7 @@ void trataMover(const Retangulos *retangulos, const int multiplicador) {
         printf("⚠️ retângulo colide com outro\n");
     else if (resultado == MOVER_INEXISTENTE)
         printf("⚠️ retângulo não encontrado\n");
-    else {
+    else if (resultado == MOVER_OK) {
         imprimeMundo(retangulos);
         imprimeFusoesPossiveis(retangulos);
     }

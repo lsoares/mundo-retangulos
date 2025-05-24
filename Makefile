@@ -9,7 +9,7 @@ build: clean
 	gcc ${GCC_FLAGS} cli.c retangulos.c ver_mundo.c -o cli.exe
 
 test: build
-	gcc ${GCC_FLAGS} tests/test_retangulos.c tests/testing.c retangulos.c -o tests/test_retangulos.exe
+	gcc ${GCC_FLAGS} tests/test_retangulos.c tests/testing.c retangulos.c ver_mundo.c -o tests/test_retangulos.exe
 	tests/test_retangulos.exe
 	echo "✅ Testes ao módulo retângulos"
 

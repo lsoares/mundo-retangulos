@@ -39,15 +39,18 @@ ResultadoMover moveRetangulo(const Retangulos *retangulos, const int x, const in
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (!ret) return MOVER_INEXISTENTE;
 
-    ret->x += p;
-    // temos de mover o retângulo em causa, pois seria mais difícil do que ignorá-lo ao criar um temporário
-    if (!estaDentroLimites(retangulos, ret)) {
-        ret->x -= p; // anular devido a sair do mundo
-        return MOVER_FORA_DO_MUNDO;
-    }
-    if (!estaEmZonaVazia(retangulos, ret)) {
-        ret->x -= p; // anular devido à colisão
-        return MOVER_COLISAO;
+    const int xOriginal = ret->x;
+    const int passo = p > 0 ? 1 : -1;
+    for (int i = 0; i < abs(p); i++) {
+        ret->x += passo;
+        if (!estaDentroLimites(retangulos, ret)) {
+            ret->x = xOriginal; // desfaz todo o movimento
+            return MOVER_FORA_DO_MUNDO;
+        }
+        if (!estaEmZonaVazia(retangulos, ret)) {
+            ret->x = xOriginal; // desfaz todo o movimento
+            return MOVER_COLISAO;
+        }
     }
     aplicaGravidade(retangulos);
     return MOVER_OK;
