@@ -7,8 +7,8 @@ void test_um_retangulo() {
     char output[MAX_OUTPUT_LEN];
 
     const int erro = runWithInput(
-        "create 2 , 3 + 12 , 5\n"
-        "exit\n",
+        "Create 2 , 3 + 12 , 5\n"
+        "EXIT\n",
         "./cli.exe",
         output);
 
