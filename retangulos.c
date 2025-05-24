@@ -17,12 +17,12 @@ Retangulo *procuraRetangulo(const Retangulos *retangulos, int x, int y);
 
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b);
 
-void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo);
+void apaga(Retangulos *retangulos, Retangulo *retangulo);
 
 ////// API
 ResultadoCriar criaRetangulo(Retangulos *retangulos, const int x, const int y, const int l, const int h) {
-    const Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (l < 1 || h < 1) return CRIAR_TAMANHO_INVALIDO;
+    const Retangulo novoRetangulo = (Retangulo){.x = x, .y = y, .l = l, .h = h};
     if (!estaDentroLimites(retangulos, &novoRetangulo)) return CRIAR_FORA_DO_MUNDO;
     if (!estaEmZonaVazia(retangulos, &novoRetangulo)) return CRIAR_COLISAO;
 
@@ -83,17 +83,16 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, const int x1, const int 
 
     ret2->y = ret1->y < ret2->y ? ret1->y : ret2->y; // novo y = min y
     ret2->h = ret1->h + ret2->h; // novo h = somar os h
-    apagaRetangulo2(retangulos, ret1);
+    apaga(retangulos, ret1);
 
     return FUNDIR_OK;
 }
-
 
 ResultadoApagar apagaRetangulo(Retangulos *retangulos, const int x, const int y) {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
     if (ret == NULL) return APAGAR_INEXISTENTE;
 
-    apagaRetangulo2(retangulos, ret);
+    apaga(retangulos, ret);
     return APAGAR_OK;
 }
 
@@ -123,7 +122,7 @@ bool estaEmZonaVazia(const Retangulos *retangulos, const Retangulo *retangulo) {
     return true;
 }
 
-int comparaPorY(const void *a, const void *b) {
+static int comparaPorY(const void *a, const void *b) {
     return ((Retangulo *) a)->y - ((Retangulo *) b)->y;
 }
 
@@ -179,7 +178,7 @@ bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b) {
             || b->y + b->h == a->y); // ou B em cima de A
 }
 
-void apagaRetangulo2(Retangulos *retangulos, Retangulo *retangulo) {
+void apaga(Retangulos *retangulos, Retangulo *retangulo) {
     *retangulo = retangulos->lista[retangulos->total - 1]; // sobrepõe o retangulo a apagar com o último
     retangulos->total--;
     if (retangulos->total == 0) {

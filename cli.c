@@ -96,7 +96,7 @@ void trataCriar(Retangulos *retangulos) {
 
 void trataMover(const Retangulos *retangulos, const int multiplicador) {
     int x, y, p;
-    scanf(" %d , %d + %d ", &x, &y, &p);
+    scanf(" %d , %d + %d", &x, &y, &p);
     const int resultado = moveRetangulo(retangulos, x, y, multiplicador * p);
     if (resultado == MOVER_FORA_DO_MUNDO)
         printf("⚠️ retângulo fora do mundo\n");
