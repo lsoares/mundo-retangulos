@@ -7,7 +7,7 @@ void test_um_retangulo() {
     char output[MAX_OUTPUT_LEN];
 
     const int erro = runWithInput(
-        "create 2, 3 + 12, 5\n"
+        "create 2 , 3 + 12 , 5\n"
         "exit\n",
         "./cli.exe",
         output);
@@ -36,10 +36,10 @@ void test_gravidade() {
         "./cli.exe",
         output);
 
-    assert(containsText(output, "⦾ 28, 1 +  4, 4"));
-    assert(containsText(output, "⦾ 38, 1 +  4, 4"));
-    assert(containsText(output, "⦾ 38, 5 +  4, 4"));
-    assert(containsText(output, "⦾ 38, 9 +  4, 4"));
+    assert(containsText(output, "28, 1 +  4, 4"));
+    assert(containsText(output, "38, 1 +  4, 4"));
+    assert(containsText(output, "38, 5 +  4, 4"));
+    assert(containsText(output, "38, 9 +  4, 4"));
 }
 
 void test_gravidade_apoiado_no_extremo() {

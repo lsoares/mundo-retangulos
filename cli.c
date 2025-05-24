@@ -79,9 +79,9 @@ void trataComando(Retangulos *retangulos, const char *comando) {
 }
 
 void trataCriar(Retangulos *retangulos) {
-    int args[4];
-    scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
-    const int resultado = criaRetangulo(retangulos, args[0], args[1], args[2], args[3]);
+    int x, y, l, h;
+    scanf(" %d , %d + %d , %d", &x, &y, &l, &h);
+    const int resultado = criaRetangulo(retangulos, x, y, l, h);
     if (resultado == CRIAR_TAMANHO_INVALIDO)
         printf("⚠️ retângulo com tamanho inválido\n");
     else if (resultado == CRIAR_FORA_DO_MUNDO)
@@ -95,9 +95,9 @@ void trataCriar(Retangulos *retangulos) {
 }
 
 void trataMover(const Retangulos *retangulos, const int multiplicador) {
-    int args[3];
-    scanf(" %d,%d + %d", &args[0], &args[1], &args[2]);
-    const int resultado = moveRetangulo(retangulos, args[0], args[1], multiplicador * args[2]);
+    int x, y, p;
+    scanf(" %d , %d + %d ", &x, &y, &p);
+    const int resultado = moveRetangulo(retangulos, x, y, multiplicador * p);
     if (resultado == MOVER_FORA_DO_MUNDO)
         printf("⚠️ retângulo fora do mundo\n");
     else if (resultado == MOVER_COLISAO)
@@ -111,9 +111,9 @@ void trataMover(const Retangulos *retangulos, const int multiplicador) {
 }
 
 void trataFundir(Retangulos *retangulos) {
-    int args[4];
-    scanf(" %d,%d + %d,%d", &args[0], &args[1], &args[2], &args[3]);
-    const int resultado = fundeRetangulos(retangulos, args[0], args[1], args[2], args[3]);
+    int x1, y1, x2, y2;
+    scanf(" %d , %d + %d , %d", &x1, &y1, &x2, &y2);
+    const int resultado = fundeRetangulos(retangulos, x1, y1, x2, y2);
     if (resultado == FUNDIR_RET1_INEXISTENTE)
         printf("⚠️ retângulo 1 não encontrado\n");
     else if (resultado == FUNDIR_RET2_INEXISTENTE)
@@ -127,9 +127,9 @@ void trataFundir(Retangulos *retangulos) {
 }
 
 void trataApagar(Retangulos *retangulos) {
-    int args[2];
-    scanf(" %d,%d", &args[0], &args[1]);
-    const int resultado = apagaRetangulo(retangulos, args[0], args[1]);
+    int x, y;
+    scanf(" %d , %d", &x, &y);
+    const int resultado = apagaRetangulo(retangulos, x, y);
     if (resultado == APAGAR_INEXISTENTE)
         printf("⚠️ retângulo não encontrado\n");
 }
