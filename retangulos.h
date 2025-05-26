@@ -22,7 +22,7 @@ typedef enum { MOVER_OK, MOVER_FORA_DO_MUNDO, MOVER_COLISAO, MOVER_INEXISTENTE, 
 
 ResultadoMover moveRetangulo(const Retangulos *retangulos, int x, int y, int p);
 
-bool isPontoContorno(const Retangulo *retangulo, int x, int y);
+bool pertenceAoContorno(const Retangulo *retangulo, int x, int y);
 
 typedef enum { APAGAR_OK = 1, APAGAR_INEXISTENTE, } ResultadoApagar;
 

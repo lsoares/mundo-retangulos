@@ -27,14 +27,7 @@ void test_cria_retangulo() {
 
     assert(equalInts(CRIAR_OK, resultado));
     assert(equalInts(1, retangulos.total));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {1, 1, 2, 3},retangulos.lista[0]));
 }
 
 void test_maximo_retangulo() {
@@ -44,14 +37,7 @@ void test_maximo_retangulo() {
 
     assert(equalInts(CRIAR_OK, resultado));
     assert(equalInts(1, retangulos.total));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 80, 25
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {1, 1, 80, 25}, retangulos.lista[0]));
 }
 
 void test_minimo_retangulo() {
@@ -61,14 +47,26 @@ void test_minimo_retangulo() {
 
     assert(equalInts(CRIAR_OK, resultado));
     assert(equalInts(1, retangulos.total));
-    assert(retangulosIguais((Retangulo) {
-        80, 1, 1, 1
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {80, 1, 1, 1},retangulos.lista[0]));
+}
+
+void test_criar_cai_na_base() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 2, 3);
+
+    criaRetangulo(&retangulos, 1, 10, 2, 1);
+
+    assert(retangulosIguais((Retangulo) {1, 1, 2, 3},retangulos.lista[0]));
+    assert(equalInts(4, retangulos.lista[1].y)); // caiu de 10 para 4
+}
+
+void test_criar_cai_noutro() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+
+    const ResultadoCriar resultado = criaRetangulo(&retangulos, 1, 5, 2, 3);
+
+    assert(equalInts(CRIAR_OK, resultado));
+    assert(retangulosIguais((Retangulo) {1, 1, 2, 3},retangulos.lista[0]));
 }
 
 // CRIAR. ERROS
@@ -147,14 +145,7 @@ void test_gravidade_quando_se_apaga_o_de_cima_cai() {
 
     assert(equalInts(APAGAR_OK, resultado));
     assert(equalInts(1, retangulos.total));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 3, 1
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {1, 1, 3, 1},retangulos.lista[0]));
 }
 
 // MOVER
@@ -165,14 +156,7 @@ void test_mover_retangulo_esquerda() {
     const ResultadoMover resultado = moveRetangulo(&retangulos, 8, 1, -5);
 
     assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        2, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {2, 1, 2, 3},retangulos.lista[0]));
 }
 
 void test_mover_retangulo_direita() {
@@ -182,127 +166,7 @@ void test_mover_retangulo_direita() {
     const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 5);
 
     assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        6, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_mover_retangulo_direita_maximo() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 1, 1, 1, 1);
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 79);
-
-    assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        80, 1, 1, 1
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_mover_retangulo_esquerda_maximo() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 80, 1, 1, 1);
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 80, 1, -79);
-
-    assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 1, 1
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_move_fora_do_mundo_esq() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 1, 1, 1, 3);
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, -1);
-
-    assert(equalInts(MOVER_FORA_DO_MUNDO, resultado));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 1, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_move_fora_do_mundo_dir() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 1, 1, 2, 3);
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 80);
-
-    assert(equalInts(MOVER_FORA_DO_MUNDO, resultado));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_move_sobreposto() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    assert(!criaRetangulo(&retangulos, 1, 1, 2, 3));
-    assert(!criaRetangulo(&retangulos, 5, 1, 2, 3));
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 4);
-
-    assert(equalInts(MOVER_COLISAO, resultado));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-}
-
-void test_gravidade_quando_sai_de_baixo_o_primeiro_cai() {
-    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
-    criaRetangulo(&retangulos, 1, 1, 2, 3);
-    criaRetangulo(&retangulos, 1, 10, 3, 1);
-    assert(equalInts(4, retangulos.lista[1].y)); // começa em 4
-
-    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 35); // move o debaixo para a direita
-
-    assert(equalInts(MOVER_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        36, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 3, 1
-    }
-    ,
-    retangulos.lista[1]
-    )
-    )
-    ;
+    assert(retangulosIguais((Retangulo) {6, 1, 2, 3},retangulos.lista[0]));
 }
 
 void test_move_com_outro_no_caminho() {
@@ -315,40 +179,70 @@ void test_move_com_outro_no_caminho() {
     assert(equalInts(MOVER_COLISAO, resultado));
 }
 
-// GRAVIDADE
-void test_gravidade() {
+void test_gravidade_quando_sai_de_baixo_o_primeiro_cai() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 2, 3);
+    criaRetangulo(&retangulos, 1, 10, 3, 1);
+    assert(equalInts(4, retangulos.lista[1].y)); // começa em 4
 
-    const ResultadoCriar resultado = criaRetangulo(&retangulos, 1, 5, 2, 3);
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 35); // move o debaixo para a direita
 
-    assert(equalInts(CRIAR_OK, resultado));
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
+    assert(equalInts(MOVER_OK, resultado));
+    assert(retangulosIguais((Retangulo) {36, 1, 2, 3},retangulos.lista[0]));
+    assert(retangulosIguais((Retangulo) {1, 1, 3, 1},retangulos.lista[1]));
 }
 
-void test_gravidade_cai_em_cima_de_outro() {
+// MOVER. ERROS
+void test_mover_retangulo_direita_maximo() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 1, 1);
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 79);
+
+    assert(equalInts(MOVER_OK, resultado));
+    assert(retangulosIguais((Retangulo) {80, 1, 1, 1},retangulos.lista[0]));
+}
+
+void test_mover_retangulo_esquerda_maximo() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 80, 1, 1, 1);
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 80, 1, -79);
+
+    assert(equalInts(MOVER_OK, resultado));
+    assert(retangulosIguais((Retangulo) {1, 1, 1, 1},retangulos.lista[0]));
+}
+
+void test_move_fora_do_mundo_esq() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    criaRetangulo(&retangulos, 1, 1, 1, 3);
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, -1);
+
+    assert(equalInts(MOVER_FORA_DO_MUNDO, resultado));
+    assert(retangulosIguais((Retangulo) {1, 1, 1, 3},retangulos.lista[0]));
+}
+
+void test_move_fora_do_mundo_dir() {
     Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
     criaRetangulo(&retangulos, 1, 1, 2, 3);
 
-    criaRetangulo(&retangulos, 1, 10, 2, 1);
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 80);
 
-    assert(retangulosIguais((Retangulo) {
-        1, 1, 2, 3
-    }
-    ,
-    retangulos.lista[0]
-    )
-    )
-    ;
-    assert(equalInts(4, retangulos.lista[1].y)); // caiu de 10 para 4
+    assert(equalInts(MOVER_FORA_DO_MUNDO, resultado));
+    assert(retangulosIguais((Retangulo) {1, 1, 2, 3},retangulos.lista[0]));
 }
 
+void test_move_sobreposto() {
+    Retangulos retangulos = {.total = 0, .maxX = 80, .maxY = 25};
+    assert(equalInts( criaRetangulo(&retangulos, 1, 1, 2, 3), CRIAR_OK));
+    assert(equalInts( criaRetangulo(&retangulos, 5, 1, 2, 3), CRIAR_OK));
+
+    const ResultadoMover resultado = moveRetangulo(&retangulos, 1, 1, 4);
+
+    assert(equalInts(MOVER_COLISAO, resultado));
+    assert(retangulosIguais((Retangulo) {1, 1, 2, 3},retangulos.lista[0]));
+}
 
 // FUNDIR
 void test_fundir() {
@@ -446,34 +340,40 @@ void test_limpar() {
 ////////////////////////////////////////////////////////////
 
 int main() {
+    // criar
     test_cria_retangulo();
     test_maximo_retangulo();
     test_minimo_retangulo();
+    test_criar_cai_noutro();
+    test_criar_cai_na_base();
+    // criar com erros
     test_criar_fora_do_mundo_x();
     test_criar_fora_do_mundo_y();
     test_criar_sobreposto();
     test_cria_retangulo_sem_altura();
     test_cria_retangulo_sem_largura();
 
+    // mover
     test_mover_retangulo_esquerda();
     test_mover_retangulo_direita();
     test_mover_retangulo_direita_maximo();
     test_mover_retangulo_esquerda_maximo();
+    test_move_sobreposto();
+    // mover com erros
+    test_move_com_outro_no_caminho();
     test_move_fora_do_mundo_esq();
     test_move_fora_do_mundo_dir();
-    test_move_sobreposto();
-    test_move_com_outro_no_caminho();
     test_gravidade_quando_sai_de_baixo_o_primeiro_cai();
 
+    // apagar
     test_apagar();
     test_apagar_inexistente();
     test_gravidade_quando_se_apaga_o_de_cima_cai();
 
-    test_gravidade();
-    test_gravidade_cai_em_cima_de_outro();
-
+    // listar fusoes
     test_listar_fusoes_possiveis();
 
+    // fundir
     test_fundir();
     test_fundir_invalido_largura_diferente();
     test_fundir_invalido_diferentes_x();
@@ -481,6 +381,7 @@ int main() {
     test_fundir_ret1_inexistente();
     test_fundir_ret2_inexistente();
 
+    // limpar
     test_limpar();
 
     return 0;

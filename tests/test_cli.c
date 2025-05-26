@@ -22,7 +22,7 @@ void test_um_retangulo() {
     assert(containsText(output, esperado));
 }
 
-void test_gravidade() {
+void test_criar_cai() {
     char output[MAX_OUTPUT_LEN];
 
     runWithInput(
@@ -286,7 +286,7 @@ int main() {
 
     // gravidade
     test_enunciado();
-    test_gravidade();
+    test_criar_cai();
     test_gravidade_apoiado_no_extremo();
 
     // geral

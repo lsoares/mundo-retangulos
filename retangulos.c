@@ -90,7 +90,7 @@ ResultadoFundir fundeRetangulos(Retangulos *retangulos, const int x1, const int 
 
 ResultadoApagar apagaRetangulo(Retangulos *retangulos, const int x, const int y) {
     Retangulo *ret = procuraRetangulo(retangulos, x, y);
-    if (ret == NULL) return APAGAR_INEXISTENTE;
+    if (!ret) return APAGAR_INEXISTENTE;
 
     apaga(retangulos, ret);
     return APAGAR_OK;
@@ -153,13 +153,13 @@ Retangulo *procuraRetangulo(const Retangulos *retangulos, const int x, const int
     return NULL;
 }
 
-bool isPontoContorno(const Retangulo *retangulo, const int x, const int y) {
+bool pertenceAoContorno(const Retangulo *retangulo, const int x, const int y) {
     return y == retangulo->y || y == retangulo->y + retangulo->h - 1 ||
            x == retangulo->x || x == retangulo->x + retangulo->l - 1;
 }
 
 void retanguloToString(const Retangulo *retangulo, char *str) {
-    if (retangulo == NULL)
+    if (!retangulo)
         sprintf(str, "NULL");
     else
         sprintf(str, "%2d,%2d + %2d,%2d", retangulo->x, retangulo->y, retangulo->l, retangulo->h);
@@ -174,8 +174,8 @@ void limpaRetangulos(Retangulos *retangulos) {
 bool verificaFusaoPossivel(const Retangulo *a, const Retangulo *b) {
     return a->x == b->x && // mesmo X
            a->l == b->l && // e mesma largura
-           (a->y + a->h == b->y // A em cima de B
-            || b->y + b->h == a->y); // ou B em cima de A
+           (a->y + a->h == b->y || // A em cima de B
+            b->y + b->h == a->y); // ou B em cima de A
 }
 
 void apaga(Retangulos *retangulos, Retangulo *retangulo) {

@@ -74,7 +74,7 @@ void desenhaRetangulo(char **mundo, const Retangulo *retangulo) {
     assert(mundo);
     for (int yy = retangulo->y; yy < retangulo->y + retangulo->h; yy++)
         for (int xx = retangulo->x; xx < retangulo->x + retangulo->l; xx++)
-            mundo[yy][xx] = isPontoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
+            mundo[yy][xx] = pertenceAoContorno(retangulo, xx, yy) ? PINTADO_CONTORNO : PINTADO_INTERIOR;
 }
 
 void desenhaRetangulos(const Retangulos *retangulos, char **mundo) {
